@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/bindings/controller_binder.dart';
+import 'core/localization/app_translations.dart';
 import 'core/routes/app_routes.dart';
 
 void main() {
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
           initialRoute: AppRoute.init,
           getPages: AppRoute.routes,
           initialBinding: ControllerBinder(),
+          translations: AppTranslations(),
+          locale: const Locale('bn', 'BD'),
+          fallbackLocale: const Locale('en', 'US'),
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             fontFamily: GoogleFonts.spaceGrotesk().fontFamily,

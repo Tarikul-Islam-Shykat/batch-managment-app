@@ -8,6 +8,7 @@ import '../../../core/global/app_btn.dart';
 import '../../../core/global/custom_text.dart';
 import '../../../core/global/spacing.dart';
 import '../../../core/global/text_form_field.dart';
+import '../../../core/controller/language_controller.dart';
 import '../../../core/service/image/app_network_image_v2.dart';
 import '../../splash/controller/splash_controller.dart';
 import '../controller/login_controller.dart';
@@ -17,106 +18,141 @@ class LoginScreen extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    final languageController = Get.find<LanguageController>();
+
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              verticalSpace(18),
-              Center(
-                child: Hero(
-                  tag: SplashController.logoHeroTag,
-                  child: ResponsiveImage.asset(
-                    assetPath: IconsPath.appIcon,
-                    shape: ImageShape.roundedRectangle,
-                    width: 72.w,
-                    height: 72.w,
-                    fit: BoxFit.contain,
+        child: Obx(
+          () => SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: languageController.toggleLanguage,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 8.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor.withOpacity(0.08),
+                        borderRadius: BorderRadius.circular(999.r),
+                        border: Border.all(
+                          color: AppColors.primaryColor.withOpacity(0.18),
+                        ),
+                      ),
+                      child: smallText(
+                        text:
+                            languageController
+                                    .currentLocale
+                                    .value
+                                    .languageCode ==
+                                'bn'
+                            ? 'switch_to_english'.tr
+                            : 'switch_to_bangla'.tr,
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              verticalSpace(18),
-              Center(
-                child: brandText(
-                  text: 'স্বাগতম! 👋',
-                  color: AppColors.blackColor,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0,
+                verticalSpace(18),
+                Center(
+                  child: Hero(
+                    tag: SplashController.logoHeroTag,
+                    child: ResponsiveImage.asset(
+                      assetPath: IconsPath.appIcon,
+                      shape: ImageShape.roundedRectangle,
+                      width: 72.w,
+                      height: 72.w,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
-              ),
-              verticalSpace(8),
-              Center(
-                child: normalText(
-                  text: 'এন্ট্রি লগইন করে আপনার ব্যাচ ও স্টুডেন্ট ম্যানেজ করুন',
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w400,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.visible,
+                verticalSpace(18),
+                Center(
+                  child: brandText(
+                    text: 'welcome'.tr,
+                    color: AppColors.blackColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0,
+                  ),
                 ),
-              ),
-              verticalSpace(28),
-              GlobalTextField(
-                controller: controller.emailController,
-                hintText: 'ইমেইল',
-                labelText: 'ইমেইল',
-                isMandatory: true,
-                keyboardType: TextInputType.emailAddress,
-                borderRadius: 10,
-              ),
-              verticalSpace(16),
-              GlobalTextField(
-                controller: controller.passwordController,
-                hintText: '******',
-                labelText: 'পাসওয়ার্ড',
-                isMandatory: true,
-                isHidden: true,
-                borderRadius: 10,
-              ),
-              verticalSpace(8),
-              Align(
-                alignment: Alignment.centerRight,
-                child: smallText(
-                  text: 'পাসওয়ার্ড ভুলে গিয়েছেন?',
-                  color: Colors.black87,
-                  fontWeight: FontWeight.w500,
+                verticalSpace(8),
+                Center(
+                  child: normalText(
+                    text: 'login_subtitle'.tr,
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w400,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.visible,
+                  ),
                 ),
-              ),
-              verticalSpace(26),
-              Obx(
-                () => GlobalAppButton(
-                  text: 'লগ-ইন করুন',
-                  onTap: controller.login,
-                  height: 52.h,
+                verticalSpace(28),
+                GlobalTextField(
+                  controller: controller.emailController,
+                  hintText: 'email'.tr,
+                  labelText: 'email'.tr,
+                  isMandatory: true,
+                  keyboardType: TextInputType.emailAddress,
                   borderRadius: 10,
-                  isLoading: controller.isLoading.value,
                 ),
-              ),
-              verticalSpace(18),
-              Center(
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    smallText(
-                      text: 'একাউন্ট নেই? ',
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    smallText(
-                      text: 'রেজিস্টার করুন',
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ],
+                verticalSpace(16),
+                GlobalTextField(
+                  controller: controller.passwordController,
+                  hintText: '******',
+                  labelText: 'password'.tr,
+                  isMandatory: true,
+                  isHidden: true,
+                  borderRadius: 10,
                 ),
-              ),
-              verticalSpace(24),
-            ],
+                verticalSpace(8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: smallText(
+                    text: 'forgot_password'.tr,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                verticalSpace(26),
+                Obx(
+                  () => GlobalAppButton(
+                    text: 'login'.tr,
+                    onTap: controller.login,
+                    height: 52.h,
+                    borderRadius: 10,
+                    isLoading: controller.isLoading.value,
+                  ),
+                ),
+                verticalSpace(18),
+                Center(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      smallText(
+                        text: '${'no_account'.tr} ',
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      smallText(
+                        text: 'register'.tr,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
+                ),
+                verticalSpace(24),
+              ],
+            ),
           ),
         ),
       ),

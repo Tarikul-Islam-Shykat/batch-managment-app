@@ -7,6 +7,7 @@ class SecureStorageService {
   static const paymentToken = 'payment_token';
   static const password = 'user_password';
   static const fcmToken = 'fcm_token';
+  static const languageCode = 'language_code';
 
   Future<void> set(String key, String value) =>
       _storage.write(key: key, value: value);
@@ -14,7 +15,6 @@ class SecureStorageService {
   Future<void> delete(String key) => _storage.delete(key: key);
   Future<void> clearAll() => _storage.deleteAll();
 }
-
 
 /* Usage Example 
 // set
