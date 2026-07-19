@@ -7,6 +7,7 @@ import '../../../core/const/icons_path.dart';
 import '../../../core/global/custom_text.dart';
 import '../../../core/global/loading.dart';
 import '../../../core/global/spacing.dart';
+import '../../../core/service/image/app_network_image_v2.dart';
 import '../controller/splash_controller.dart';
 
 class SplashScreen extends GetView<SplashController> {
@@ -24,11 +25,15 @@ class SplashScreen extends GetView<SplashController> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      IconsPath.appIcon,
-                      width: 120.w,
-                      height: 120.w,
-                      fit: BoxFit.contain,
+                    Hero(
+                      tag: SplashController.logoHeroTag,
+                      child: ResponsiveImage.asset(
+                        assetPath: IconsPath.appIcon,
+                        shape: ImageShape.roundedRectangle,
+                        width: 120.w,
+                        height: 120.w,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     verticalSpace(12),
                     brandText(

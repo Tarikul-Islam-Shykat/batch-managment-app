@@ -8,7 +8,7 @@ class NetworkClient {
 
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: 'https://your-api.com/api/',
+      baseUrl: 'https://erp-fastapi-batch.vercel.app/api/v1/web/',
       connectTimeout: Duration(seconds: 10),
       receiveTimeout: Duration(seconds: 10),
       headers: {'Content-Type': 'application/json'},
