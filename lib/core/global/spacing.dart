@@ -16,3 +16,7 @@ Widget betweenComponent() {
 Widget betweenSection() {
   return SizedBox(height: 16.h);
 }
+
+Widget verticalSpace(double height) {
+  return SizedBox(height: height.h);
+}

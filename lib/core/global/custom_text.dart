@@ -28,6 +28,35 @@ Widget headingText({
   );
 }
 
+Widget brandText({
+  required String text,
+  Color color = Colors.black,
+  FontWeight fontWeight = FontWeight.w700,
+  TextAlign textAlign = TextAlign.center,
+  double fontSize = 18,
+  double letterSpacing = 2.4,
+  int maxLines = 1,
+  TextOverflow overflow = TextOverflow.ellipsis,
+}) {
+  return Builder(
+    builder: (context) => MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+      child: Text(
+        text,
+        textAlign: textAlign,
+        maxLines: maxLines,
+        overflow: overflow,
+        style: GoogleFonts.spaceGrotesk(
+          color: color,
+          fontSize: fontSize.sp,
+          fontWeight: fontWeight,
+          letterSpacing: letterSpacing,
+        ),
+      ),
+    ),
+  );
+}
+
 Widget normalText({
   required String text,
   FontWeight fontWeight = FontWeight.normal,

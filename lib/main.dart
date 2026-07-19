@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           title: 'Batch Book',
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoute.onboardingScreen,
+          initialRoute: AppRoute.init,
           getPages: AppRoute.routes,
           initialBinding: ControllerBinder(),
           theme: ThemeData(
