@@ -60,7 +60,7 @@ class SplashController extends GetxController {
       final response = await _api.get(Urls.profileMe);
       if (response != null) {
         log('SplashController token valid, entering app');
-        Get.offAllNamed(AppRoute.createBatchScreen);
+        Get.offAllNamed(AppRoute.navBarScreen);
         return;
       }
 

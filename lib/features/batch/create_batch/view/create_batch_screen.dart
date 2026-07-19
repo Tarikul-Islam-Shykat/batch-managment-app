@@ -11,7 +11,9 @@ import '../controller/create_batch_controller.dart';
 import '../widget/schedule_card.dart';
 
 class CreateBatchScreen extends GetView<CreateBatchController> {
-  const CreateBatchScreen({super.key});
+  final bool showBackButton;
+
+  const CreateBatchScreen({super.key, this.showBackButton = true});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +23,12 @@ class CreateBatchScreen extends GetView<CreateBatchController> {
         backgroundColor: AppColors.whiteColor,
         elevation: 0,
         centerTitle: false,
-        leading: IconButton(
-          onPressed: Get.back,
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
-        ),
+        leading: showBackButton
+            ? IconButton(
+                onPressed: Get.back,
+                icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+              )
+            : null,
         title: normalText(
           text: 'create_batch_title'.tr,
           fontWeight: FontWeight.w700,

@@ -51,7 +51,7 @@ class LoginController extends GetxController {
         'login_successful'.tr,
         snackPosition: SnackPosition.BOTTOM,
       );
-      Get.offNamed(AppRoute.createBatchScreen);
+      Get.offAllNamed(AppRoute.navBarScreen);
     } catch (e) {
       Get.snackbar(
         'login_failed'.tr,

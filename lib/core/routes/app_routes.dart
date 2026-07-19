@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 import '../../features/batch/create_batch/binding/create_batch_binding.dart';
 import '../../features/batch/create_batch/view/create_batch_screen.dart';
+import '../../features/batch/list/binding/batch_list_binding.dart';
+import '../../features/batch/list/view/batch_list_screen.dart';
+import '../../features/navbar/binding/navbar_binding.dart';
+import '../../features/navbar/view/navbar_screen.dart';
 import '../../features/login/binding/login_binding.dart';
 import '../../features/login/view/login_screen.dart';
 import '../../features/splash/binding/splash_binding.dart';
@@ -9,7 +13,9 @@ import '../../features/splash/view/splash_screen.dart';
 class AppRoute {
   static String init = "/splash";
   static String loginScreen = "/login";
+  static String navBarScreen = "/nav-bar";
   static String createBatchScreen = "/create-batch";
+  static String batchListScreen = "/batch-list";
 
   static List<GetPage> routes = [
     GetPage(
@@ -23,9 +29,19 @@ class AppRoute {
       binding: LoginBinding(),
     ),
     GetPage(
+      name: navBarScreen,
+      page: () => const NavbarScreen(),
+      binding: NavbarBinding(),
+    ),
+    GetPage(
       name: createBatchScreen,
       page: () => const CreateBatchScreen(),
       binding: CreateBatchBinding(),
+    ),
+    GetPage(
+      name: batchListScreen,
+      page: () => const BatchListScreen(),
+      binding: BatchListBinding(),
     ),
   ];
 }
