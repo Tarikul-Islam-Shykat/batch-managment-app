@@ -6,6 +6,7 @@ import '../../../../core/const/app_colors.dart';
 import '../../../../core/global/app_btn.dart';
 import '../../../../core/global/custom_text.dart';
 import '../../../../core/global/spacing.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../controller/batch_list_controller.dart';
 import '../model/batch_list_response_model.dart';
 
@@ -71,6 +72,18 @@ class BatchCard extends StatelessWidget {
                       color: Colors.black87,
                       fontWeight: FontWeight.w500,
                     ),
+                    verticalSpace(6),
+                    normalText(
+                      text: '${'fees'.tr}: ${batch.fees.toStringAsFixed(0)}',
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    verticalSpace(4),
+                    normalText(
+                      text: '${'max_students'.tr}: ${batch.maxStudents}',
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ],
                 ),
               ),
@@ -98,18 +111,6 @@ class BatchCard extends StatelessWidget {
           ),
           verticalSpace(4),
           normalText(
-            text: '${'fees'.tr}: ${batch.fees.toStringAsFixed(0)}',
-            color: Colors.black54,
-            fontWeight: FontWeight.w400,
-          ),
-          verticalSpace(4),
-          normalText(
-            text: '${'max_students'.tr}: ${batch.maxStudents}',
-            color: Colors.black54,
-            fontWeight: FontWeight.w400,
-          ),
-          verticalSpace(4),
-          normalText(
             text: scheduleText,
             color: Colors.black54,
             fontWeight: FontWeight.w400,
@@ -121,11 +122,10 @@ class BatchCard extends StatelessWidget {
             children: [
               Expanded(
                 child: GlobalAppButton(
-                  text: 'details'.tr,
-                  onTap: () => Get.snackbar(
-                    'details'.tr,
-                    batch.batchName,
-                    snackPosition: SnackPosition.BOTTOM,
+                  text: 'add_student'.tr,
+                  onTap: () => Get.toNamed(
+                    AppRoute.studentEnrollScreen,
+                    arguments: batch,
                   ),
                   height: 46.h,
                   borderRadius: 12,
@@ -134,9 +134,9 @@ class BatchCard extends StatelessWidget {
               SizedBox(width: 12.w),
               Expanded(
                 child: GlobalAppButton(
-                  text: 'manage_batch'.tr,
+                  text: 'view_details'.tr,
                   onTap: () => Get.snackbar(
-                    'manage_batch'.tr,
+                    'view_details'.tr,
                     batch.batchName,
                     snackPosition: SnackPosition.BOTTOM,
                   ),
