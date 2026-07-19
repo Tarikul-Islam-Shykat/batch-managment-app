@@ -31,6 +31,7 @@ class GlobalTextField extends StatefulWidget {
 
   // Validation
   final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
 
   // Read only
   final bool readOnly;
@@ -60,6 +61,7 @@ class GlobalTextField extends StatefulWidget {
     this.suffixIcon,
     this.onTap,
     this.validator,
+    this.onChanged,
     this.readOnly = false,
     this.activeColor,
     this.inactiveColor,
@@ -167,6 +169,7 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
           controller: widget.controller,
           readOnly: widget.readOnly,
           onTap: widget.onTap,
+          onChanged: widget.onChanged,
           keyboardType: widget.keyboardType,
           obscureText: _obscureText,
           maxLines: widget.isHidden ? 1 : widget.maxLines,
