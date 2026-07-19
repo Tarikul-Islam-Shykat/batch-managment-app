@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-          title: 'Flutter Demo',
+          title: 'Batch Book',
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoute.onboardingScreen,
           getPages: AppRoute.routes,
