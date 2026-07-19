@@ -135,10 +135,9 @@ class BatchCard extends StatelessWidget {
               Expanded(
                 child: GlobalAppButton(
                   text: 'view_details'.tr,
-                  onTap: () => Get.snackbar(
-                    'view_details'.tr,
-                    batch.batchName,
-                    snackPosition: SnackPosition.BOTTOM,
+                  onTap: () => Get.toNamed(
+                    AppRoute.batchStudentsScreen,
+                    arguments: batch,
                   ),
                   height: 46.h,
                   borderRadius: 12,

@@ -3,6 +3,8 @@ import '../../features/batch/create_batch/binding/create_batch_binding.dart';
 import '../../features/batch/create_batch/view/create_batch_screen.dart';
 import '../../features/batch/list/binding/batch_list_binding.dart';
 import '../../features/batch/list/view/batch_list_screen.dart';
+import '../../features/student/batch_students/binding/batch_students_binding.dart';
+import '../../features/student/batch_students/view/batch_students_screen.dart';
 import '../../features/student/enroll/binding/student_enroll_binding.dart';
 import '../../features/student/enroll/view/student_enroll_screen.dart';
 import '../../features/navbar/binding/navbar_binding.dart';
@@ -19,6 +21,7 @@ class AppRoute {
   static String createBatchScreen = "/create-batch";
   static String batchListScreen = "/batch-list";
   static String studentEnrollScreen = "/student-enroll";
+  static String batchStudentsScreen = "/batch-students";
 
   static List<GetPage> routes = [
     GetPage(
@@ -50,6 +53,11 @@ class AppRoute {
       name: studentEnrollScreen,
       page: () => const StudentEnrollScreen(),
       binding: StudentEnrollBinding(),
+    ),
+    GetPage(
+      name: batchStudentsScreen,
+      page: () => const BatchStudentsScreen(),
+      binding: BatchStudentsBinding(),
     ),
   ];
 }
