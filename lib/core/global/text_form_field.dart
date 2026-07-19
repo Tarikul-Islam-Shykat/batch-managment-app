@@ -27,6 +27,7 @@ class GlobalTextField extends StatefulWidget {
   // Suffix / Prefix
   final Widget? prefixIcon;
   final Widget? suffixIcon; // overrides visibility toggle if provided
+  final VoidCallback? onTap;
 
   // Validation
   final String? Function(String?)? validator;
@@ -57,6 +58,7 @@ class GlobalTextField extends StatefulWidget {
     this.customVisibilityOffIcon,
     this.prefixIcon,
     this.suffixIcon,
+    this.onTap,
     this.validator,
     this.readOnly = false,
     this.activeColor,
@@ -164,6 +166,7 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
         TextFormField(
           controller: widget.controller,
           readOnly: widget.readOnly,
+          onTap: widget.onTap,
           keyboardType: widget.keyboardType,
           obscureText: _obscureText,
           maxLines: widget.isHidden ? 1 : widget.maxLines,

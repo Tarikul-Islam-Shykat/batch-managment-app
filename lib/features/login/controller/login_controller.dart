@@ -1,6 +1,7 @@
 import 'package:batch_management_app_direct/core/service/network/endpoints/endpoints.dart';
 import 'package:batch_management_app_direct/core/service/network/service/api_service.dart';
 import 'package:batch_management_app_direct/core/service/storage/secure/storage.dart';
+import 'package:batch_management_app_direct/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,8 +19,8 @@ class LoginController extends GetxController {
 
     if (email.isEmpty || password.isEmpty) {
       Get.snackbar(
-        'Missing fields',
-        'Please enter email and password.',
+        'login_missing_fields'.tr,
+        'please_enter_email_password'.tr,
         snackPosition: SnackPosition.BOTTOM,
       );
       return;
@@ -37,8 +38,8 @@ class LoginController extends GetxController {
           : null;
       if (accessToken == null || accessToken.isEmpty) {
         Get.snackbar(
-          'Login failed',
-          'Token was not returned by the server.',
+          'login_failed'.tr,
+          'token_not_returned'.tr,
           snackPosition: SnackPosition.BOTTOM,
         );
         return;
@@ -46,13 +47,14 @@ class LoginController extends GetxController {
 
       await _storage.set(SecureStorageService.token, accessToken);
       Get.snackbar(
-        'Success',
-        'Login successful.',
+        'success'.tr,
+        'login_successful'.tr,
         snackPosition: SnackPosition.BOTTOM,
       );
+      Get.offNamed(AppRoute.createBatchScreen);
     } catch (e) {
       Get.snackbar(
-        'Login failed',
+        'login_failed'.tr,
         e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );

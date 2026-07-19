@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           getPages: AppRoute.routes,
           initialBinding: ControllerBinder(),
           translations: AppTranslations(),
-          locale: const Locale('bn', 'BD'),
+          locale: const Locale('en', 'US'),
           fallbackLocale: const Locale('en', 'US'),
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

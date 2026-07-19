@@ -5,7 +5,7 @@ import '../service/storage/secure/storage.dart';
 
 class LanguageController extends GetxController {
   final SecureStorageService _storage = SecureStorageService();
-  final currentLocale = const Locale('bn', 'BD').obs;
+  final currentLocale = const Locale('en', 'US').obs;
 
   @override
   void onInit() {
@@ -15,10 +15,13 @@ class LanguageController extends GetxController {
 
   Future<void> _loadSavedLocale() async {
     final savedCode = await _storage.get(SecureStorageService.languageCode);
+    if (savedCode == 'bn') {
+      await _applyLocale(const Locale('bn', 'BD'), persist: false);
+      return;
+    }
+
     if (savedCode == 'en') {
-      _applyLocale(const Locale('en', 'US'), persist: false);
-    } else if (savedCode == 'bn') {
-      _applyLocale(const Locale('bn', 'BD'), persist: false);
+      await _applyLocale(const Locale('en', 'US'), persist: false);
     }
   }
 
@@ -28,6 +31,12 @@ class LanguageController extends GetxController {
         : const Locale('bn', 'BD');
     await _applyLocale(nextLocale);
   }
+
+  Future<void> setLanguage(Locale locale) async {
+    await _applyLocale(locale);
+  }
+
+  bool get isBangla => currentLocale.value.languageCode == 'bn';
 
   Future<void> _applyLocale(Locale locale, {bool persist = true}) async {
     currentLocale.value = locale;
