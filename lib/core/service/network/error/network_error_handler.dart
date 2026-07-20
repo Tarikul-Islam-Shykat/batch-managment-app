@@ -1,5 +1,14 @@
 import 'package:dio/dio.dart';
 
+class NetworkException implements Exception {
+  final String message;
+
+  const NetworkException(this.message);
+
+  @override
+  String toString() => message;
+}
+
 class NetworkErrorHandler {
   static String getMessage(DioException e) {
     switch (e.type) {
@@ -20,7 +29,17 @@ class NetworkErrorHandler {
     final code = response.statusCode ?? 0;
     final data = response.data;
 
+    if (data is String && data.trim().isNotEmpty) {
+      return data;
+    }
     if (data is Map && data['message'] != null) return data['message'];
+    if (data is Map && data['detail'] != null) return data['detail'];
+    if (data is Map && data['error'] != null) return data['error'];
+    if (data is Map &&
+        data['detail'] is List &&
+        (data['detail'] as List).isNotEmpty) {
+      return (data['detail'] as List).join(', ');
+    }
     if (code >= 500) return 'Server error. Try again later.';
     if (code == 401) return 'Unauthorized. Please login again.';
     if (code == 404) return 'Resource not found.';

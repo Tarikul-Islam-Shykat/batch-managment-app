@@ -35,10 +35,21 @@ class ApiService {
       ...fields,
       if (files.isNotEmpty)
         fileField: await Future.wait(
-          files.map((f) => MultipartFile.fromFile(f.path, filename: f.path.split('/').last)),
+          files.map(
+            (f) => MultipartFile.fromFile(
+              f.path,
+              filename: f.path.split('/').last,
+            ),
+          ),
         ),
     });
-    return _request(() => _dio.request(path, data: formData, options: Options(method: method)));
+    return _request(
+      () => _dio.request(
+        path,
+        data: formData,
+        options: Options(method: method),
+      ),
+    );
   }
 
   // ── Single error handling point ────────────────
@@ -47,8 +58,8 @@ class ApiService {
       final response = await call();
       return response.data;
     } on DioException catch (e) {
-      NetworkErrorHandler.show(e);
-      return null;
+      final message = NetworkErrorHandler.getMessage(e);
+      throw NetworkException(message);
     }
   }
 }
