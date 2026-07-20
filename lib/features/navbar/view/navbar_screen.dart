@@ -6,6 +6,7 @@ import '../../batch/create_batch/view/create_batch_screen.dart';
 import '../../batch/list/view/batch_list_screen.dart';
 import '../../home/view/home_tab.dart';
 import '../controller/navbar_controller.dart';
+import '../../profile/view/profile_tab.dart';
 
 class NavbarScreen extends GetView<NavbarController> {
   const NavbarScreen({super.key});
@@ -16,6 +17,7 @@ class NavbarScreen extends GetView<NavbarController> {
       const HomeTab(),
       const BatchListScreen(),
       const CreateBatchScreen(showBackButton: false),
+      const ProfileTab(),
     ];
 
     return Scaffold(
@@ -44,6 +46,11 @@ class NavbarScreen extends GetView<NavbarController> {
               icon: const Icon(Icons.add_circle_outline),
               selectedIcon: const Icon(Icons.add_circle),
               label: 'new_batch'.tr,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.person_outline_rounded),
+              selectedIcon: const Icon(Icons.person_rounded),
+              label: 'profile'.tr,
             ),
           ],
         ),

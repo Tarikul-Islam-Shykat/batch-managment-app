@@ -135,6 +135,47 @@ Widget smallText({
   );
 }
 
+Widget labelValueText({
+  required String label,
+  required String value,
+  Color labelColor = Colors.black54,
+  Color valueColor = Colors.black87,
+  FontWeight labelWeight = FontWeight.w500,
+  FontWeight valueWeight = FontWeight.w700,
+  TextAlign textAlign = TextAlign.start,
+  int maxLines = 1,
+  TextOverflow overflow = TextOverflow.ellipsis,
+}) {
+  return Builder(
+    builder: (context) => MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+      child: RichText(
+        textAlign: textAlign,
+        maxLines: maxLines,
+        overflow: overflow,
+        text: TextSpan(
+          style: GoogleFonts.spaceGrotesk(
+            color: labelColor,
+            fontSize: 16.sp,
+            fontWeight: labelWeight,
+          ),
+          children: [
+            TextSpan(text: label),
+            TextSpan(
+              text: value,
+              style: GoogleFonts.spaceGrotesk(
+                color: valueColor,
+                fontSize: 16.sp,
+                fontWeight: valueWeight,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 Widget smallerText({
   required String text,
   FontWeight fontWeight = FontWeight.w400,

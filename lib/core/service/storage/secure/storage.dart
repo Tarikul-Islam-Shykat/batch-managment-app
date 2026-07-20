@@ -17,7 +17,7 @@ class SecureStorageService {
 }
 
 /* Usage Example 
-// set
+// set  
 await secureStorage.set(SecureStorageService.token, 'mytoken');
 
 // get

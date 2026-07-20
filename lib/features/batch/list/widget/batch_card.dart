@@ -18,13 +18,6 @@ class BatchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheduleText = batch.schedule
-        .map(
-          (item) =>
-              '${controller.dayLabel(item.day)} ${item.startTime}-${item.endTime}',
-        )
-        .join(' • ');
-
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
@@ -67,36 +60,32 @@ class BatchCard extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                     ),
                     verticalSpace(4),
-                    normalText(
-                      text: '${'subject'.tr}: ${batch.subject}',
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w500,
+                    labelValueText(
+                      label: '${'subject'.tr} : ',
+                      value: batch.subject,
+                      labelColor: Colors.black87,
+                      valueColor: Colors.black87,
                     ),
                     verticalSpace(6),
-                    normalText(
-                      text: '${'fees'.tr}: ${batch.fees.toStringAsFixed(0)}',
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w400,
+                    labelValueText(
+                      label: '${'fees'.tr} : ',
+                      value: batch.fees.toStringAsFixed(0),
+                      labelColor: Colors.black54,
+                      valueColor: Colors.black87,
                     ),
                     verticalSpace(4),
-                    normalText(
-                      text: '${'max_students'.tr}: ${batch.maxStudents}',
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w400,
+                    labelValueText(
+                      label: '${'max_students'.tr}: ',
+                      value: '${batch.maxStudents}',
+                      labelColor: Colors.black54,
+                      valueColor: Colors.black87,
                     ),
                   ],
                 ),
               ),
-              IconButton(
-                onPressed: () => Get.snackbar(
-                  'info'.tr,
-                  batch.batchName,
-                  snackPosition: SnackPosition.BOTTOM,
-                ),
-                icon: const Icon(Icons.edit_outlined),
-              ),
             ],
           ),
+          /*
           verticalSpace(10),
           normalText(
             text: '${'start_date'.tr}: ${batch.startDate}',
@@ -116,8 +105,10 @@ class BatchCard extends StatelessWidget {
             fontWeight: FontWeight.w400,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-          ),
+          ), 
+          */
           verticalSpace(14),
+
           Row(
             children: [
               Expanded(

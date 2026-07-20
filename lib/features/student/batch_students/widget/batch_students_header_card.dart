@@ -84,46 +84,47 @@ class BatchStudentsHeaderCard extends StatelessWidget {
             textAlign: TextAlign.start,
           ),
           verticalSpace(8),
-          _InfoLine(text: '${'subject'.tr}: ${batch.subject}'),
-          verticalSpace(4),
-          _InfoLine(text: '${'fees'.tr}: ${batch.fees.toStringAsFixed(0)}'),
-          verticalSpace(4),
           _InfoLine(
-            text:
-                '${'start_date'.tr}: ${controller.formatDate(batch.startDate)}',
+            label: '${'subject'.tr} : ',
+            value: batch.subject,
+            labelColor: Colors.black54,
+            valueColor: Colors.black87,
           ),
           verticalSpace(4),
           _InfoLine(
-            text: '${'end_date'.tr}: ${controller.formatDate(batch.endDate)}',
+            label: '${'fees'.tr} : ',
+            value: batch.fees.toStringAsFixed(0),
+            labelColor: Colors.black54,
+            valueColor: Colors.black87,
           ),
           verticalSpace(4),
-          _InfoLine(text: controller.scheduleText()),
+          _InfoLine(
+            label: '${'start_date'.tr} : ',
+            value: controller.formatDate(batch.startDate),
+            labelColor: Colors.black54,
+            valueColor: Colors.black87,
+          ),
+          verticalSpace(4),
+          _InfoLine(
+            label: '${'end_date'.tr} : ',
+            value: controller.formatDate(batch.endDate),
+            labelColor: Colors.black54,
+            valueColor: Colors.black87,
+          ),
+          verticalSpace(4),
+          _InfoLine(
+            label: '${'class_days'.tr} : ',
+            value: controller.scheduleText(),
+            labelColor: Colors.black54,
+            valueColor: Colors.black87,
+            maxLines: 2,
+          ),
           verticalSpace(14),
-          Row(
-            children: [
-              Expanded(
-                child: _PrimaryButton(
-                  text: 'add_student'.tr,
-                  backgroundColor: AppColors.primaryColor,
-                  onTap: () => Get.toNamed(
-                    AppRoute.studentEnrollScreen,
-                    arguments: batch,
-                  ),
-                ),
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: _PrimaryButton(
-                  text: 'fee_calculation'.tr,
-                  backgroundColor: AppColors.blackColor,
-                  onTap: () => Get.snackbar(
-                    'info'.tr,
-                    'fee_calculation'.tr,
-                    snackPosition: SnackPosition.BOTTOM,
-                  ),
-                ),
-              ),
-            ],
+          _PrimaryButton(
+            text: 'add_student'.tr,
+            backgroundColor: AppColors.primaryColor,
+            onTap: () =>
+                Get.toNamed(AppRoute.studentEnrollScreen, arguments: batch),
           ),
         ],
       ),
@@ -163,17 +164,28 @@ class _ActionIconButton extends StatelessWidget {
 }
 
 class _InfoLine extends StatelessWidget {
-  final String text;
+  final String label;
+  final String value;
+  final Color labelColor;
+  final Color valueColor;
+  final int maxLines;
 
-  const _InfoLine({required this.text});
+  const _InfoLine({
+    required this.label,
+    required this.value,
+    required this.labelColor,
+    required this.valueColor,
+    this.maxLines = 1,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return normalText(
-      text: text,
-      color: Colors.black54,
-      fontWeight: FontWeight.w400,
-      maxLines: 2,
+    return labelValueText(
+      label: label,
+      value: value,
+      labelColor: labelColor,
+      valueColor: valueColor,
+      maxLines: maxLines,
     );
   }
 }

@@ -9,8 +9,21 @@ import '../model/batch_student_model.dart';
 
 class BatchStudentCard extends StatelessWidget {
   final BatchStudentModel student;
+  final bool isSelected;
+  final VoidCallback onSelectionChanged;
+  final VoidCallback onViewProfile;
 
-  const BatchStudentCard({super.key, required this.student});
+  const BatchStudentCard({
+    super.key,
+    required this.student,
+    required this.isSelected,
+    required this.onSelectionChanged,
+    required this.onViewProfile,
+  });
+
+  double get _payableMonthlyAmount {
+    return (student.monthlyFee - student.discount).clamp(0, double.infinity);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +32,17 @@ class BatchStudentCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.05)),
+        border: Border.all(
+          color: isSelected
+              ? AppColors.primaryColor
+              : AppColors.blackColor.withValues(alpha: 0.05),
+          width: isSelected ? 1.4 : 1,
+        ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.blackColor.withValues(alpha: 0.03),
+            color: isSelected
+                ? AppColors.primaryColor.withValues(alpha: 0.08)
+                : AppColors.blackColor.withValues(alpha: 0.03),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),
@@ -32,105 +52,60 @@ class BatchStudentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: brandText(
                   text: student.firstName,
                   color: AppColors.blackColor,
-                  fontSize: 20,
+                  fontSize: 19,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0,
                   textAlign: TextAlign.start,
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(999.r),
+              Checkbox(
+                value: isSelected,
+                activeColor: AppColors.primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.r),
                 ),
-                child: smallText(
-                  text: student.status,
-                  color: AppColors.primaryColor,
-                  fontWeight: FontWeight.w600,
-                ),
+                onChanged: (_) => onSelectionChanged(),
               ),
             ],
           ),
-          verticalSpace(8),
-          normalText(
-            text: '${'student_system_id'.tr}: ${student.studentSystemId}',
-            color: Colors.black87,
-            fontWeight: FontWeight.w500,
+          verticalSpace(10),
+          labelValueText(
+            label: '${'roll_number'.tr}: ',
+            value: student.rollNumber,
+            labelColor: Colors.black54,
+            valueColor: Colors.black87,
+            labelWeight: FontWeight.w500,
+            valueWeight: FontWeight.w700,
           ),
-          verticalSpace(4),
-          normalText(
-            text: '${'roll_number'.tr}: ${student.rollNumber}',
-            color: Colors.black54,
-            fontWeight: FontWeight.w400,
+          verticalSpace(6),
+          labelValueText(
+            label: '${'payable_fee'.tr}: ',
+            value: _payableMonthlyAmount.toStringAsFixed(0),
+            labelColor: Colors.black54,
+            valueColor: AppColors.primaryColor,
+            labelWeight: FontWeight.w500,
+            valueWeight: FontWeight.w700,
           ),
-          verticalSpace(4),
-          normalText(
-            text: '${'guardian_phone'.tr}: ${student.guardianPhone}',
-            color: Colors.black54,
-            fontWeight: FontWeight.w400,
-          ),
-          verticalSpace(4),
-          normalText(
-            text: '${'join_date'.tr}: ${student.batchStartedAt}',
-            color: Colors.black54,
-            fontWeight: FontWeight.w400,
-          ),
-          verticalSpace(4),
-          normalText(
-            text:
-                '${'monthly_fee'.tr}: ${student.monthlyFee.toStringAsFixed(0)}',
-            color: Colors.black54,
-            fontWeight: FontWeight.w400,
-          ),
-          verticalSpace(4),
-          normalText(
-            text:
-                '${'discount_percent'.tr}: ${student.discount.toStringAsFixed(0)}%',
-            color: Colors.black54,
-            fontWeight: FontWeight.w400,
-          ),
-          verticalSpace(8),
+          verticalSpace(12),
           Row(
             children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 10.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryColor.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: normalText(
-                    text: student.notes.trim().isEmpty ? '-' : student.notes,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w400,
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-              SizedBox(width: 10.w),
+              const Spacer(),
               Material(
                 color: AppColors.primaryColor.withValues(alpha: 0.10),
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(14.r),
                 child: InkWell(
-                  onTap: () => Get.snackbar(
-                    'info'.tr,
-                    '${'view_profile'.tr}: ${student.firstName}',
-                    snackPosition: SnackPosition.BOTTOM,
-                  ),
-                  borderRadius: BorderRadius.circular(12.r),
+                  onTap: onViewProfile,
+                  borderRadius: BorderRadius.circular(14.r),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 14.w,
-                      vertical: 12.h,
+                      vertical: 11.h,
                     ),
                     child: smallText(
                       text: 'view_profile'.tr,
