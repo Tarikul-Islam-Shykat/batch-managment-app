@@ -1,5 +1,6 @@
 import 'package:batch_management_app_direct/core/service/network/endpoints/endpoints.dart';
 import 'package:batch_management_app_direct/core/service/network/service/api_service.dart';
+import 'package:batch_management_app_direct/core/service/app_version/app_version_gate_service.dart';
 import 'package:batch_management_app_direct/core/service/storage/secure/storage.dart';
 import 'package:batch_management_app_direct/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,37 @@ class LoginController extends GetxController {
         return;
       }
 
+      if (role == 'super_admin') {
+        await _storage.set(SecureStorageService.token, accessToken);
+        await _storage.set(SecureStorageService.role, role);
+        Get.snackbar(
+          'success'.tr,
+          'login_successful'.tr,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        Get.offAllNamed(AppRoute.superAdminScreen);
+        return;
+      }
+
+      final updateGate = await AppVersionGateService.instance.evaluate();
+      if (updateGate != null) {
+        if (updateGate.shouldShowMaintenance) {
+          Get.offAllNamed(
+            AppRoute.appMaintenanceScreen,
+            arguments: updateGate.toArguments(),
+          );
+          return;
+        }
+
+        if (updateGate.shouldUpdate) {
+          Get.offAllNamed(
+            AppRoute.appUpdateScreen,
+            arguments: updateGate.toArguments(),
+          );
+          return;
+        }
+      }
+
       await _storage.set(SecureStorageService.token, accessToken);
       await _storage.set(SecureStorageService.role, role);
       Get.snackbar(
@@ -55,11 +87,7 @@ class LoginController extends GetxController {
         'login_successful'.tr,
         snackPosition: SnackPosition.BOTTOM,
       );
-      Get.offAllNamed(
-        role == 'super_admin'
-            ? AppRoute.superAdminScreen
-            : AppRoute.navBarScreen,
-      );
+      Get.offAllNamed(AppRoute.navBarScreen);
     } catch (e) {
       Get.snackbar(
         'login_failed'.tr,

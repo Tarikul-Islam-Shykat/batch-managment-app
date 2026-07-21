@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../core/const/app_colors.dart';
 import '../../../core/const/icons_path.dart';
@@ -16,6 +17,25 @@ import '../controller/login_controller.dart';
 
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
+
+  Widget _buildVersionText() {
+    return FutureBuilder<PackageInfo>(
+      future: PackageInfo.fromPlatform(),
+      builder: (context, snapshot) {
+        final version = snapshot.data?.version ?? '';
+        if (version.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return smallText(
+          text: '${'app_version'.tr} v$version',
+          color: Colors.black38,
+          fontWeight: FontWeight.w500,
+          textAlign: TextAlign.center,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +176,8 @@ class LoginScreen extends GetView<LoginController> {
                   ),
                 ),
                 verticalSpace(24),
+                Center(child: _buildVersionText()),
+                verticalSpace(12),
               ],
             ),
           ),

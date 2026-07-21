@@ -17,7 +17,9 @@ class AppStatusController extends GetxController {
 
   final appVersionController = TextEditingController();
   final appMaintenanceMessageController = TextEditingController();
-  final appUpdateLinkController = TextEditingController();
+  final appAndroidArm64LinkController = TextEditingController();
+  final appAndroidX64LinkController = TextEditingController();
+  final appAndroidAabLinkController = TextEditingController();
   final appVersionLastUpdateController = TextEditingController();
   final appUpdatedFixesController = TextEditingController();
 
@@ -75,7 +77,10 @@ class AppStatusController extends GetxController {
     selectedAppStatusId.value = status.id;
     appVersionController.text = status.appVersion;
     appMaintenanceMessageController.text = status.appMaintenanceMessage ?? '';
-    appUpdateLinkController.text = status.appUpdateLink ?? '';
+    appAndroidArm64LinkController.text =
+        status.appUpdateLinks['android_arm64'] ?? '';
+    appAndroidX64LinkController.text = status.appUpdateLinks['android_x64'] ?? '';
+    appAndroidAabLinkController.text = status.appUpdateLinks['android_aab'] ?? '';
     appVersionLastUpdateController.text = status.appVersionLastUpdate ?? '';
     appUpdatedFixesController.text = status.appUpdatedFixes.join('\n');
     selectedStatus.value = status.appStatus.isNotEmpty
@@ -87,7 +92,9 @@ class AppStatusController extends GetxController {
     selectedAppStatusId.value = null;
     appVersionController.clear();
     appMaintenanceMessageController.clear();
-    appUpdateLinkController.clear();
+    appAndroidArm64LinkController.clear();
+    appAndroidX64LinkController.clear();
+    appAndroidAabLinkController.clear();
     appVersionLastUpdateController.clear();
     appUpdatedFixesController.clear();
     selectedStatus.value = 'active';
@@ -102,16 +109,20 @@ class AppStatusController extends GetxController {
   }
 
   Future<void> saveStatus() async {
+    final updateLinks = <String, String>{
+      'android_arm64': appAndroidArm64LinkController.text.trim(),
+      'android_x64': appAndroidX64LinkController.text.trim(),
+      'android_aab': appAndroidAabLinkController.text.trim(),
+    }..removeWhere((_, value) => value.isEmpty);
+
     final payload = AppStatusModel(
       id: selectedAppStatusId.value ?? '',
       appVersion: appVersionController.text.trim(),
       appStatus: selectedStatus.value,
+      appUpdateLinks: updateLinks,
       appMaintenanceMessage: appMaintenanceMessageController.text.trim().isEmpty
           ? null
           : appMaintenanceMessageController.text.trim(),
-      appUpdateLink: appUpdateLinkController.text.trim().isEmpty
-          ? null
-          : appUpdateLinkController.text.trim(),
       appVersionLastUpdate: appVersionLastUpdateController.text.trim().isEmpty
           ? null
           : appVersionLastUpdateController.text.trim(),
@@ -162,7 +173,9 @@ class AppStatusController extends GetxController {
   void onClose() {
     appVersionController.dispose();
     appMaintenanceMessageController.dispose();
-    appUpdateLinkController.dispose();
+    appAndroidArm64LinkController.dispose();
+    appAndroidX64LinkController.dispose();
+    appAndroidAabLinkController.dispose();
     appVersionLastUpdateController.dispose();
     appUpdatedFixesController.dispose();
     super.onClose();

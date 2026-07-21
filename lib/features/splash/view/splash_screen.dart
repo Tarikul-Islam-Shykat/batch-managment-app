@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../core/const/app_colors.dart';
 import '../../../core/const/icons_path.dart';
@@ -12,6 +13,25 @@ import '../controller/splash_controller.dart';
 
 class SplashScreen extends GetView<SplashController> {
   const SplashScreen({super.key});
+
+  Widget _buildVersionText() {
+    return FutureBuilder<PackageInfo>(
+      future: PackageInfo.fromPlatform(),
+      builder: (context, snapshot) {
+        final version = snapshot.data?.version ?? '';
+        if (version.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return smallText(
+          text: '${'app_version'.tr} v$version',
+          color: Colors.black38,
+          fontWeight: FontWeight.w500,
+          textAlign: TextAlign.center,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +76,11 @@ class SplashScreen extends GetView<SplashController> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 24.h),
-              child: loading(),
+              padding: EdgeInsets.only(bottom: 18.h),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [_buildVersionText(), verticalSpace(8), loading()],
+              ),
             ),
           ],
         ),

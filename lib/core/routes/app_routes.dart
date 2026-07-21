@@ -13,6 +13,8 @@ import '../../features/app_status/binding/app_status_binding.dart';
 import '../../features/app_status/view/app_status_screen.dart';
 import '../../features/super_admin/binding/super_admin_binding.dart';
 import '../../features/super_admin/view/super_admin_screen.dart';
+import '../../features/app_update/view/app_update_screen.dart';
+import '../../features/app_maintenance/view/app_maintenance_screen.dart';
 import '../../features/login/binding/login_binding.dart';
 import '../../features/login/view/login_screen.dart';
 import '../../features/register/binding/otp_verification_binding.dart';
@@ -34,6 +36,8 @@ class AppRoute {
   static String otpVerificationScreen = "/otp-verification";
   static String appStatusScreen = "/app-status";
   static String superAdminScreen = "/super-admin";
+  static String appUpdateScreen = "/app-update";
+  static String appMaintenanceScreen = "/app-maintenance";
 
   static List<GetPage> routes = [
     GetPage(
@@ -65,6 +69,11 @@ class AppRoute {
       name: superAdminScreen,
       page: () => const SuperAdminScreen(),
       binding: SuperAdminBinding(),
+    ),
+    GetPage(name: appUpdateScreen, page: () => const AppUpdateScreen()),
+    GetPage(
+      name: appMaintenanceScreen,
+      page: () => const AppMaintenanceScreen(),
     ),
     GetPage(
       name: appStatusScreen,

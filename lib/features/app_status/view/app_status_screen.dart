@@ -141,9 +141,21 @@ class AppStatusScreen extends GetView<AppStatusController> {
                   ),
                   verticalSpace(14),
                   GlobalTextField(
-                    controller: controller.appUpdateLinkController,
-                    hintText: 'https://example.com/releases/1.0.1',
-                    labelText: 'app_update_link'.tr,
+                    controller: controller.appAndroidArm64LinkController,
+                    hintText: 'https://example.com/android/arm64/1.0.1.aab',
+                    labelText: 'app_update_link_android_arm64'.tr,
+                  ),
+                  verticalSpace(14),
+                  GlobalTextField(
+                    controller: controller.appAndroidX64LinkController,
+                    hintText: 'https://example.com/android/x64/1.0.1.aab',
+                    labelText: 'app_update_link_android_x64'.tr,
+                  ),
+                  verticalSpace(14),
+                  GlobalTextField(
+                    controller: controller.appAndroidAabLinkController,
+                    hintText: 'https://example.com/android/1.0.1.aab',
+                    labelText: 'app_update_link_android_aab'.tr,
                   ),
                   verticalSpace(14),
                   GlobalTextField(

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/service/app_version/app_version_gate_service.dart';
 import '../../../core/service/network/endpoints/endpoints.dart';
 import '../../../core/service/network/service/api_service.dart';
 import '../../../core/routes/app_routes.dart';
@@ -30,7 +31,6 @@ class SplashController extends GetxController {
     if (savedLanguage != null && savedLanguage.isNotEmpty) {
       await _applySavedLanguage(savedLanguage);
     }
-
     _timer = Timer(const Duration(seconds: 2), _checkSession);
   }
 
@@ -50,6 +50,25 @@ class SplashController extends GetxController {
 
     isCheckingSession.value = true;
     try {
+      final updateGate = await AppVersionGateService.instance.evaluate();
+      if (updateGate != null) {
+        if (updateGate.shouldShowMaintenance) {
+          Get.offAllNamed(
+            AppRoute.appMaintenanceScreen,
+            arguments: updateGate.toArguments(),
+          );
+          return;
+        }
+
+        if (updateGate.shouldUpdate) {
+          Get.offAllNamed(
+            AppRoute.appUpdateScreen,
+            arguments: updateGate.toArguments(),
+          );
+          return;
+        }
+      }
+
       final token = await _storage.get(SecureStorageService.token);
       if (token == null || token.isEmpty) {
         log('SplashController no token found, navigating to login');

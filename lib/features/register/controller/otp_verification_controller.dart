@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/routes/app_routes.dart';
+import '../../../core/service/app_version/app_version_gate_service.dart';
 import '../../../core/service/network/endpoints/endpoints.dart';
 import '../../../core/service/network/service/api_service.dart';
 import '../../../core/service/storage/secure/storage.dart';
@@ -73,6 +74,25 @@ class OtpVerificationController extends GetxController {
             ? responseRole
             : (role.isNotEmpty ? role : 'teacher');
         if (accessToken != null && accessToken.isNotEmpty) {
+          final updateGate = await AppVersionGateService.instance.evaluate();
+          if (updateGate != null) {
+            if (updateGate.shouldShowMaintenance) {
+              Get.offAllNamed(
+                AppRoute.appMaintenanceScreen,
+                arguments: updateGate.toArguments(),
+              );
+              return;
+            }
+
+            if (updateGate.shouldUpdate) {
+              Get.offAllNamed(
+                AppRoute.appUpdateScreen,
+                arguments: updateGate.toArguments(),
+              );
+              return;
+            }
+          }
+
           await _storage.set(SecureStorageService.token, accessToken);
           await _storage.set(SecureStorageService.role, resolvedRole);
           Get.offAllNamed(
