@@ -9,6 +9,7 @@ import '../../../core/global/custom_text.dart';
 import '../../../core/global/spacing.dart';
 import '../../../core/global/text_form_field.dart';
 import '../../../core/controller/language_controller.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../../core/service/image/app_network_image_v2.dart';
 import '../../splash/controller/splash_controller.dart';
 import '../controller/login_controller.dart';
@@ -39,10 +40,10 @@ class LoginScreen extends GetView<LoginController> {
                         vertical: 8.h,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor.withOpacity(0.08),
+                        color: AppColors.primaryColor.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(999.r),
                         border: Border.all(
-                          color: AppColors.primaryColor.withOpacity(0.18),
+                          color: AppColors.primaryColor.withValues(alpha: 0.18),
                         ),
                       ),
                       child: smallText(
@@ -142,10 +143,14 @@ class LoginScreen extends GetView<LoginController> {
                         color: Colors.black54,
                         fontWeight: FontWeight.w400,
                       ),
-                      smallText(
-                        text: 'register'.tr,
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w600,
+                      GestureDetector(
+                        onTap: () => Get.toNamed(AppRoute.registerScreen),
+                        child: smallText(
+                          text: 'register'.tr,
+                          color: AppColors.blackColor,
+                          fontWeight: FontWeight.w600,
+                          maxLines: 1,
+                        ),
                       ),
                     ],
                   ),

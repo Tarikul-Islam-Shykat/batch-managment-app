@@ -3,6 +3,9 @@ class Urls {
       'https://erp-fastapi-batch.vercel.app/api/v1/web';
   // auth
   static const String login = '$baseUrl/auth/login';
+  static const String signup = '$baseUrl/auth/signup';
+  static const String verifyOtp = '$baseUrl/auth/verification/verify-otp';
+  static const String requestOtp = '$baseUrl/auth/verification/request-otp';
   static const String profileMe = '$baseUrl/profile/me';
   static const String batches = '$baseUrl/batches';
   static const String students = '$baseUrl/students';

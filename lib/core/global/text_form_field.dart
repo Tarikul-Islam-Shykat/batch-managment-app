@@ -44,6 +44,7 @@ class GlobalTextField extends StatefulWidget {
   // Shape
   final double borderRadius;
   final int maxLines;
+  final int? maxLength;
 
   const GlobalTextField({
     super.key,
@@ -68,6 +69,7 @@ class GlobalTextField extends StatefulWidget {
     this.fillColor,
     this.borderRadius = 12,
     this.maxLines = 1,
+    this.maxLength,
   });
 
   @override
@@ -173,6 +175,7 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
           keyboardType: widget.keyboardType,
           obscureText: _obscureText,
           maxLines: widget.isHidden ? 1 : widget.maxLines,
+          maxLength: widget.maxLength,
           inputFormatters: _inputFormatters,
           style: GoogleFonts.spaceGrotesk(
             color: widget.readOnly ? Colors.grey : AppColors.blackColor,
@@ -183,6 +186,7 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
             hintText: widget.hintText,
             prefixIcon: widget.prefixIcon,
             suffixIcon: _buildSuffixIcon,
+            counterText: widget.maxLength != null ? '' : null,
             hintStyle: GoogleFonts.spaceGrotesk(
               color: _resolvedInactiveColor,
               fontWeight: FontWeight.w400,
