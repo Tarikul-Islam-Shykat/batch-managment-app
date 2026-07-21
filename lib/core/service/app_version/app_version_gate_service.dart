@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:package_info_plus/package_info_plus.dart';
@@ -52,7 +53,9 @@ class AppVersionGateService {
     try {
       final packageInfo = await PackageInfo.fromPlatform();
       final currentVersion = packageInfo.version;
-      final response = await _api.get(AppStatusUrls.getAll);
+      final response = await _api
+          .get(AppStatusUrls.getAll)
+          .timeout(const Duration(seconds: 3));
       final latestStatus = _extractLatestStatus(response);
       if (latestStatus == null) {
         return null;
@@ -148,11 +151,7 @@ class AppVersionGateService {
   }
 
   String _preferredUpdateLink(Map<String, String> updateLinks) {
-    final preferredKeys = [
-      'android_aab',
-      'android_arm64',
-      'android_x64',
-    ];
+    final preferredKeys = ['android_aab', 'android_arm64', 'android_x64'];
 
     for (final key in preferredKeys) {
       final value = updateLinks[key]?.trim() ?? '';

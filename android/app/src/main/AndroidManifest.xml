@@ -1,8 +1,9 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:label="batch_management_app_direct"
-        android:name="BatchBook"
+        android:label="BatchBook"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
