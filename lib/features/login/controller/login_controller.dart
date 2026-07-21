@@ -36,6 +36,9 @@ class LoginController extends GetxController {
       final accessToken = response is Map
           ? response['access_token'] as String?
           : null;
+      final role = response is Map
+          ? response['role']?.toString() ?? 'teacher'
+          : 'teacher';
       if (accessToken == null || accessToken.isEmpty) {
         Get.snackbar(
           'login_failed'.tr,
@@ -46,12 +49,17 @@ class LoginController extends GetxController {
       }
 
       await _storage.set(SecureStorageService.token, accessToken);
+      await _storage.set(SecureStorageService.role, role);
       Get.snackbar(
         'success'.tr,
         'login_successful'.tr,
         snackPosition: SnackPosition.BOTTOM,
       );
-      Get.offAllNamed(AppRoute.navBarScreen);
+      Get.offAllNamed(
+        role == 'super_admin'
+            ? AppRoute.superAdminScreen
+            : AppRoute.navBarScreen,
+      );
     } catch (e) {
       Get.snackbar(
         'login_failed'.tr,

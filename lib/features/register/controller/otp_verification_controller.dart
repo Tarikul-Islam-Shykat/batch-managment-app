@@ -68,9 +68,18 @@ class OtpVerificationController extends GetxController {
 
       if (response is Map) {
         final accessToken = response['access_token']?.toString();
+        final responseRole = response['role']?.toString() ?? '';
+        final resolvedRole = responseRole.isNotEmpty
+            ? responseRole
+            : (role.isNotEmpty ? role : 'teacher');
         if (accessToken != null && accessToken.isNotEmpty) {
           await _storage.set(SecureStorageService.token, accessToken);
-          Get.offAllNamed(AppRoute.navBarScreen);
+          await _storage.set(SecureStorageService.role, resolvedRole);
+          Get.offAllNamed(
+            resolvedRole == 'super_admin'
+                ? AppRoute.superAdminScreen
+                : AppRoute.navBarScreen,
+          );
           Get.snackbar(
             'success'.tr,
             'otp_verified_successfully'.tr,
@@ -85,7 +94,11 @@ class OtpVerificationController extends GetxController {
         'otp_verified_successfully'.tr,
         snackPosition: SnackPosition.BOTTOM,
       );
-      Get.offAllNamed(AppRoute.loginScreen);
+      Get.offAllNamed(
+        role == 'super_admin'
+            ? AppRoute.superAdminScreen
+            : AppRoute.loginScreen,
+      );
     } catch (e) {
       Get.snackbar(
         'verification_failed'.tr,

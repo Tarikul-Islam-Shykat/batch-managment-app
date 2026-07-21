@@ -8,6 +8,7 @@ class SecureStorageService {
   static const password = 'user_password';
   static const fcmToken = 'fcm_token';
   static const languageCode = 'language_code';
+  static const role = 'role';
 
   Future<void> set(String key, String value) =>
       _storage.write(key: key, value: value);

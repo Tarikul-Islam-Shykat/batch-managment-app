@@ -6,6 +6,7 @@ import '../../../core/const/app_colors.dart';
 import '../../../core/global/custom_text.dart';
 import '../../../core/global/loading.dart';
 import '../../../core/global/spacing.dart';
+import '../../../core/routes/app_routes.dart';
 import '../controller/profile_tab_controller.dart';
 
 class ProfileTab extends GetView<ProfileTabController> {
@@ -179,6 +180,14 @@ class ProfileTab extends GetView<ProfileTabController> {
                     title: 'account_details'.tr,
                     onTap: () {},
                   ),
+                  if (controller.isSuperAdmin) ...[
+                    verticalSpace(10),
+                    _menuTile(
+                      icon: Icons.system_update_alt_rounded,
+                      title: 'app_status_title'.tr,
+                      onTap: () => Get.toNamed(AppRoute.appStatusScreen),
+                    ),
+                  ],
                   verticalSpace(16),
                   if (controller.profileFields.isNotEmpty) ...[
                     brandText(

@@ -58,14 +58,31 @@ class SplashController extends GetxController {
       }
 
       final response = await _api.get(Urls.profileMe);
-      if (response != null) {
-        log('SplashController token valid, entering app');
-        Get.offAllNamed(AppRoute.navBarScreen);
+      if (response is Map) {
+        final role =
+            response['role']?.toString() ??
+            await _storage.get(SecureStorageService.role) ??
+            '';
+        if (role.isNotEmpty) {
+          await _storage.set(SecureStorageService.role, role);
+        }
+        log('SplashController token valid, entering app as $role');
+        Get.offAllNamed(
+          role == 'super_admin'
+              ? AppRoute.superAdminScreen
+              : AppRoute.navBarScreen,
+        );
         return;
       }
 
       await _storage.delete(SecureStorageService.token);
+      await _storage.delete(SecureStorageService.role);
       log('SplashController token invalid, navigating to login');
+      Get.offAllNamed(AppRoute.loginScreen);
+    } catch (e) {
+      await _storage.delete(SecureStorageService.token);
+      await _storage.delete(SecureStorageService.role);
+      log('SplashController session check failed: $e');
       Get.offAllNamed(AppRoute.loginScreen);
     } finally {
       isCheckingSession.value = false;

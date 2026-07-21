@@ -9,6 +9,10 @@ import '../../features/student/enroll/binding/student_enroll_binding.dart';
 import '../../features/student/enroll/view/student_enroll_screen.dart';
 import '../../features/navbar/binding/navbar_binding.dart';
 import '../../features/navbar/view/navbar_screen.dart';
+import '../../features/app_status/binding/app_status_binding.dart';
+import '../../features/app_status/view/app_status_screen.dart';
+import '../../features/super_admin/binding/super_admin_binding.dart';
+import '../../features/super_admin/view/super_admin_screen.dart';
 import '../../features/login/binding/login_binding.dart';
 import '../../features/login/view/login_screen.dart';
 import '../../features/register/binding/otp_verification_binding.dart';
@@ -28,6 +32,8 @@ class AppRoute {
   static String batchStudentsScreen = "/batch-students";
   static String registerScreen = "/register";
   static String otpVerificationScreen = "/otp-verification";
+  static String appStatusScreen = "/app-status";
+  static String superAdminScreen = "/super-admin";
 
   static List<GetPage> routes = [
     GetPage(
@@ -54,6 +60,16 @@ class AppRoute {
       name: navBarScreen,
       page: () => const NavbarScreen(),
       binding: NavbarBinding(),
+    ),
+    GetPage(
+      name: superAdminScreen,
+      page: () => const SuperAdminScreen(),
+      binding: SuperAdminBinding(),
+    ),
+    GetPage(
+      name: appStatusScreen,
+      page: () => const AppStatusScreen(),
+      binding: AppStatusBinding(),
     ),
     GetPage(
       name: createBatchScreen,

@@ -57,6 +57,8 @@ class ProfileTabController extends GetxController {
   String get displayRole =>
       _firstNonEmpty(['role', 'designation', 'user_type', 'account_type']);
 
+  bool get isSuperAdmin => displayRole.trim().toLowerCase() == 'super_admin';
+
   String get displayEmail => _firstNonEmpty(['email', 'mail']);
 
   String get displayPhone =>
