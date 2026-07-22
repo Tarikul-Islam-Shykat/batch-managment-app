@@ -7,6 +7,7 @@ class BatchStudentModel {
   final String rollNumber;
   final String guardianPhone;
   final String batchStartedAt;
+  final List<String> paidMonths;
   final double monthlyFee;
   final double discount;
   final String notes;
@@ -24,6 +25,7 @@ class BatchStudentModel {
     required this.rollNumber,
     required this.guardianPhone,
     required this.batchStartedAt,
+    required this.paidMonths,
     required this.monthlyFee,
     required this.discount,
     required this.notes,
@@ -43,6 +45,10 @@ class BatchStudentModel {
       rollNumber: json['roll_number']?.toString() ?? '',
       guardianPhone: json['guardian_phone']?.toString() ?? '',
       batchStartedAt: json['batch_started_at']?.toString() ?? '',
+      paidMonths: (json['paid_months'] as List<dynamic>? ?? const [])
+          .map((month) => month.toString())
+          .where((month) => month.trim().isNotEmpty)
+          .toList(),
       monthlyFee: (json['monthly_fee'] as num?)?.toDouble() ?? 0,
       discount: (json['discount'] as num?)?.toDouble() ?? 0,
       notes: json['notes']?.toString() ?? '',

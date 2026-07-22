@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/service/network/endpoints/endpoints.dart';
 import '../../../../core/service/network/service/api_service.dart';
 import '../../../batch/list/model/batch_list_response_model.dart';
@@ -93,7 +94,7 @@ class BatchStudentsController extends GetxController {
     try {
       final parsed = DateTime.parse(value);
       final localeCode = Get.locale?.toString() ?? 'en_US';
-      return DateFormat('dd MMM, yyyy', localeCode).format(parsed);
+      return DateFormat('d MMMM yyyy', localeCode).format(parsed);
     } catch (_) {
       return value;
     }
@@ -102,7 +103,6 @@ class BatchStudentsController extends GetxController {
   String scheduleText() {
     final batch = selectedBatch.value;
     if (batch == null || batch.schedule.isEmpty) {
-      log('scheduleText: selectedBatch is null or schedule is empty');
       return '-';
     }
 
@@ -114,6 +114,34 @@ class BatchStudentsController extends GetxController {
 
     log('scheduleText formatted schedule: $schedule');
     return schedule;
+  }
+
+  List<String> scheduleLines() {
+    final batch = selectedBatch.value;
+    if (batch == null || batch.schedule.isEmpty) {
+      return const [];
+    }
+
+    return batch.schedule
+        .map(
+          (item) =>
+              '${item.day}: ${_formatTimeLabel(item.startTime)} - ${_formatTimeLabel(item.endTime)}',
+        )
+        .toList();
+  }
+
+  String _formatTimeLabel(String value) {
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) {
+      return '-';
+    }
+
+    try {
+      final parsed = DateFormat('HH:mm').parse(trimmed);
+      return DateFormat('h:mm a').format(parsed);
+    } catch (_) {
+      return trimmed;
+    }
   }
 
   String currentFinanceMonth() =>
@@ -265,19 +293,36 @@ class BatchStudentsController extends GetxController {
 
     try {
       isLoading.value = true;
+      log(
+        'BatchStudentsController fetchStudents request: ${Urls.studentsByBatch(batch.id)}',
+      );
       final response = await _api.get(Urls.studentsByBatch(batch.id));
+      log(
+        'BatchStudentsController fetchStudents raw response: ${const JsonEncoder.withIndent('  ').convert(response)}',
+      );
+
       if (response is List) {
-        students.assignAll(
-          response
-              .whereType<Map>()
-              .map(
-                (item) =>
-                    BatchStudentModel.fromJson(Map<String, dynamic>.from(item)),
-              )
-              .toList(),
+        final parsedStudents = response
+            .whereType<Map>()
+            .map(
+              (item) =>
+                  BatchStudentModel.fromJson(Map<String, dynamic>.from(item)),
+            )
+            .toList();
+
+        log(
+          'BatchStudentsController fetchStudents parsed count: ${parsedStudents.length}',
         );
+        log(
+          'BatchStudentsController fetchStudents parsed response: ${const JsonEncoder.withIndent('  ').convert(parsedStudents.map((student) => {'id': student.id, 'student_system_id': student.studentSystemId, 'batch_id': student.batchId, 'teacher_id': student.teacherId, 'first_name': student.firstName, 'roll_number': student.rollNumber, 'guardian_phone': student.guardianPhone, 'batch_started_at': student.batchStartedAt, 'monthly_fee': student.monthlyFee, 'discount': student.discount, 'notes': student.notes, 'status': student.status, 'created_at': student.createdAt, 'updated_at': student.updatedAt, 'approved_at': student.approvedAt}).toList())}',
+        );
+
+        students.assignAll(parsedStudents);
       } else {
         students.clear();
+        log(
+          'BatchStudentsController fetchStudents returned non-list response: $response',
+        );
       }
     } catch (e) {
       log('BatchStudentsController fetch error: $e');
@@ -352,6 +397,18 @@ class BatchStudentsController extends GetxController {
         student: student,
         formatDate: formatDate,
         batchName: selectedBatch.value?.batchName ?? '',
+        onEdit: () {
+          Get.back();
+          Get.toNamed(
+            AppRoute.studentEditScreen,
+            arguments: {
+              'student': student,
+              'batch': selectedBatch.value,
+              'batch_start_date': selectedBatch.value?.startDate ?? '',
+              'batch_end_date': selectedBatch.value?.endDate ?? '',
+            },
+          );
+        },
       ),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,

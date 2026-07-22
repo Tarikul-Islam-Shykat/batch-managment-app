@@ -11,6 +11,7 @@ class Urls {
   static const String students = '$baseUrl/students';
   static String studentsByBatch(String batchId) =>
       '$baseUrl/students/batch/$batchId';
+  static String studentById(String studentId) => '$baseUrl/students/$studentId';
   static String financeBatchSummary(String batchId, String month) =>
       '$baseUrl/finance/batch/$batchId/summary?month=${Uri.encodeComponent(month)}';
   static const String financeCollect = '$baseUrl/finance/collect';

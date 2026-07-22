@@ -8,12 +8,21 @@ import '../../../../core/global/loading.dart';
 import '../../../../core/global/spacing.dart';
 import '../controller/batch_students_controller.dart';
 
-class BatchFinanceOverviewCard extends StatelessWidget {
+class BatchFinanceOverviewCard extends StatefulWidget {
   final BatchStudentsController controller;
 
   const BatchFinanceOverviewCard({super.key, required this.controller});
 
+  @override
+  State<BatchFinanceOverviewCard> createState() =>
+      _BatchFinanceOverviewCardState();
+}
+
+class _BatchFinanceOverviewCardState extends State<BatchFinanceOverviewCard> {
+  bool _showDetails = false;
+
   Map<String, dynamic> get summary => controller.financeSummary;
+  BatchStudentsController get controller => widget.controller;
   String get month => controller.financeMonthLabel.value;
 
   String _formatValue(dynamic value) {
@@ -158,73 +167,160 @@ class BatchFinanceOverviewCard extends StatelessWidget {
                           },
                         ),
                       ),
-                    ],
-                  ),
-                  verticalSpace(12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _metricCard(
-                          label: 'total_students'.tr,
-                          value: _formatValue(summary['total_students']),
-                          icon: Icons.groups_rounded,
-                          accentColor: const Color(0xFF2F80ED),
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Expanded(
-                        child: _metricCard(
-                          label: 'paid_students'.tr,
-                          value: _formatValue(summary['paid_students']),
-                          icon: Icons.check_circle_outline_rounded,
-                          accentColor: const Color(0xFF11A36A),
-                        ),
-                      ),
-                    ],
-                  ),
-                  verticalSpace(10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _metricCard(
-                          label: 'expected_amount'.tr,
-                          value: _formatValue(summary['total_expected_amount']),
-                          icon: Icons.payments_outlined,
-                          accentColor: const Color(0xFFF28C28),
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Expanded(
-                        child: _metricCard(
-                          label: 'remaining_amount'.tr,
-                          value: _formatValue(summary['remaining_amount']),
-                          icon: Icons.account_balance_wallet_outlined,
-                          accentColor: const Color(0xFFEB5757),
+                      SizedBox(width: 8.w),
+                      InkWell(
+                        onTap: () =>
+                            setState(() => _showDetails = !_showDetails),
+                        borderRadius: BorderRadius.circular(999.r),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 10.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.bgColor,
+                            borderRadius: BorderRadius.circular(999.r),
+                            border: Border.all(
+                              color: AppColors.blackColor.withValues(
+                                alpha: 0.08,
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              smallText(
+                                text: _showDetails
+                                    ? 'hide_details'.tr
+                                    : 'show_details'.tr,
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              SizedBox(width: 4.w),
+                              Icon(
+                                _showDetails
+                                    ? Icons.keyboard_arrow_up_rounded
+                                    : Icons.keyboard_arrow_down_rounded,
+                                color: AppColors.primaryColor,
+                                size: 18.sp,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  verticalSpace(10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _metricCard(
-                          label: 'paid_amount'.tr,
-                          value: _formatValue(summary['total_paid_amount']),
-                          icon: Icons.receipt_long_outlined,
-                          accentColor: const Color(0xFF7C3AED),
-                        ),
+                  AnimatedCrossFade(
+                    firstChild: Padding(
+                      padding: EdgeInsets.only(top: 12.h),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: _metricCard(
+                              label: 'total_students'.tr,
+                              value: _formatValue(summary['total_students']),
+                              icon: Icons.groups_rounded,
+                              accentColor: const Color(0xFF2F80ED),
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: _metricCard(
+                              label: 'expected_amount'.tr,
+                              value: _formatValue(
+                                summary['total_expected_amount'],
+                              ),
+                              icon: Icons.payments_outlined,
+                              accentColor: const Color(0xFFF28C28),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 10.w),
-                      Expanded(
-                        child: _metricCard(
-                          label: 'finance_month'.tr,
-                          value: _formatValue(summary['fee_month']),
-                          icon: Icons.calendar_month_outlined,
-                          accentColor: AppColors.primaryColor,
-                        ),
+                    ),
+                    secondChild: Padding(
+                      padding: EdgeInsets.only(top: 12.h),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _metricCard(
+                                  label: 'total_students'.tr,
+                                  value: _formatValue(
+                                    summary['total_students'],
+                                  ),
+                                  icon: Icons.groups_rounded,
+                                  accentColor: const Color(0xFF2F80ED),
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              Expanded(
+                                child: _metricCard(
+                                  label: 'paid_students'.tr,
+                                  value: _formatValue(summary['paid_students']),
+                                  icon: Icons.check_circle_outline_rounded,
+                                  accentColor: const Color(0xFF11A36A),
+                                ),
+                              ),
+                            ],
+                          ),
+                          verticalSpace(10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _metricCard(
+                                  label: 'expected_amount'.tr,
+                                  value: _formatValue(
+                                    summary['total_expected_amount'],
+                                  ),
+                                  icon: Icons.payments_outlined,
+                                  accentColor: const Color(0xFFF28C28),
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              Expanded(
+                                child: _metricCard(
+                                  label: 'remaining_amount'.tr,
+                                  value: _formatValue(
+                                    summary['remaining_amount'],
+                                  ),
+                                  icon: Icons.account_balance_wallet_outlined,
+                                  accentColor: const Color(0xFFEB5757),
+                                ),
+                              ),
+                            ],
+                          ),
+                          verticalSpace(10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _metricCard(
+                                  label: 'paid_amount'.tr,
+                                  value: _formatValue(
+                                    summary['total_paid_amount'],
+                                  ),
+                                  icon: Icons.receipt_long_outlined,
+                                  accentColor: const Color(0xFF7C3AED),
+                                ),
+                              ),
+                              SizedBox(width: 10.w),
+                              Expanded(
+                                child: _metricCard(
+                                  label: 'finance_month'.tr,
+                                  value: _formatValue(summary['fee_month']),
+                                  icon: Icons.calendar_month_outlined,
+                                  accentColor: AppColors.primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
+                    crossFadeState: _showDetails
+                        ? CrossFadeState.showSecond
+                        : CrossFadeState.showFirst,
+                    duration: const Duration(milliseconds: 220),
                   ),
                 ],
               ),

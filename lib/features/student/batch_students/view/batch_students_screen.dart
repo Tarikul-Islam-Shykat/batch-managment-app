@@ -74,27 +74,27 @@ class BatchStudentsScreen extends GetView<BatchStudentsController> {
                       BatchFinanceOverviewCard(controller: controller),
                       verticalSpace(14),
                     ],
-                    Row(
-                      children: [
-                        Expanded(
-                          child: BatchStudentsSummaryCard(
-                            label: 'total_fee'.tr,
-                            value: controller.totalFee.toStringAsFixed(0),
-                            icon: Icons.warning_amber_rounded,
-                            accentColor: const Color(0xFF2F80ED),
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Expanded(
-                          child: BatchStudentsSummaryCard(
-                            label: 'total_payable'.tr,
-                            value: controller.totalPayable.toStringAsFixed(0),
-                            icon: Icons.timelapse_rounded,
-                            accentColor: const Color(0xFFF28C28),
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: BatchStudentsSummaryCard(
+                    //         label: 'total_fee'.tr,
+                    //         value: controller.totalFee.toStringAsFixed(0),
+                    //         icon: Icons.warning_amber_rounded,
+                    //         accentColor: const Color(0xFF2F80ED),
+                    //       ),
+                    //     ),
+                    //     SizedBox(width: 10.w),
+                    //     Expanded(
+                    //       child: BatchStudentsSummaryCard(
+                    //         label: 'total_payable'.tr,
+                    //         value: controller.totalPayable.toStringAsFixed(0),
+                    //         icon: Icons.timelapse_rounded,
+                    //         accentColor: const Color(0xFFF28C28),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     verticalSpace(14),
                     Wrap(
                       spacing: 10.w,
