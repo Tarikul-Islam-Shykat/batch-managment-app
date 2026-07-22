@@ -102,12 +102,18 @@ class BatchStudentsController extends GetxController {
   String scheduleText() {
     final batch = selectedBatch.value;
     if (batch == null || batch.schedule.isEmpty) {
+      log('scheduleText: selectedBatch is null or schedule is empty');
       return '-';
     }
 
-    return batch.schedule
+    log('scheduleText selectedBatch: ${batch.toString()}');
+
+    final schedule = batch.schedule
         .map((item) => '${item.day} ${item.startTime} - ${item.endTime}')
         .join(' • ');
+
+    log('scheduleText formatted schedule: $schedule');
+    return schedule;
   }
 
   String currentFinanceMonth() =>

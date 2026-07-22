@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/const/app_colors.dart';
+import '../../../../core/global/app_header_bar.dart';
 import '../../../../core/global/app_btn.dart';
 import '../../../../core/global/custom_text.dart';
 import '../../../../core/global/spacing.dart';
 import '../../../../core/global/text_form_field.dart';
+import '../../../profile/controller/profile_tab_controller.dart';
 import '../controller/create_batch_controller.dart';
 import '../widget/schedule_card.dart';
 
@@ -17,23 +19,20 @@ class CreateBatchScreen extends GetView<CreateBatchController> {
 
   @override
   Widget build(BuildContext context) {
+    final profileController = Get.find<ProfileTabController>();
+
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
-      appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
-        elevation: 0,
-        centerTitle: false,
+      appBar: AppHeaderBar(
+        title: 'create_batch_title'.tr,
+        subtitle: '',
+        subtitleBuilder: () => profileController.displayName,
         leading: showBackButton
             ? IconButton(
                 onPressed: Get.back,
                 icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
               )
             : null,
-        title: normalText(
-          text: 'create_batch_title'.tr,
-          fontWeight: FontWeight.w700,
-          color: AppColors.blackColor,
-        ),
       ),
       body: SafeArea(
         child: Column(

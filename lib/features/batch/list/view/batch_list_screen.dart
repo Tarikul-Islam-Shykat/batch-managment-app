@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/const/app_colors.dart';
+import '../../../../core/global/app_header_bar.dart';
 import '../../../../core/global/custom_text.dart';
 import '../../../../core/global/loading.dart';
+import '../../../profile/controller/profile_tab_controller.dart';
 import '../controller/batch_list_controller.dart';
 import '../widget/batch_card.dart';
 
@@ -13,16 +15,14 @@ class BatchListScreen extends GetView<BatchListController> {
 
   @override
   Widget build(BuildContext context) {
+    final profileController = Get.find<ProfileTabController>();
+
     return Scaffold(
       backgroundColor: AppColors.bgColor,
-      appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
-        elevation: 0,
-        title: normalText(
-          text: 'batches'.tr,
-          fontWeight: FontWeight.w700,
-          color: AppColors.blackColor,
-        ),
+      appBar: AppHeaderBar(
+        title: 'batches'.tr,
+        subtitle: '',
+        subtitleBuilder: () => profileController.displayName,
         actions: [
           IconButton(
             onPressed: () => controller.refreshBatches(),

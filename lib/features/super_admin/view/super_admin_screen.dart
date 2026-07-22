@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/const/app_colors.dart';
+import '../../../core/global/app_header_bar.dart';
 import '../../../core/global/custom_text.dart';
 import '../../../core/global/loading.dart';
 import '../../../core/global/spacing.dart';
@@ -61,17 +62,10 @@ class _SuperAdminHomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
-      appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
-        elevation: 0,
-        centerTitle: false,
-        title: brandText(
-          text: 'super_admin_dashboard'.tr,
-          color: AppColors.blackColor,
-          fontSize: 20,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 0,
-        ),
+      appBar: AppHeaderBar(
+        title: 'super_admin_dashboard'.tr,
+        subtitle: '',
+        subtitleBuilder: () => profileController.displayName,
         actions: [
           IconButton(
             onPressed: profileController.fetchProfile,
