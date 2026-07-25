@@ -11,6 +11,7 @@ import '../../../../core/routes/app_routes.dart';
 import '../../../batch/list/model/batch_list_response_model.dart';
 import '../controller/batch_students_controller.dart';
 import '../widget/batch_finance_overview_card.dart';
+import '../widget/batch_student_filter_sheet.dart';
 import '../widget/batch_student_card.dart';
 import '../widget/batch_students_header_card.dart';
 
@@ -132,7 +133,8 @@ class BatchStudentsScreen extends GetView<BatchStudentsController> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             brandText(
-                              text: 'student_list'.tr,
+                              text:
+                                  '${'student_list'.tr} (${visibleStudents.length})',
                               color: AppColors.blackColor,
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
@@ -140,13 +142,27 @@ class BatchStudentsScreen extends GetView<BatchStudentsController> {
                               textAlign: TextAlign.start,
                             ),
                             SizedBox(width: 8.w),
-                            normalText(
-                              text:
-                                  '${visibleStudents.length} ${'students_unit'.tr}',
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w500,
-                            ),
                           ],
+                        ),
+                        TextButton.icon(
+                          onPressed: () {
+                            Get.bottomSheet(
+                              BatchStudentFilterSheet(controller: controller),
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                            );
+                          },
+                          icon: const Icon(Icons.tune_rounded),
+                          label: Text('filter_students'.tr),
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.primaryColor,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 8.h,
+                            ),
+                            minimumSize: Size.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
                         ),
                         if (controller.selectedStudentCount > 0)
                           smallText(

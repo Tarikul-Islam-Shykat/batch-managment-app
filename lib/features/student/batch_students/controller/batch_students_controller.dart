@@ -15,6 +15,10 @@ import '../view/batch_fee_collect_sheet.dart';
 import '../view/batch_student_profile_sheet.dart';
 
 class BatchStudentsController extends GetxController {
+  static const String paymentFilterAll = 'all';
+  static const String paymentFilterPaid = 'paid';
+  static const String paymentFilterUnpaid = 'unpaid';
+
   final _api = ApiService.instance;
 
   final isLoading = false.obs;
@@ -27,6 +31,7 @@ class BatchStudentsController extends GetxController {
   final financeMonthLabel = ''.obs;
   final financeMonthOptions = <String>[].obs;
   final selectedFinanceMonth = ''.obs;
+  final paymentFilter = paymentFilterAll.obs;
   final selectedStudentIds = <String>[].obs;
   final selectedFeeMonths = <String>[].obs;
   final isCollectingFee = false.obs;
@@ -46,11 +51,29 @@ class BatchStudentsController extends GetxController {
 
   List<BatchStudentModel> get filteredStudents {
     final query = searchQuery.value.trim().toLowerCase();
+    final activeMonth = activeFinanceMonthLabel.toLowerCase();
+    final filter = paymentFilter.value;
+
     if (query.isEmpty) {
-      return students;
+      return students.where((student) {
+        return _matchesPaymentFilter(
+          student: student,
+          filter: filter,
+          monthLabel: activeMonth,
+        );
+      }).toList();
     }
 
     return students.where((student) {
+      final matchesPayment = _matchesPaymentFilter(
+        student: student,
+        filter: filter,
+        monthLabel: activeMonth,
+      );
+      if (!matchesPayment) {
+        return false;
+      }
+
       return student.firstName.toLowerCase().contains(query) ||
           student.rollNumber.toLowerCase().contains(query) ||
           student.studentSystemId.toLowerCase().contains(query) ||
@@ -58,6 +81,44 @@ class BatchStudentsController extends GetxController {
           student.notes.toLowerCase().contains(query) ||
           student.status.toLowerCase().contains(query);
     }).toList();
+  }
+
+  String get activeFinanceMonthLabel {
+    if (financeMonthLabel.value.isNotEmpty) {
+      return financeMonthLabel.value;
+    }
+    if (selectedFinanceMonth.value.isNotEmpty) {
+      return selectedFinanceMonth.value;
+    }
+    return currentFinanceMonth();
+  }
+
+  bool _matchesPaymentFilter({
+    required BatchStudentModel student,
+    required String filter,
+    required String monthLabel,
+  }) {
+    final isPaid = _isPaidForMonth(student, monthLabel);
+    switch (filter) {
+      case paymentFilterPaid:
+        return isPaid;
+      case paymentFilterUnpaid:
+        return !isPaid;
+      case paymentFilterAll:
+      default:
+        return true;
+    }
+  }
+
+  bool _isPaidForMonth(BatchStudentModel student, String monthLabel) {
+    final normalizedMonth = monthLabel.trim().toLowerCase();
+    if (normalizedMonth.isEmpty) {
+      return false;
+    }
+
+    return student.paidMonths.any(
+      (month) => month.trim().toLowerCase() == normalizedMonth,
+    );
   }
 
   double get totalFee =>
@@ -84,6 +145,13 @@ class BatchStudentsController extends GetxController {
   void clearSearch() {
     searchController.clear();
     searchQuery.value = '';
+  }
+
+  void setPaymentFilter(String value) {
+    if (value.trim().isEmpty || paymentFilter.value == value) {
+      return;
+    }
+    paymentFilter.value = value;
   }
 
   String formatDate(String value) {
