@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../../batch/create_batch/controller/create_batch_controller.dart';
 import '../../batch/list/controller/batch_list_controller.dart';
+import '../../home/controller/home_dashboard_controller.dart';
 import '../controller/navbar_controller.dart';
 import '../../profile/controller/profile_tab_controller.dart';
 
@@ -14,6 +15,12 @@ class NavbarBinding extends Bindings {
     if (!Get.isRegistered<BatchListController>()) {
       Get.lazyPut<BatchListController>(
         () => BatchListController(),
+        fenix: true,
+      );
+    }
+    if (!Get.isRegistered<HomeDashboardController>()) {
+      Get.lazyPut<HomeDashboardController>(
+        () => HomeDashboardController(),
         fenix: true,
       );
     }

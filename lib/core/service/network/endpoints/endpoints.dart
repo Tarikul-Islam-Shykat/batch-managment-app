@@ -19,6 +19,30 @@ class Urls {
       '$baseUrl/history/batch/$batchId';
   static String studentHistory(String studentId) =>
       '$baseUrl/history/student/$studentId';
+  static String teacherDashboard({
+    String? month,
+    int? recentLimit,
+    int? lowSeatThreshold,
+  }) {
+    final params = <String, String>{};
+
+    if (month != null && month.trim().isNotEmpty) {
+      params['month'] = month.trim();
+    }
+    if (recentLimit != null) {
+      params['recent_limit'] = recentLimit.toString();
+    }
+    if (lowSeatThreshold != null) {
+      params['low_seat_threshold'] = lowSeatThreshold.toString();
+    }
+
+    if (params.isEmpty) {
+      return '$baseUrl/teacher-dashboard';
+    }
+
+    return '$baseUrl/teacher-dashboard?${Uri(queryParameters: params).query}';
+  }
+
   static const String financeCollect = '$baseUrl/finance/collect';
   static const String createBatch = '$baseUrl/batches';
 }
