@@ -7,12 +7,12 @@ import '../../../../core/global/custom_text.dart';
 import '../../../../core/global/loading.dart';
 import '../../../../core/global/spacing.dart';
 import '../../../../core/global/text_form_field.dart';
+import '../../../../core/routes/app_routes.dart';
 import '../../../batch/list/model/batch_list_response_model.dart';
 import '../controller/batch_students_controller.dart';
 import '../widget/batch_finance_overview_card.dart';
 import '../widget/batch_student_card.dart';
 import '../widget/batch_students_header_card.dart';
-import '../widget/batch_students_summary_card.dart';
 
 class BatchStudentsScreen extends GetView<BatchStudentsController> {
   const BatchStudentsScreen({super.key});
@@ -40,6 +40,32 @@ class BatchStudentsScreen extends GetView<BatchStudentsController> {
           );
         }),
         actions: [
+          Obx(() {
+            final batch = _batch;
+            if (batch != null) {
+              return Padding(
+                padding: EdgeInsets.only(right: 6.w),
+                child: TextButton.icon(
+                  onPressed: () => Get.toNamed(
+                    AppRoute.batchHistoryScreen,
+                    arguments: {
+                      'batch_id': batch.id,
+                      'batch_name': batch.batchName,
+                    },
+                  ),
+                  icon: const Icon(Icons.history_rounded),
+                  label: Text('history'.tr),
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppColors.primaryColor,
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          }),
           IconButton(
             onPressed: controller.refreshStudents,
             icon: const Icon(Icons.refresh_rounded),

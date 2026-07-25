@@ -17,6 +17,8 @@ import '../../features/super_admin/binding/super_admin_binding.dart';
 import '../../features/super_admin/view/super_admin_screen.dart';
 import '../../features/app_update/view/app_update_screen.dart';
 import '../../features/app_maintenance/view/app_maintenance_screen.dart';
+import '../../features/history/batch_history/binding/batch_history_binding.dart';
+import '../../features/history/batch_history/view/batch_history_screen.dart';
 import '../../features/login/binding/login_binding.dart';
 import '../../features/login/view/login_screen.dart';
 import '../../features/register/binding/otp_verification_binding.dart';
@@ -41,6 +43,7 @@ class AppRoute {
   static String superAdminScreen = "/super-admin";
   static String appUpdateScreen = "/app-update";
   static String appMaintenanceScreen = "/app-maintenance";
+  static String batchHistoryScreen = "/batch-history";
 
   static List<GetPage> routes = [
     GetPage(
@@ -107,6 +110,11 @@ class AppRoute {
       name: batchStudentsScreen,
       page: () => const BatchStudentsScreen(),
       binding: BatchStudentsBinding(),
+    ),
+    GetPage(
+      name: batchHistoryScreen,
+      page: () => const BatchHistoryScreen(),
+      binding: BatchHistoryBinding(),
     ),
   ];
 }
