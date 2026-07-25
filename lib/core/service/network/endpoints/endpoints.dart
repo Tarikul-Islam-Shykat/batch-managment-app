@@ -12,6 +12,7 @@ class Urls {
   static String studentsByBatch(String batchId) =>
       '$baseUrl/students/batch/$batchId';
   static String studentById(String studentId) => '$baseUrl/students/$studentId';
+  static String updateBatch(String batchId) => '$baseUrl/batches/$batchId';
   static String financeBatchSummary(String batchId, String month) =>
       '$baseUrl/finance/batch/$batchId/summary?month=${Uri.encodeComponent(month)}';
   static String batchHistory(String batchId) =>

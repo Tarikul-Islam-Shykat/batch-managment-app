@@ -83,6 +83,25 @@ class BatchCard extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(width: 8.w),
+              Container(
+                width: 36.w,
+                height: 36.w,
+                decoration: BoxDecoration(
+                  color: AppColors.whiteColor,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: AppColors.blackColor.withValues(alpha: 0.08),
+                  ),
+                ),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  splashRadius: 20.r,
+                  icon: const Icon(Icons.edit_outlined, size: 18),
+                  onPressed: () =>
+                      Get.toNamed(AppRoute.batchEditScreen, arguments: batch),
+                ),
+              ),
             ],
           ),
           /*

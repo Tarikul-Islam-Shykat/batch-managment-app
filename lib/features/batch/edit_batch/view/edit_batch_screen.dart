@@ -3,29 +3,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/const/app_colors.dart';
-import '../../../../core/global/app_header_bar.dart';
 import '../../../../core/global/app_btn.dart';
+import '../../../../core/global/app_header_bar.dart';
 import '../../../../core/global/custom_text.dart';
 import '../../../../core/global/spacing.dart';
 import '../../../../core/global/text_form_field.dart';
 import '../../../profile/controller/profile_tab_controller.dart';
-import '../controller/create_batch_controller.dart';
-import '../widget/schedule_card.dart';
+import '../../create_batch/widget/schedule_card.dart';
+import '../controller/edit_batch_controller.dart';
 
-class CreateBatchScreen extends GetView<CreateBatchController> {
+class EditBatchScreen extends GetView<EditBatchController> {
   final bool showBackButton;
 
-  const CreateBatchScreen({super.key, this.showBackButton = true});
+  const EditBatchScreen({super.key, this.showBackButton = true});
 
   @override
   Widget build(BuildContext context) {
     final profileController = Get.find<ProfileTabController>();
-    final isEditMode = controller.isEditMode.value;
 
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
       appBar: AppHeaderBar(
-        title: isEditMode ? 'edit_batch_title'.tr : 'create_batch_title'.tr,
+        title: 'edit_batch_title'.tr,
         subtitle: '',
         subtitleBuilder: () => profileController.displayName,
         leading: showBackButton
@@ -155,7 +154,6 @@ class CreateBatchScreen extends GetView<CreateBatchController> {
                         ],
                       ),
                       verticalSpace(16),
-
                       GlobalTextField(
                         controller: controller.maxStudentsController,
                         hintText: 'max_students'.tr,
@@ -320,9 +318,7 @@ class CreateBatchScreen extends GetView<CreateBatchController> {
                   Expanded(
                     child: Obx(
                       () => GlobalAppButton(
-                        text: controller.isEditMode.value
-                            ? 'update_batch'.tr
-                            : 'create_batch'.tr,
+                        text: 'update_batch'.tr,
                         onTap: controller.createBatch,
                         isLoading: controller.isLoading.value,
                         height: 52.h,

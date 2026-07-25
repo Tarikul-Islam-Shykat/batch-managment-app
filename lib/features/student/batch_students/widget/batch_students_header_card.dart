@@ -73,10 +73,9 @@ class _BatchStudentsHeaderCardState extends State<BatchStudentsHeaderCard> {
               SizedBox(width: 8.w),
               _ActionIconButton(
                 icon: Icons.edit_outlined,
-                onTap: () => Get.snackbar(
-                  'info'.tr,
-                  '${widget.batch.batchName}\n${'edit'.tr}',
-                  snackPosition: SnackPosition.BOTTOM,
+                onTap: () => Get.toNamed(
+                  AppRoute.batchEditScreen,
+                  arguments: widget.batch,
                 ),
               ),
             ],

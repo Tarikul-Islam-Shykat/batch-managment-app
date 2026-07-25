@@ -28,10 +28,10 @@ class BatchStudentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
           color: isSelected
               ? AppColors.primaryColor
@@ -43,8 +43,8 @@ class BatchStudentCard extends StatelessWidget {
             color: isSelected
                 ? AppColors.primaryColor.withValues(alpha: 0.08)
                 : AppColors.blackColor.withValues(alpha: 0.03),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -52,13 +52,13 @@ class BatchStudentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: brandText(
                   text: student.firstName,
                   color: AppColors.blackColor,
-                  fontSize: 19,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0,
                   textAlign: TextAlign.start,
@@ -70,42 +70,55 @@ class BatchStudentCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4.r),
                 ),
+                visualDensity: VisualDensity.compact,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 onChanged: (_) => onSelectionChanged(),
               ),
             ],
           ),
-          verticalSpace(10),
-          labelValueText(
-            label: '${'roll_number'.tr}: ',
-            value: student.rollNumber,
-            labelColor: Colors.black54,
-            valueColor: Colors.black87,
-            labelWeight: FontWeight.w500,
-            valueWeight: FontWeight.w700,
+          verticalSpace(6),
+          Row(
+            children: [
+              Expanded(
+                child: labelValueText(
+                  label: '${'roll_number'.tr}: ',
+                  value: student.rollNumber,
+                  labelColor: Colors.black54,
+                  valueColor: Colors.black87,
+                  labelWeight: FontWeight.w500,
+                  valueWeight: FontWeight.w700,
+                  maxLines: 1,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: labelValueText(
+                  label: '${'payable_fee'.tr}: ',
+                  value: _payableMonthlyAmount.toStringAsFixed(0),
+                  labelColor: Colors.black54,
+                  valueColor: AppColors.primaryColor,
+                  labelWeight: FontWeight.w500,
+                  valueWeight: FontWeight.w700,
+                  maxLines: 1,
+                  textAlign: TextAlign.end,
+                ),
+              ),
+            ],
           ),
           verticalSpace(6),
-          labelValueText(
-            label: '${'payable_fee'.tr}: ',
-            value: _payableMonthlyAmount.toStringAsFixed(0),
-            labelColor: Colors.black54,
-            valueColor: AppColors.primaryColor,
-            labelWeight: FontWeight.w500,
-            valueWeight: FontWeight.w700,
-          ),
-          verticalSpace(12),
           Row(
             children: [
               const Spacer(),
               Material(
                 color: AppColors.primaryColor.withValues(alpha: 0.10),
-                borderRadius: BorderRadius.circular(14.r),
+                borderRadius: BorderRadius.circular(10.r),
                 child: InkWell(
                   onTap: onViewProfile,
-                  borderRadius: BorderRadius.circular(14.r),
+                  borderRadius: BorderRadius.circular(10.r),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 14.w,
-                      vertical: 11.h,
+                      horizontal: 10.w,
+                      vertical: 7.h,
                     ),
                     child: smallText(
                       text: 'view_profile'.tr,

@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import '../../features/batch/create_batch/binding/create_batch_binding.dart';
 import '../../features/batch/create_batch/view/create_batch_screen.dart';
+import '../../features/batch/edit_batch/binding/edit_batch_binding.dart';
+import '../../features/batch/edit_batch/view/edit_batch_screen.dart';
 import '../../features/batch/list/binding/batch_list_binding.dart';
 import '../../features/batch/list/view/batch_list_screen.dart';
 import '../../features/student/batch_students/binding/batch_students_binding.dart';
@@ -33,6 +35,7 @@ class AppRoute {
   static String loginScreen = "/login";
   static String navBarScreen = "/nav-bar";
   static String createBatchScreen = "/create-batch";
+  static String batchEditScreen = "/edit-batch";
   static String batchListScreen = "/batch-list";
   static String studentEnrollScreen = "/student-enroll";
   static String studentEditScreen = "/student-edit";
@@ -90,6 +93,11 @@ class AppRoute {
       name: createBatchScreen,
       page: () => const CreateBatchScreen(),
       binding: CreateBatchBinding(),
+    ),
+    GetPage(
+      name: batchEditScreen,
+      page: () => const EditBatchScreen(),
+      binding: EditBatchBinding(),
     ),
     GetPage(
       name: batchListScreen,
