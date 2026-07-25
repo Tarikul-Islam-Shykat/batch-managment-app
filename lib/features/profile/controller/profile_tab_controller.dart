@@ -64,6 +64,16 @@ class ProfileTabController extends GetxController {
   String get displayPhone =>
       _firstNonEmpty(['phone', 'mobile', 'phone_number']);
 
+  String get institutionName =>
+      _firstNonEmpty(['institution_name', 'institution']);
+
+  String get teachingLevel => _firstNonEmpty(['teaching_level', 'level']);
+
+  String get institutionLocation =>
+      _firstNonEmpty(['institution_location', 'location']);
+
+  String get bio => _firstNonEmpty(['bio', 'about_me', 'about']);
+
   String _humanizeKey(String key) {
     return key
         .replaceAll('_', ' ')
@@ -94,6 +104,25 @@ class ProfileTabController extends GetxController {
               MapEntry(_humanizeKey(entry.key), _stringifyValue(entry.value)),
         )
         .toList();
+  }
+
+  Future<bool> updateProfile(Map<String, dynamic> payload) async {
+    if (payload.isEmpty) {
+      return false;
+    }
+
+    try {
+      final response = await _api.patch(Urls.profileUpdate, payload);
+      if (response is Map) {
+        profileData.assignAll(Map<String, dynamic>.from(response));
+      } else {
+        await fetchProfile();
+      }
+      return true;
+    } catch (e) {
+      log('ProfileTabController updateProfile error: $e');
+      return false;
+    }
   }
 
   Future<void> logout() async {

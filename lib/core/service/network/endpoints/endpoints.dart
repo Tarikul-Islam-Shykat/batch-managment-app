@@ -7,6 +7,7 @@ class Urls {
   static const String verifyOtp = '$baseUrl/auth/verification/verify-otp';
   static const String requestOtp = '$baseUrl/auth/verification/request-otp';
   static const String profileMe = '$baseUrl/profile/me';
+  static const String profileUpdate = '$baseUrl/profile/update';
   static const String batches = '$baseUrl/batches';
   static const String students = '$baseUrl/students';
   static String studentsByBatch(String batchId) =>

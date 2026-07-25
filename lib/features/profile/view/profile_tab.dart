@@ -3,33 +3,66 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../core/const/app_colors.dart';
+import '../../../core/controller/language_controller.dart';
 import '../../../core/global/app_header_bar.dart';
 import '../../../core/global/custom_text.dart';
 import '../../../core/global/loading.dart';
 import '../../../core/global/spacing.dart';
 import '../../../core/routes/app_routes.dart';
 import '../controller/profile_tab_controller.dart';
+import '../widget/profile_edit_sheet.dart';
 
 class ProfileTab extends GetView<ProfileTabController> {
   const ProfileTab({super.key});
 
-  Widget _infoCard({required String label, required String value}) {
+  Widget _infoCard({
+    required String label,
+    required String value,
+    IconData? icon,
+  }) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      padding: EdgeInsets.all(14.w),
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(14.r),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: AppColors.blackColor.withValues(alpha: 0.06)),
       ),
-      child: labelValueText(
-        label: '$label: ',
-        value: value,
-        labelColor: Colors.black54,
-        valueColor: AppColors.blackColor,
-        labelWeight: FontWeight.w500,
-        valueWeight: FontWeight.w700,
-        maxLines: 3,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (icon != null) ...[
+            Container(
+              width: 36.w,
+              height: 36.w,
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor.withValues(alpha: 0.10),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: AppColors.primaryColor, size: 18.sp),
+            ),
+            SizedBox(width: 12.w),
+          ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                smallText(
+                  text: label,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w600,
+                ),
+                SizedBox(height: 4.h),
+                normalText(
+                  text: value,
+                  color: AppColors.blackColor,
+                  fontWeight: FontWeight.w700,
+                  maxLines: 4,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -38,6 +71,7 @@ class ProfileTab extends GetView<ProfileTabController> {
     required IconData icon,
     required String title,
     required VoidCallback onTap,
+    String? subtitle,
     bool destructive = false,
   }) {
     final color = destructive ? Colors.redAccent : AppColors.blackColor;
@@ -54,10 +88,23 @@ class ProfileTab extends GetView<ProfileTabController> {
               Icon(icon, size: 20.sp, color: color),
               SizedBox(width: 12.w),
               Expanded(
-                child: normalText(
-                  text: title,
-                  color: color,
-                  fontWeight: FontWeight.w500,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    normalText(
+                      text: title,
+                      color: color,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    if (subtitle != null) ...[
+                      SizedBox(height: 2.h),
+                      smallText(
+                        text: subtitle,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ],
+                  ],
                 ),
               ),
               Icon(
@@ -72,8 +119,18 @@ class ProfileTab extends GetView<ProfileTabController> {
     );
   }
 
+  void _openEditSheet() {
+    Get.bottomSheet(
+      ProfileEditSheet(controller: controller),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final languageController = Get.find<LanguageController>();
+
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: AppHeaderBar(
@@ -84,6 +141,10 @@ class ProfileTab extends GetView<ProfileTabController> {
           IconButton(
             onPressed: controller.fetchProfile,
             icon: const Icon(Icons.refresh_rounded),
+          ),
+          IconButton(
+            onPressed: _openEditSheet,
+            icon: const Icon(Icons.edit_outlined),
           ),
         ],
       ),
@@ -105,11 +166,19 @@ class ProfileTab extends GetView<ProfileTabController> {
                     width: double.infinity,
                     padding: EdgeInsets.all(18.w),
                     decoration: BoxDecoration(
-                      color: AppColors.whiteColor,
-                      borderRadius: BorderRadius.circular(22.r),
-                      border: Border.all(
-                        color: AppColors.blackColor.withValues(alpha: 0.06),
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF0A66FF), Color(0xFF0F172A)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
+                      borderRadius: BorderRadius.circular(22.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primaryColor.withValues(alpha: 0.16),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
                     ),
                     child: Column(
                       children: [
@@ -117,21 +186,19 @@ class ProfileTab extends GetView<ProfileTabController> {
                           width: 72.w,
                           height: 72.w,
                           decoration: BoxDecoration(
-                            color: AppColors.primaryColor.withValues(
-                              alpha: 0.12,
-                            ),
+                            color: Colors.white.withValues(alpha: 0.12),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
                             Icons.person_rounded,
                             size: 38.sp,
-                            color: AppColors.primaryColor,
+                            color: Colors.white,
                           ),
                         ),
                         verticalSpace(14),
                         brandText(
                           text: controller.displayName,
-                          color: AppColors.blackColor,
+                          color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0,
@@ -141,68 +208,73 @@ class ProfileTab extends GetView<ProfileTabController> {
                         verticalSpace(4),
                         normalText(
                           text: controller.displayRole,
-                          color: Colors.black54,
+                          color: Colors.white.withValues(alpha: 0.82),
                           fontWeight: FontWeight.w400,
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        verticalSpace(8),
+                        smallText(
+                          text: controller.displayEmail,
+                          color: Colors.white.withValues(alpha: 0.84),
+                          fontWeight: FontWeight.w500,
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     ),
                   ),
                   verticalSpace(16),
-                  _menuTile(
-                    icon: Icons.badge_outlined,
-                    title: 'personal_info'.tr,
-                    onTap: () {},
+                  _infoCard(
+                    label: 'institution_name'.tr,
+                    value: controller.institutionName.isNotEmpty
+                        ? controller.institutionName
+                        : 'not_set'.tr,
+                    icon: Icons.school_outlined,
                   ),
                   verticalSpace(10),
-                  _menuTile(
-                    icon: Icons.mail_outline_rounded,
-                    title: 'email'.tr,
-                    onTap: () {},
+                  _infoCard(
+                    label: 'teaching_level'.tr,
+                    value: controller.teachingLevel.isNotEmpty
+                        ? controller.teachingLevel
+                        : 'not_set'.tr,
+                    icon: Icons.cast_for_education_rounded,
                   ),
                   verticalSpace(10),
-                  _menuTile(
-                    icon: Icons.phone_outlined,
-                    title: 'phone'.tr,
-                    onTap: () {},
+                  _infoCard(
+                    label: 'institution_location'.tr,
+                    value: controller.institutionLocation.isNotEmpty
+                        ? controller.institutionLocation
+                        : 'not_set'.tr,
+                    icon: Icons.location_on_outlined,
                   ),
                   verticalSpace(10),
-                  _menuTile(
-                    icon: Icons.list_alt_rounded,
-                    title: 'account_details'.tr,
-                    onTap: () {},
+                  _infoCard(
+                    label: 'bio'.tr,
+                    value: controller.bio.isNotEmpty
+                        ? controller.bio
+                        : 'not_set'.tr,
+                    icon: Icons.notes_rounded,
                   ),
                   if (controller.isSuperAdmin) ...[
-                    verticalSpace(10),
+                    verticalSpace(16),
                     _menuTile(
                       icon: Icons.system_update_alt_rounded,
                       title: 'app_status_title'.tr,
                       onTap: () => Get.toNamed(AppRoute.appStatusScreen),
                     ),
                   ],
+                  verticalSpace(10),
+                  _menuTile(
+                    icon: Icons.translate_rounded,
+                    title: 'language'.tr,
+                    subtitle: languageController.isBangla
+                        ? 'switch_to_english'.tr
+                        : 'switch_to_bangla'.tr,
+                    onTap: languageController.toggleLanguage,
+                  ),
                   verticalSpace(16),
-                  if (controller.profileFields.isNotEmpty) ...[
-                    brandText(
-                      text: 'details'.tr,
-                      color: AppColors.blackColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0,
-                    ),
-                    verticalSpace(12),
-                    ...controller.profileFields.asMap().entries.expand((entry) {
-                      final index = entry.key;
-                      final field = entry.value;
-                      return [
-                        _infoCard(label: field.key, value: field.value),
-                        if (index != controller.profileFields.length - 1)
-                          verticalSpace(10),
-                      ];
-                    }),
-                    verticalSpace(16),
-                  ],
                   _menuTile(
                     icon: Icons.logout_rounded,
                     title: 'logout'.tr,
