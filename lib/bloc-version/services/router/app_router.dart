@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/splash/presentation/splash_view.dart';
-import '../../features/login/presentation/login_view.dart';
-import '../../features/register/presentation/register_view.dart';
-import '../../features/otp_verification/presentation/otp_verification_view.dart';
+import '../../features/auth/splash/presentation/splash_view.dart';
+import '../../features/auth/login/presentation/login_view.dart';
+import '../../features/auth/register/presentation/register_view.dart';
+import '../../features/auth/otp_verification/presentation/otp_verification_view.dart';
 import '../../features/navbar/presentation/navbar_view.dart';
 import '../../features/create_batch/data/models/create_batch_model.dart';
 import '../../features/create_batch/presentation/create_batch_view.dart';
