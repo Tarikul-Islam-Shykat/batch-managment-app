@@ -29,3 +29,21 @@ class SplashUnauthenticated extends SplashState {
   @override
   List<Object?> get props => [message];
 }
+
+class SplashMaintenance extends SplashState {
+  final Map<String, dynamic> arguments;
+
+  const SplashMaintenance(this.arguments);
+
+  @override
+  List<Object?> get props => [arguments];
+}
+
+class SplashUpdateRequired extends SplashState {
+  final Map<String, dynamic> arguments;
+
+  const SplashUpdateRequired(this.arguments);
+
+  @override
+  List<Object?> get props => [arguments];
+}

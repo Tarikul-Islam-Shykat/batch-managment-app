@@ -15,6 +15,8 @@ import '../../features/batch_students/data/models/batch_students_model.dart';
 import '../../features/edit_student/presentation/edit_student_view.dart';
 import '../../features/super_admin/presentation/super_admin_view.dart';
 import '../../features/history/presentation/history_view.dart';
+import '../../features/app_maintenance/presentation/views/app_maintenance_view.dart';
+import '../../features/app_maintenance/presentation/views/app_update_view.dart';
 
 class AppRouter {
   static const String splash = '/';
@@ -31,6 +33,8 @@ class AppRouter {
   static const String editStudent = '/edit-student';
   static const String superAdmin = '/super-admin';
   static const String batchHistory = '/batch-history';
+  static const String appMaintenance = '/app-maintenance';
+  static const String appUpdate = '/app-update';
 
   static final GoRouter router = GoRouter(
     initialLocation: splash,
@@ -98,6 +102,36 @@ class AppRouter {
             batchName: args?['batch_name'] as String?,
             studentId: args?['student_id'] as String?,
             studentName: args?['student_name'] as String?,
+          );
+        },
+      ),
+      GoRoute(
+        path: appMaintenance,
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>?;
+          return AppMaintenanceView(
+            maintenanceMessage: args?['maintenance_message'] as String?,
+            appStatus: args?['app_status'] as String?,
+          );
+        },
+      ),
+      GoRoute(
+        path: appUpdate,
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>?;
+          final rawLinks = args?['update_links'];
+          Map<String, String>? updateLinks;
+          if (rawLinks is Map) {
+            updateLinks = rawLinks.map(
+              (k, v) => MapEntry(k.toString(), v.toString()),
+            );
+          }
+          return AppUpdateView(
+            currentVersion: args?['current_version'] as String?,
+            latestVersion: args?['latest_version'] as String?,
+            updateMessage: args?['update_message'] as String?,
+            updateLink: args?['update_link'] as String?,
+            updateLinks: updateLinks,
           );
         },
       ),

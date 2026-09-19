@@ -23,6 +23,7 @@ import '../../features/edit_student/edit_student_di.dart';
 import '../../features/super_admin/super_admin_di.dart';
 import '../../features/history/history_di.dart';
 import '../../features/home/home_di.dart';
+import '../../features/app_maintenance/app_maintenance_di.dart';
 
 final sl = GetIt.instance;
 
@@ -49,6 +50,7 @@ Future<void> initServiceLocator() async {
   );
 
   // 2. Feature Dependencies
+  initAppMaintenanceDependencies();
   initSplashDependencies();
   initLoginDependencies();
   initRegisterDependencies();

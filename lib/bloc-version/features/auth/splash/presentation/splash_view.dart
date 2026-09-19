@@ -50,7 +50,11 @@ class _SplashBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
-        if (state is SplashAuthenticated) {
+        if (state is SplashMaintenance) {
+          context.go(AppRouter.appMaintenance, extra: state.arguments);
+        } else if (state is SplashUpdateRequired) {
+          context.go(AppRouter.appUpdate, extra: state.arguments);
+        } else if (state is SplashAuthenticated) {
           context.go(AppRouter.navbar);
         } else if (state is SplashUnauthenticated) {
           context.go(AppRouter.login);
@@ -73,7 +77,7 @@ class _SplashBody extends StatelessWidget {
                           width: 120.w,
                           height: 120.w,
                           fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) => Icon(
+                          errorBuilder: (context, error, stackTrace) => Icon(
                             Icons.school_rounded,
                             size: 80.sp,
                             color: const Color(0xFF1E293B),
