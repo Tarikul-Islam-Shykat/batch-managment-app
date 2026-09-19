@@ -302,12 +302,12 @@ class _RegisterBodyState extends State<_RegisterBody> {
                           ? null
                           : () {
                               context.read<RegisterCubit>().signUp(
-                                    name: _nameController.text,
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                    confirmPassword:
-                                        _confirmPasswordController.text,
-                                  );
+                                name: _nameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                confirmPassword:
+                                    _confirmPasswordController.text,
+                              );
                             },
                       child: isLoading
                           ? SizedBox(

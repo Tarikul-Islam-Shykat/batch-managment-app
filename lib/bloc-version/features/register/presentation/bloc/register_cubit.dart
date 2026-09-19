@@ -33,50 +33,62 @@ class RegisterCubit extends Cubit<RegisterState> {
     final trimmedEmail = email.trim();
 
     if (trimmedName.isEmpty) {
-      emit(RegisterValidationError(
-        'Please enter your name.',
-        isEmailValid: state.isEmailValid,
-      ));
+      emit(
+        RegisterValidationError(
+          'Please enter your name.',
+          isEmailValid: state.isEmailValid,
+        ),
+      );
       return;
     }
 
     if (trimmedEmail.isEmpty) {
-      emit(const RegisterValidationError(
-        'Please enter your email address.',
-        isEmailValid: false,
-      ));
+      emit(
+        const RegisterValidationError(
+          'Please enter your email address.',
+          isEmailValid: false,
+        ),
+      );
       return;
     }
 
     if (!_emailRegex.hasMatch(trimmedEmail)) {
-      emit(const RegisterValidationError(
-        'Please enter a valid email address.',
-        isEmailValid: false,
-      ));
+      emit(
+        const RegisterValidationError(
+          'Please enter a valid email address.',
+          isEmailValid: false,
+        ),
+      );
       return;
     }
 
     if (password.isEmpty) {
-      emit(RegisterValidationError(
-        'Please enter your password.',
-        isEmailValid: state.isEmailValid,
-      ));
+      emit(
+        RegisterValidationError(
+          'Please enter your password.',
+          isEmailValid: state.isEmailValid,
+        ),
+      );
       return;
     }
 
     if (confirmPassword.isEmpty) {
-      emit(RegisterValidationError(
-        'Please confirm your password.',
-        isEmailValid: state.isEmailValid,
-      ));
+      emit(
+        RegisterValidationError(
+          'Please confirm your password.',
+          isEmailValid: state.isEmailValid,
+        ),
+      );
       return;
     }
 
     if (password != confirmPassword) {
-      emit(RegisterValidationError(
-        'Passwords do not match.',
-        isEmailValid: state.isEmailValid,
-      ));
+      emit(
+        RegisterValidationError(
+          'Passwords do not match.',
+          isEmailValid: state.isEmailValid,
+        ),
+      );
       return;
     }
 
@@ -89,8 +101,11 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
 
     result.fold(
-      (failure) => emit(RegisterFailure(failure.message, isEmailValid: state.isEmailValid)),
-      (response) => emit(RegisterSuccess(response, isEmailValid: state.isEmailValid)),
+      (failure) => emit(
+        RegisterFailure(failure.message, isEmailValid: state.isEmailValid),
+      ),
+      (response) =>
+          emit(RegisterSuccess(response, isEmailValid: state.isEmailValid)),
     );
   }
 }

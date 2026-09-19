@@ -49,12 +49,12 @@ class RegisterResponseModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        otp,
-        role,
-        email,
-        name,
-        userBlock,
-        emailVerified,
-        verificationSent,
-      ];
+    otp,
+    role,
+    email,
+    name,
+    userBlock,
+    emailVerified,
+    verificationSent,
+  ];
 }

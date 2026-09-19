@@ -17,7 +17,10 @@ class AppRouter {
     routes: [
       GoRoute(path: splash, builder: (context, state) => const SplashView()),
       GoRoute(path: login, builder: (context, state) => const LoginView()),
-      GoRoute(path: register, builder: (context, state) => const RegisterView()),
+      GoRoute(
+        path: register,
+        builder: (context, state) => const RegisterView(),
+      ),
       GoRoute(
         path: home,
         builder: (context, state) => const Scaffold(

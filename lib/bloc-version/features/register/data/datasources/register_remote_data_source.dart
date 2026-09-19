@@ -15,11 +15,7 @@ class RegisterRemoteDataSource {
   }) async {
     return await _networkService.post(
       ApiEndpoints.signUp,
-      data: {
-        'name': name,
-        'email': email,
-        'password': password,
-      },
+      data: {'name': name, 'email': email, 'password': password},
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
 import 'package:batch_management_app_direct/bloc-version/services/network/interfaces/i_network_service.dart';
-import 'package:batch_management_app_direct/bloc-version/services/storage/secure/secure-storage-interface.dart';
+import 'package:batch_management_app_direct/bloc-version/services/storage/secure/secure_storage_interface.dart';
 
 import 'data/datasources/login_local_data_source.dart';
 import 'data/datasources/login_remote_data_source.dart';
@@ -24,7 +24,5 @@ void initLoginDependencies() {
     ),
   );
 
-  sl.registerFactory<LoginCubit>(
-    () => LoginCubit(sl<LoginRepository>()),
-  );
+  sl.registerFactory<LoginCubit>(() => LoginCubit(sl<LoginRepository>()));
 }

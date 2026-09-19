@@ -12,15 +12,17 @@ class RegisterRepository {
   RegisterRepository({
     required RegisterLocalDataSource localDataSource,
     required RegisterRemoteDataSource remoteDataSource,
-  })  : _localDataSource = localDataSource,
-        _remoteDataSource = remoteDataSource;
+  }) : _localDataSource = localDataSource,
+       _remoteDataSource = remoteDataSource;
 
-  /// Executes Sign Up Action & returns Either<Failure, RegisterResponseModel>
+  /// Executes Sign Up Action & returns Either failure or RegisterResponseModel
   Future<Either<Failure, RegisterResponseModel>> signUp({
     required String name,
     required String email,
     required String password,
   }) async {
+    await _localDataSource.clearUserData();
+
     final result = await _remoteDataSource.signUp(
       name: name.trim(),
       email: email.trim(),
@@ -36,7 +38,9 @@ class RegisterRepository {
     }
 
     return Left(
-      ServerFailure(result.errorMessage ?? 'Registration failed. Please try again.'),
+      ServerFailure(
+        result.errorMessage ?? 'Registration failed. Please try again.',
+      ),
     );
   }
 }
