@@ -3,40 +3,40 @@ import 'package:batch_management_app_direct/bloc-version/core/errors/failure.dar
 
 import '../datasources/batch_list_local_data_source.dart';
 import '../datasources/batch_list_remote_data_source.dart';
+import '../models/batch_list_model.dart';
 
 class BatchListRepository {
-  final BatchListLocalDataSource _localDataSource;
-  final BatchListRemoteDataSource _remoteDataSource;
+  final BatchListLocalDataSource localDataSource;
+  final BatchListRemoteDataSource remoteDataSource;
 
   BatchListRepository({
-    required BatchListLocalDataSource localDataSource,
-    required BatchListRemoteDataSource remoteDataSource,
-  })  : _localDataSource = localDataSource,
-        _remoteDataSource = remoteDataSource;
+    required this.localDataSource,
+    required this.remoteDataSource,
+  });
 
-  /// Executes BatchList Action & returns Either
-  Future<Either<Failure, void>> batchList({
-    required String email,
-    required String password,
+  /// Fetch batches by status with pagination
+  Future<Either<Failure, BatchListResponseModel>> getBatches({
+    required String status,
+    required int page,
+    int limit = 10,
   }) async {
-    final result = await _remoteDataSource.batchList(
-      email: email,
-      password: password,
+    final result = await remoteDataSource.getBatches(
+      status: status,
+      page: page,
+      limit: limit,
     );
 
     if (result.isSuccess && result.data != null) {
-      final responseData = result.data;
-      if (responseData is Map<String, dynamic> && responseData['success'] == true) {
-        final token = responseData['data']?['token'];
-        if (token != null && token.toString().isNotEmpty) {
-          await _localDataSource.clearUserData();
-          await _localDataSource.saveToken(token.toString());
-        }
-        return const Right(null);
+      if (result.data is Map) {
+        final parsed = BatchListResponseModel.fromJson(
+          Map<String, dynamic>.from(result.data as Map),
+        );
+        return Right(parsed);
       }
-      return Left(ServerFailure(responseData['message'] ?? 'BatchList Action failed'));
     }
 
-    return Left(ServerFailure(result.errorMessage ?? 'Network error occurred'));
+    return Left(
+      ServerFailure(result.errorMessage ?? 'Failed to load batches.'),
+    );
   }
 }

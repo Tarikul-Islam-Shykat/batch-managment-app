@@ -1,8 +1,5 @@
+import 'package:batch_management_app_direct/bloc-version/features/create_batch/data/models/create_batch_model.dart';
 import 'package:equatable/equatable.dart';
-import '../../create_batch/data/models/create_batch_model.dart';
-
-export '../../create_batch/data/models/create_batch_model.dart'
-    show BatchListItemModel, BatchScheduleModel;
 
 class BatchListResponseModel extends Equatable {
   final List<BatchListItemModel> items;

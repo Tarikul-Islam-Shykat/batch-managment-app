@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import '../../batch_list/presentation/batch_list_view.dart';
 import '../../create_batch/presentation/create_batch_view.dart';
 import '../../profile/presentation/profile_view.dart';
 import 'bloc/navbar_cubit.dart';
@@ -31,11 +32,7 @@ class _NavbarBody extends StatelessWidget {
         subtitle: 'Home statistics & quick actions (Demo)',
         icon: Icons.home_rounded,
       ),
-      const _DemoTabPage(
-        title: 'Batches',
-        subtitle: 'Batch listing & management (Demo)',
-        icon: Icons.view_list_rounded,
-      ),
+      const BatchListView(),
       const CreateBatchView(showBackButton: false),
       const ProfileView(),
     ];

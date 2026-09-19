@@ -6,6 +6,7 @@ import '../../features/auth/login/presentation/login_view.dart';
 import '../../features/auth/register/presentation/register_view.dart';
 import '../../features/auth/otp_verification/presentation/otp_verification_view.dart';
 import '../../features/navbar/presentation/navbar_view.dart';
+import '../../features/batch_list/presentation/batch_list_view.dart';
 import '../../features/create_batch/data/models/create_batch_model.dart';
 import '../../features/create_batch/presentation/create_batch_view.dart';
 
@@ -16,6 +17,7 @@ class AppRouter {
   static const String verifyOtp = '/verify-otp';
   static const String home = '/home';
   static const String navbar = '/navbar';
+  static const String batches = '/batches';
   static const String createBatch = '/create-batch';
   static const String editBatch = '/edit-batch';
 
@@ -36,6 +38,10 @@ class AppRouter {
       ),
       GoRoute(path: home, builder: (context, state) => const NavbarView()),
       GoRoute(path: navbar, builder: (context, state) => const NavbarView()),
+      GoRoute(
+        path: batches,
+        builder: (context, state) => const BatchListView(),
+      ),
       GoRoute(
         path: createBatch,
         builder: (context, state) =>

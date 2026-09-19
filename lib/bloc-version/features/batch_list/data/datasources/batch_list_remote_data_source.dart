@@ -7,17 +7,15 @@ class BatchListRemoteDataSource {
 
   BatchListRemoteDataSource(this._networkService);
 
-  /// Execute BatchList API POST Request
-  Future<ApiResult<dynamic>> batchList({
-    required String email,
-    required String password,
+  /// Fetch batches by status with pagination
+  Future<ApiResult<dynamic>> getBatches({
+    required String status,
+    required int page,
+    required int limit,
   }) async {
-    return await _networkService.post(
-      ApiEndpoints.batchList,
-      data: {
-        'email': email,
-        'password': password,
-      },
+    return await _networkService.get(
+      ApiEndpoints.batches,
+      queryParameters: {'batch_status': status, 'page': page, 'limit': limit},
     );
   }
 }

@@ -16,6 +16,7 @@ import '../../features/auth/otp_verification/otp_verification_di.dart';
 import '../../features/navbar/navbar_di.dart';
 import '../../features/profile/profile_di.dart';
 import '../../features/create_batch/create_batch_di.dart';
+import '../../features/batch_list/batch_list_di.dart';
 
 final sl = GetIt.instance;
 
@@ -49,4 +50,5 @@ Future<void> initServiceLocator() async {
   initNavbarDependencies();
   initProfileDependencies();
   initCreateBatchDependencies();
+  initBatchListDependencies();
 }
