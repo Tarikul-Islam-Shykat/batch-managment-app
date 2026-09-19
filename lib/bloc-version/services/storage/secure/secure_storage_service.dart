@@ -8,7 +8,7 @@ class SecureStorageService implements ISecureStorageService {
     : _storage =
           storage ??
           const FlutterSecureStorage(
-            aOptions: AndroidOptions(encryptedSharedPreferences: true),
+            aOptions: AndroidOptions(),
           );
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// BLoC Version Imports (Ready to activate when migrating entry point)
 import 'bloc-version/core/dependency/service_locator.dart';
 import 'bloc-version/services/router/app_router.dart';
 

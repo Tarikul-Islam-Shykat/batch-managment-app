@@ -1,8 +1,5 @@
-import 'package:get/get.dart';
-
-class AppTranslations extends Translations {
-  @override
-  Map<String, Map<String, String>> get keys => {
+class AppTranslations {
+  static const Map<String, Map<String, String>> keys = {
     'en_US': {
       'app_brand': 'BATCH BOOK',
       'app_name_bn': 'Batch Book',
