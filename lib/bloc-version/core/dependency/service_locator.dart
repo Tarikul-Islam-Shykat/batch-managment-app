@@ -14,6 +14,7 @@ import '../../features/login/login_di.dart';
 import '../../features/register/register_di.dart';
 import '../../features/otp_verification/otp_verification_di.dart';
 import '../../features/navbar/navbar_di.dart';
+import '../../features/profile/profile_di.dart';
 
 final sl = GetIt.instance;
 
@@ -45,4 +46,5 @@ Future<void> initServiceLocator() async {
   initRegisterDependencies();
   initOtpVerificationDependencies();
   initNavbarDependencies();
+  initProfileDependencies();
 }

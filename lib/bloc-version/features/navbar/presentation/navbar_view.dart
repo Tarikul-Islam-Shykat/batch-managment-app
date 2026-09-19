@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import '../../profile/presentation/profile_view.dart';
 import 'bloc/navbar_cubit.dart';
 import 'bloc/navbar_state.dart';
 
@@ -23,7 +24,7 @@ class _NavbarBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final demoPages = <Widget>[
+    final pages = <Widget>[
       const _DemoTabPage(
         title: 'Home Dashboard',
         subtitle: 'Home statistics & quick actions (Demo)',
@@ -39,18 +40,14 @@ class _NavbarBody extends StatelessWidget {
         subtitle: 'Create & schedule batch (Demo)',
         icon: Icons.add_circle_rounded,
       ),
-      const _DemoTabPage(
-        title: 'Profile',
-        subtitle: 'User account & settings (Demo)',
-        icon: Icons.person_rounded,
-      ),
+      const ProfileView(),
     ];
 
     return BlocBuilder<NavbarCubit, NavbarState>(
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Colors.white,
-          body: IndexedStack(index: state.currentIndex, children: demoPages),
+          body: IndexedStack(index: state.currentIndex, children: pages),
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               color: Colors.white,
