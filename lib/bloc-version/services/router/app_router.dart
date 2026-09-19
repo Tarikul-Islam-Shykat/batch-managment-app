@@ -13,6 +13,7 @@ import '../../features/create_student/presentation/create_student_view.dart';
 import '../../features/batch_students/presentation/batch_students_view.dart';
 import '../../features/batch_students/data/models/batch_students_model.dart';
 import '../../features/edit_student/presentation/edit_student_view.dart';
+import '../../features/super_admin/presentation/super_admin_view.dart';
 
 class AppRouter {
   static const String splash = '/';
@@ -27,6 +28,7 @@ class AppRouter {
   static const String enrollStudent = '/enroll-student';
   static const String batchStudents = '/batch-students';
   static const String editStudent = '/edit-student';
+  static const String superAdmin = '/super-admin';
 
   static final GoRouter router = GoRouter(
     initialLocation: splash,
@@ -80,6 +82,10 @@ class AppRouter {
             batch: args['batch'] as BatchListItemModel?,
           );
         },
+      ),
+      GoRoute(
+        path: superAdmin,
+        builder: (context, state) => const SuperAdminView(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

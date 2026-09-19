@@ -384,7 +384,7 @@ class _ProfileBody extends StatelessWidget {
                             _menuTile(
                               icon: Icons.system_update_alt_rounded,
                               title: 'App Status',
-                              onTap: () {},
+                              onTap: () => context.push(AppRouter.superAdmin),
                             ),
                           ],
 

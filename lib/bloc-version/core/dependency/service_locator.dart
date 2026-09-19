@@ -20,6 +20,7 @@ import '../../features/batch_list/batch_list_di.dart';
 import '../../features/create_student/create_student_di.dart';
 import '../../features/batch_students/batch_students_di.dart';
 import '../../features/edit_student/edit_student_di.dart';
+import '../../features/super_admin/super_admin_di.dart';
 
 final sl = GetIt.instance;
 
@@ -57,4 +58,5 @@ Future<void> initServiceLocator() async {
   initCreateStudentDependencies();
   initBatchStudentsDependencies();
   initEditStudentDependencies();
+  initSuperAdminDependencies();
 }

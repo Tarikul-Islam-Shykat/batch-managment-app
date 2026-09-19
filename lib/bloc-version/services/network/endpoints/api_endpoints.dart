@@ -21,4 +21,10 @@ class ApiEndpoints {
   static String financeBatchSummary(String batchId, String month) =>
       '/finance/batch/$batchId/summary?month=${Uri.encodeComponent(month)}';
   static const String financeCollect = '/finance/collect';
+
+  // Super Admin & App Status endpoints
+  static const String appStatus =
+      'https://erp-fastapi-batch.vercel.app/api/v1/app-status';
+  static const String adminAppStatus = '/admin/app-status';
+  static String adminAppStatusById(String id) => '/admin/app-status/$id';
 }
