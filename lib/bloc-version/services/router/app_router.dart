@@ -5,6 +5,7 @@ import '../../features/splash/presentation/splash_view.dart';
 import '../../features/login/presentation/login_view.dart';
 import '../../features/register/presentation/register_view.dart';
 import '../../features/otp_verification/presentation/otp_verification_view.dart';
+import '../../features/navbar/presentation/navbar_view.dart';
 
 class AppRouter {
   static const String splash = '/';
@@ -28,17 +29,7 @@ class AppRouter {
           arguments: state.extra as Map<String, dynamic>?,
         ),
       ),
-      GoRoute(
-        path: home,
-        builder: (context, state) => const Scaffold(
-          body: Center(
-            child: Text(
-              'BLoC Home Screen',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ),
+      GoRoute(path: home, builder: (context, state) => const NavbarView()),
     ],
     errorBuilder: (context, state) => Scaffold(
       body: Center(child: Text('Page not found: ${state.uri.toString()}')),
