@@ -91,7 +91,7 @@ EOF
 
 # 1. Local Data Source
 cat <<EOF > "$BASE_DIR/data/datasources/${snake_name}_local_data_source.dart"
-import 'package:batch_management_app_direct/bloc-version/services/storage/secure/secure-storage-interface.dart';
+import 'package:batch_management_app_direct/bloc-version/services/storage/secure/secure_storage_interface.dart';
 import 'package:batch_management_app_direct/bloc-version/services/storage/secure/keys.dart';
 
 class ${pascal_name}LocalDataSource {
@@ -315,7 +315,7 @@ EOF
 cat <<EOF > "$BASE_DIR/${snake_name}_di.dart"
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
 import 'package:batch_management_app_direct/bloc-version/services/network/interfaces/i_network_service.dart';
-import 'package:batch_management_app_direct/bloc-version/services/storage/secure/secure-storage-interface.dart';
+import 'package:batch_management_app_direct/bloc-version/services/storage/secure/secure_storage_interface.dart';
 
 import 'data/datasources/${snake_name}_local_data_source.dart';
 import 'data/datasources/${snake_name}_remote_data_source.dart';

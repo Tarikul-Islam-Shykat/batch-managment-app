@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/splash/presentation/splash_view.dart';
 import '../../features/login/presentation/login_view.dart';
 import '../../features/register/presentation/register_view.dart';
+import '../../features/otp_verification/presentation/otp_verification_view.dart';
 
 class AppRouter {
   static const String splash = '/';
@@ -20,6 +21,12 @@ class AppRouter {
       GoRoute(
         path: register,
         builder: (context, state) => const RegisterView(),
+      ),
+      GoRoute(
+        path: verifyOtp,
+        builder: (context, state) => OtpVerificationView(
+          arguments: state.extra as Map<String, dynamic>?,
+        ),
       ),
       GoRoute(
         path: home,
