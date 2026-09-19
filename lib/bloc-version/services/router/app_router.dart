@@ -13,6 +13,7 @@ class AppRouter {
   static const String register = '/register';
   static const String verifyOtp = '/verify-otp';
   static const String home = '/home';
+  static const String navbar = '/navbar';
 
   static final GoRouter router = GoRouter(
     initialLocation: splash,
@@ -30,6 +31,7 @@ class AppRouter {
         ),
       ),
       GoRoute(path: home, builder: (context, state) => const NavbarView()),
+      GoRoute(path: navbar, builder: (context, state) => const NavbarView()),
     ],
     errorBuilder: (context, state) => Scaffold(
       body: Center(child: Text('Page not found: ${state.uri.toString()}')),

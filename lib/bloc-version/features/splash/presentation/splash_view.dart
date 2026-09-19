@@ -51,7 +51,7 @@ class _SplashBody extends StatelessWidget {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
         if (state is SplashAuthenticated) {
-          context.go(AppRouter.home);
+          context.go(AppRouter.navbar);
         } else if (state is SplashUnauthenticated) {
           context.go(AppRouter.login);
         }

@@ -85,7 +85,7 @@ class _LoginBodyState extends State<_LoginBody> {
             message: 'Login successful.',
             isSuccess: true,
           );
-          context.go(AppRouter.home);
+          context.go(AppRouter.navbar);
         }
       },
       builder: (context, state) {
