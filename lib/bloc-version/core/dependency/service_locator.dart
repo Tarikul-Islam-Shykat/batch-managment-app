@@ -9,6 +9,7 @@ import '../../services/storage/local/local_storage_service.dart';
 import '../../services/storage/secure/secure_storage_interface.dart';
 import '../../services/storage/secure/secure_storage_service.dart';
 import '../global/theme/theme_cubit.dart';
+import '../../features/splash/splash_di.dart';
 
 final sl = GetIt.instance;
 
@@ -34,5 +35,6 @@ Future<void> initServiceLocator() async {
     ),
   );
 
-  // Feature dependencies will be registered here as features are migrated to BLoC
+  // 2. Feature Dependencies
+  initSplashDependencies();
 }

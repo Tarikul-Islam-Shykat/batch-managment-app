@@ -71,7 +71,7 @@ class ${pascal_name}Model {
     );
   }
 
-  /// Parse a whole JSON list into `List<${pascal_name}Model>` safely
+  /// Parse a whole JSON list into \`List<${pascal_name}Model>\` safely
   static List<${pascal_name}Model> fromJsonList(dynamic jsonList) {
     if (jsonList is! List) return [];
     return jsonList
