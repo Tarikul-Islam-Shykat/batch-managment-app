@@ -75,6 +75,7 @@ class _BatchListBodyState extends State<_BatchListBody> {
             child: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
+              centerTitle: false,
               automaticallyImplyLeading: false,
               titleSpacing: 16.w,
               title: Column(
@@ -278,13 +279,14 @@ class _BatchListBodyState extends State<_BatchListBody> {
                                           cubit.refreshBatches();
                                         }
                                       },
-                                      onAddStudent: () {
-                                        AppSnackbar.show(
-                                          context: context,
-                                          message:
-                                              'Add student for "${batch.batchName}" coming next!',
-                                          isSuccess: true,
+                                      onAddStudent: () async {
+                                        final enrolled = await context.push(
+                                          '/enroll-student',
+                                          extra: batch,
                                         );
+                                        if (enrolled == true) {
+                                          cubit.refreshBatches();
+                                        }
                                       },
                                       onViewDetails: () {
                                         AppSnackbar.show(

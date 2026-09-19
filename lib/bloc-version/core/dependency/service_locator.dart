@@ -17,6 +17,7 @@ import '../../features/navbar/navbar_di.dart';
 import '../../features/profile/profile_di.dart';
 import '../../features/create_batch/create_batch_di.dart';
 import '../../features/batch_list/batch_list_di.dart';
+import '../../features/create_student/create_student_di.dart';
 
 final sl = GetIt.instance;
 
@@ -51,4 +52,5 @@ Future<void> initServiceLocator() async {
   initProfileDependencies();
   initCreateBatchDependencies();
   initBatchListDependencies();
+  initCreateStudentDependencies();
 }

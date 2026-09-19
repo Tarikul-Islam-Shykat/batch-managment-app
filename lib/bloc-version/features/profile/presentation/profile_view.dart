@@ -195,6 +195,7 @@ class _ProfileBody extends StatelessWidget {
             child: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
+              centerTitle: false,
               automaticallyImplyLeading: false,
               titleSpacing: 16.w,
               title: Column(

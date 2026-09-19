@@ -327,9 +327,21 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
             child: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
-              automaticallyImplyLeading:
-                  widget.showBackButton || state.isEditMode,
-              titleSpacing: 16.w,
+              centerTitle: false,
+              automaticallyImplyLeading: false,
+              leading: (widget.showBackButton || state.isEditMode)
+                  ? IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        size: 20,
+                        color: Color(0xFF000710),
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
+                    )
+                  : null,
+              titleSpacing: (widget.showBackButton || state.isEditMode)
+                  ? 0
+                  : 16.w,
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,

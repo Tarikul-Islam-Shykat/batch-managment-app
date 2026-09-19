@@ -9,6 +9,7 @@ import '../../features/navbar/presentation/navbar_view.dart';
 import '../../features/batch_list/presentation/batch_list_view.dart';
 import '../../features/create_batch/data/models/create_batch_model.dart';
 import '../../features/create_batch/presentation/create_batch_view.dart';
+import '../../features/create_student/presentation/create_student_view.dart';
 
 class AppRouter {
   static const String splash = '/';
@@ -20,6 +21,7 @@ class AppRouter {
   static const String batches = '/batches';
   static const String createBatch = '/create-batch';
   static const String editBatch = '/edit-batch';
+  static const String enrollStudent = '/enroll-student';
 
   static final GoRouter router = GoRouter(
     initialLocation: splash,
@@ -53,6 +55,11 @@ class AppRouter {
           showBackButton: true,
           batchToEdit: state.extra as BatchListItemModel?,
         ),
+      ),
+      GoRoute(
+        path: enrollStudent,
+        builder: (context, state) =>
+            CreateStudentView(batch: state.extra as BatchListItemModel?),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
