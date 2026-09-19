@@ -6,38 +6,54 @@ import 'package:intl/intl.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
+import '../data/models/create_batch_model.dart';
 import 'bloc/create_batch_cubit.dart';
 import 'bloc/create_batch_state.dart';
 import 'widgets/schedule_card.dart';
 
 class CreateBatchView extends StatelessWidget {
   final bool showBackButton;
+  final BatchListItemModel? batchToEdit;
 
-  const CreateBatchView({super.key, this.showBackButton = false});
+  const CreateBatchView({
+    super.key,
+    this.showBackButton = false,
+    this.batchToEdit,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CreateBatchCubit>(
-      create: (context) => sl<CreateBatchCubit>(),
-      child: _CreateBatchBody(showBackButton: showBackButton),
+      create: (context) {
+        final cubit = sl<CreateBatchCubit>();
+        if (batchToEdit != null) {
+          cubit.initForEdit(batchToEdit!);
+        }
+        return cubit;
+      },
+      child: _CreateBatchBody(
+        showBackButton: showBackButton,
+        batchToEdit: batchToEdit,
+      ),
     );
   }
 }
 
 class _CreateBatchBody extends StatefulWidget {
   final bool showBackButton;
+  final BatchListItemModel? batchToEdit;
 
-  const _CreateBatchBody({required this.showBackButton});
+  const _CreateBatchBody({required this.showBackButton, this.batchToEdit});
 
   @override
   State<_CreateBatchBody> createState() => _CreateBatchBodyState();
 }
 
 class _CreateBatchBodyState extends State<_CreateBatchBody> {
-  final _batchNameController = TextEditingController();
-  final _subjectController = TextEditingController();
-  final _feesController = TextEditingController();
-  final _maxStudentsController = TextEditingController();
+  late final TextEditingController _batchNameController;
+  late final TextEditingController _subjectController;
+  late final TextEditingController _feesController;
+  late final TextEditingController _maxStudentsController;
 
   static const List<String> _daysOfWeek = [
     'Saturday',
@@ -48,6 +64,20 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
     'Thursday',
     'Friday',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    final batch = widget.batchToEdit;
+    _batchNameController = TextEditingController(text: batch?.batchName ?? '');
+    _subjectController = TextEditingController(text: batch?.subject ?? '');
+    _feesController = TextEditingController(
+      text: batch != null ? batch.fees.toStringAsFixed(0) : '',
+    );
+    _maxStudentsController = TextEditingController(
+      text: batch != null ? batch.maxStudents.toString() : '',
+    );
+  }
 
   @override
   void dispose() {
@@ -274,11 +304,17 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
         } else if (state is CreateBatchSuccess) {
           AppSnackbar.show(
             context: context,
-            message: 'Batch created successfully!',
+            message: state.isUpdated
+                ? 'Batch updated successfully!'
+                : 'Batch created successfully!',
             isSuccess: true,
           );
-          _clearLocalControllers();
-          context.read<CreateBatchCubit>().resetForm();
+          if (state.isUpdated) {
+            Navigator.of(context).pop(true);
+          } else {
+            _clearLocalControllers();
+            context.read<CreateBatchCubit>().resetForm();
+          }
         }
       },
       builder: (context, state) {
@@ -291,14 +327,15 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
             child: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,
-              automaticallyImplyLeading: widget.showBackButton,
+              automaticallyImplyLeading:
+                  widget.showBackButton || state.isEditMode,
               titleSpacing: 16.w,
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Create Batch',
+                    state.isEditMode ? 'Edit Batch' : 'Create Batch',
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 18.sp,
                       color: const Color(0xFF000710),
@@ -307,7 +344,9 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    'Set up your batch & schedules',
+                    state.isEditMode
+                        ? 'Update batch details & schedules'
+                        : 'Set up your batch & schedules',
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 12.sp,
                       color: Colors.black54,
@@ -662,8 +701,12 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                       Expanded(
                         child: OutlinedButton(
                           onPressed: () {
-                            _clearLocalControllers();
-                            context.read<CreateBatchCubit>().resetForm();
+                            if (state.isEditMode) {
+                              Navigator.of(context).pop();
+                            } else {
+                              _clearLocalControllers();
+                              context.read<CreateBatchCubit>().resetForm();
+                            }
                           },
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: Color(0xFF0066FF)),
@@ -673,7 +716,7 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                             minimumSize: Size.fromHeight(52.h),
                           ),
                           child: Text(
-                            'Reset',
+                            state.isEditMode ? 'Cancel' : 'Reset',
                             style: GoogleFonts.spaceGrotesk(
                               color: const Color(0xFF0066FF),
                               fontSize: 15.sp,
@@ -698,12 +741,27 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                               ? null
                               : () {
                                   FocusScope.of(context).unfocus();
-                                  context.read<CreateBatchCubit>().createBatch(
-                                    batchName: _batchNameController.text,
-                                    subject: _subjectController.text,
-                                    fees: _feesController.text,
-                                    maxStudents: _maxStudentsController.text,
-                                  );
+                                  if (state.isEditMode) {
+                                    context
+                                        .read<CreateBatchCubit>()
+                                        .updateBatch(
+                                          batchName: _batchNameController.text,
+                                          subject: _subjectController.text,
+                                          fees: _feesController.text,
+                                          maxStudents:
+                                              _maxStudentsController.text,
+                                        );
+                                  } else {
+                                    context
+                                        .read<CreateBatchCubit>()
+                                        .createBatch(
+                                          batchName: _batchNameController.text,
+                                          subject: _subjectController.text,
+                                          fees: _feesController.text,
+                                          maxStudents:
+                                              _maxStudentsController.text,
+                                        );
+                                  }
                                 },
                           child: isLoading
                               ? SizedBox(
@@ -717,7 +775,9 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                                   ),
                                 )
                               : Text(
-                                  'Create Batch',
+                                  state.isEditMode
+                                      ? 'Update Batch'
+                                      : 'Create Batch',
                                   style: GoogleFonts.spaceGrotesk(
                                     fontSize: 15.sp,
                                     fontWeight: FontWeight.w700,

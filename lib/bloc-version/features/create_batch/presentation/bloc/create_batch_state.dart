@@ -32,6 +32,8 @@ abstract class CreateBatchState extends Equatable {
   final DateTime? endDate;
   final TimeOfDay defaultStartTime;
   final TimeOfDay defaultEndTime;
+  final bool isEditMode;
+  final BatchListItemModel? editingBatch;
 
   const CreateBatchState({
     this.selectedDays = const [],
@@ -40,6 +42,8 @@ abstract class CreateBatchState extends Equatable {
     this.endDate,
     this.defaultStartTime = const TimeOfDay(hour: 18, minute: 0),
     this.defaultEndTime = const TimeOfDay(hour: 20, minute: 0),
+    this.isEditMode = false,
+    this.editingBatch,
   });
 
   @override
@@ -50,6 +54,8 @@ abstract class CreateBatchState extends Equatable {
     endDate,
     defaultStartTime,
     defaultEndTime,
+    isEditMode,
+    editingBatch,
   ];
 }
 
@@ -61,6 +67,8 @@ class CreateBatchFormState extends CreateBatchState {
     super.endDate,
     super.defaultStartTime,
     super.defaultEndTime,
+    super.isEditMode,
+    super.editingBatch,
   });
 
   CreateBatchFormState copyWith({
@@ -70,6 +78,8 @@ class CreateBatchFormState extends CreateBatchState {
     DateTime? endDate,
     TimeOfDay? defaultStartTime,
     TimeOfDay? defaultEndTime,
+    bool? isEditMode,
+    BatchListItemModel? editingBatch,
   }) {
     return CreateBatchFormState(
       selectedDays: selectedDays ?? this.selectedDays,
@@ -78,6 +88,8 @@ class CreateBatchFormState extends CreateBatchState {
       endDate: endDate ?? this.endDate,
       defaultStartTime: defaultStartTime ?? this.defaultStartTime,
       defaultEndTime: defaultEndTime ?? this.defaultEndTime,
+      isEditMode: isEditMode ?? this.isEditMode,
+      editingBatch: editingBatch ?? this.editingBatch,
     );
   }
 }
@@ -90,24 +102,30 @@ class CreateBatchLoading extends CreateBatchState {
     super.endDate,
     super.defaultStartTime,
     super.defaultEndTime,
+    super.isEditMode,
+    super.editingBatch,
   });
 }
 
 class CreateBatchSuccess extends CreateBatchState {
   final CreateBatchResponseModel response;
+  final bool isUpdated;
 
   const CreateBatchSuccess({
     required this.response,
+    this.isUpdated = false,
     super.selectedDays,
     super.scheduleItems,
     super.startDate,
     super.endDate,
     super.defaultStartTime,
     super.defaultEndTime,
+    super.isEditMode,
+    super.editingBatch,
   });
 
   @override
-  List<Object?> get props => [response, ...super.props];
+  List<Object?> get props => [response, isUpdated, ...super.props];
 }
 
 class CreateBatchFailure extends CreateBatchState {
@@ -121,6 +139,8 @@ class CreateBatchFailure extends CreateBatchState {
     super.endDate,
     super.defaultStartTime,
     super.defaultEndTime,
+    super.isEditMode,
+    super.editingBatch,
   });
 
   @override
@@ -138,6 +158,8 @@ class CreateBatchValidationError extends CreateBatchState {
     super.endDate,
     super.defaultStartTime,
     super.defaultEndTime,
+    super.isEditMode,
+    super.editingBatch,
   });
 
   @override

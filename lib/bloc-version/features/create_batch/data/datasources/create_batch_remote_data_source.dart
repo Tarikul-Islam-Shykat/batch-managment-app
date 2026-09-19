@@ -17,4 +17,15 @@ class CreateBatchRemoteDataSource {
       data: request.toJson(),
     );
   }
+
+  /// Update existing batch via PUT /batches/{id}
+  Future<ApiResult<dynamic>> updateBatch({
+    required String batchId,
+    required Map<String, dynamic> data,
+  }) async {
+    return await _networkService.put(
+      ApiEndpoints.batchById(batchId),
+      data: data,
+    );
+  }
 }

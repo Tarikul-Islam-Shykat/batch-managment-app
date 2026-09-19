@@ -33,4 +33,28 @@ class CreateBatchRepository {
       ),
     );
   }
+
+  /// Updates an existing batch
+  Future<Either<Failure, CreateBatchResponseModel>> updateBatch({
+    required String batchId,
+    required Map<String, dynamic> data,
+  }) async {
+    final result = await remoteDataSource.updateBatch(
+      batchId: batchId,
+      data: data,
+    );
+
+    if (result.isSuccess && result.data != null) {
+      final map = result.data is Map
+          ? Map<String, dynamic>.from(result.data as Map)
+          : <String, dynamic>{};
+      return Right(CreateBatchResponseModel.fromJson(map));
+    }
+
+    return Left(
+      ServerFailure(
+        result.errorMessage ?? 'Failed to update batch. Please try again.',
+      ),
+    );
+  }
 }

@@ -6,6 +6,7 @@ import '../../features/login/presentation/login_view.dart';
 import '../../features/register/presentation/register_view.dart';
 import '../../features/otp_verification/presentation/otp_verification_view.dart';
 import '../../features/navbar/presentation/navbar_view.dart';
+import '../../features/create_batch/data/models/create_batch_model.dart';
 import '../../features/create_batch/presentation/create_batch_view.dart';
 
 class AppRouter {
@@ -16,6 +17,7 @@ class AppRouter {
   static const String home = '/home';
   static const String navbar = '/navbar';
   static const String createBatch = '/create-batch';
+  static const String editBatch = '/edit-batch';
 
   static final GoRouter router = GoRouter(
     initialLocation: splash,
@@ -38,6 +40,13 @@ class AppRouter {
         path: createBatch,
         builder: (context, state) =>
             const CreateBatchView(showBackButton: true),
+      ),
+      GoRoute(
+        path: editBatch,
+        builder: (context, state) => CreateBatchView(
+          showBackButton: true,
+          batchToEdit: state.extra as BatchListItemModel?,
+        ),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
