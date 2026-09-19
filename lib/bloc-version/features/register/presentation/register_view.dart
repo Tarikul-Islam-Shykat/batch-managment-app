@@ -2,176 +2,190 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
 import 'package:batch_management_app_direct/bloc-version/services/router/app_router.dart';
-import 'bloc/login_cubit.dart';
-import 'bloc/login_state.dart';
+import 'bloc/register_cubit.dart';
+import 'bloc/register_state.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class RegisterView extends StatelessWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginCubit>(
-      create: (context) => sl<LoginCubit>(),
-      child: const _LoginBody(),
+    return BlocProvider<RegisterCubit>(
+      create: (context) => sl<RegisterCubit>(),
+      child: const _RegisterBody(),
     );
   }
 }
 
-class _LoginBody extends StatefulWidget {
-  const _LoginBody();
+class _RegisterBody extends StatefulWidget {
+  const _RegisterBody();
 
   @override
-  State<_LoginBody> createState() => _LoginBodyState();
+  State<_RegisterBody> createState() => _RegisterBodyState();
 }
 
-class _LoginBodyState extends State<_LoginBody> {
+class _RegisterBodyState extends State<_RegisterBody> {
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Widget _buildVersionText() {
-    return FutureBuilder<PackageInfo>(
-      future: PackageInfo.fromPlatform(),
-      builder: (context, snapshot) {
-        final version = snapshot.data?.version ?? '';
-        if (version.isEmpty) {
-          return const SizedBox.shrink();
-        }
-
-        return Text(
-          'App Version v$version',
+  Widget _buildFieldLabel(String label) {
+    return Row(
+      children: [
+        Text(
+          label,
           style: TextStyle(
-            fontSize: 12.sp,
-            color: Colors.black38,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w500,
+            color: const Color(0xFF1E293B),
           ),
-          textAlign: TextAlign.center,
-        );
-      },
+        ),
+        SizedBox(width: 2.w),
+        Text(
+          '*',
+          style: TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+            fontSize: 14.sp,
+          ),
+        ),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
+    return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context, state) {
-        if (state is LoginValidationError) {
+        if (state is RegisterValidationError) {
           AppSnackbar.show(
             context: context,
             message: state.message,
             isSuccess: false,
           );
-        } else if (state is LoginFailure) {
+        } else if (state is RegisterFailure) {
           AppSnackbar.show(
             context: context,
             message: state.errorMessage,
             isSuccess: false,
           );
-        } else if (state is LoginSuccess) {
+        } else if (state is RegisterSuccess) {
           AppSnackbar.show(
             context: context,
-            message: 'Login successful.',
+            message: 'A 6-digit OTP has been sent to your email.',
             isSuccess: true,
           );
-          context.go(AppRouter.home);
+          context.push(
+            AppRouter.verifyOtp,
+            extra: {
+              'email': _emailController.text.trim(),
+              'name': _nameController.text.trim(),
+              'role': state.response.role ?? 'teacher',
+              'otp': state.response.otp ?? '',
+              'signup_response': state.response.rawResponse,
+            },
+          );
         }
       },
       builder: (context, state) {
-        final isLoading = state is LoginLoading;
+        final isLoading = state is RegisterLoading;
 
         return Scaffold(
           backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Color(0xFF1E293B)),
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go(AppRouter.login);
+                }
+              },
+            ),
+            title: Text(
+              'Create Account',
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF1E293B),
+              ),
+            ),
+          ),
           body: SafeArea(
             child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 28.h),
-                  Center(
-                    child: Hero(
-                      tag: 'splash-logo-hero',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16.r),
-                        child: Image.asset(
-                          'assets/icon/icon.png',
-                          width: 72.w,
-                          height: 72.w,
-                          fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) => Icon(
-                            Icons.school_rounded,
-                            size: 60.sp,
-                            color: const Color(0xFF1E293B),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 18.h),
-                  Center(
-                    child: Text(
-                      'Welcome! 👋',
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF1E293B),
-                      ),
+                  Text(
+                    'Create your account',
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF1E293B),
                     ),
                   ),
                   SizedBox(height: 8.h),
-                  Center(
-                    child: Text(
-                      'Log in to manage your batch and students.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Colors.black54,
-                        fontWeight: FontWeight.w400,
-                      ),
+                  Text(
+                    'Fill in your details and we will send a 6-digit OTP to your email.',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                   SizedBox(height: 28.h),
 
-                  // Email Field
-                  Row(
-                    children: [
-                      Text(
-                        'Email',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF1E293B),
-                        ),
+                  // Name Field
+                  _buildFieldLabel('Name'),
+                  SizedBox(height: 6.h),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      hintText: 'Enter your name',
+                      filled: true,
+                      fillColor: const Color(0xFFF2F2F2),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 14.h,
+                        horizontal: 14.w,
                       ),
-                      SizedBox(width: 2.w),
-                      Text(
-                        '*',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.sp,
-                        ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                        borderSide: BorderSide.none,
                       ),
-                    ],
+                    ),
                   ),
+
+                  SizedBox(height: 16.h),
+
+                  // Email Field
+                  _buildFieldLabel('Email'),
                   SizedBox(height: 6.h),
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (val) {
-                      context.read<LoginCubit>().onEmailChanged(val);
+                      context.read<RegisterCubit>().onEmailChanged(val);
                     },
                     decoration: InputDecoration(
                       hintText: 'Email',
@@ -198,27 +212,7 @@ class _LoginBodyState extends State<_LoginBody> {
                   SizedBox(height: 16.h),
 
                   // Password Field
-                  Row(
-                    children: [
-                      Text(
-                        'Password',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF1E293B),
-                        ),
-                      ),
-                      SizedBox(width: 2.w),
-                      Text(
-                        '*',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                    ],
-                  ),
+                  _buildFieldLabel('Password'),
                   SizedBox(height: 6.h),
                   TextFormField(
                     controller: _passwordController,
@@ -252,25 +246,46 @@ class _LoginBodyState extends State<_LoginBody> {
                     ),
                   ),
 
-                  SizedBox(height: 8.h),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Forgot password?',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black87,
+                  SizedBox(height: 16.h),
+
+                  // Confirm Password Field
+                  _buildFieldLabel('Confirm Password'),
+                  SizedBox(height: 6.h),
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    obscureText: _obscureConfirmPassword,
+                    decoration: InputDecoration(
+                      hintText: '******',
+                      filled: true,
+                      fillColor: const Color(0xFFF2F2F2),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 14.h,
+                        horizontal: 14.w,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                        borderSide: BorderSide.none,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          size: 20.sp,
+                          color: Colors.black45,
                         ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword = !_obscureConfirmPassword;
+                          });
+                        },
                       ),
                     ),
                   ),
 
                   SizedBox(height: 26.h),
 
-                  // Login Button (Always Enabled)
+                  // Sign Up Button
                   SizedBox(
                     width: double.infinity,
                     height: 52.h,
@@ -286,10 +301,13 @@ class _LoginBodyState extends State<_LoginBody> {
                       onPressed: isLoading
                           ? null
                           : () {
-                              context.read<LoginCubit>().login(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              );
+                              context.read<RegisterCubit>().signUp(
+                                    name: _nameController.text,
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    confirmPassword:
+                                        _confirmPasswordController.text,
+                                  );
                             },
                       child: isLoading
                           ? SizedBox(
@@ -303,7 +321,7 @@ class _LoginBodyState extends State<_LoginBody> {
                               ),
                             )
                           : Text(
-                              'Log In',
+                              'Sign Up',
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
@@ -320,16 +338,22 @@ class _LoginBodyState extends State<_LoginBody> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
-                          "Don't have an account? ",
+                          'Already have an account? ',
                           style: TextStyle(
                             fontSize: 13.sp,
                             color: Colors.black54,
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => context.push(AppRouter.register),
+                          onTap: () {
+                            if (context.canPop()) {
+                              context.pop();
+                            } else {
+                              context.go(AppRouter.login);
+                            }
+                          },
                           child: Text(
-                            'Register',
+                            'Log In',
                             style: TextStyle(
                               fontSize: 13.sp,
                               color: const Color(0xFF1E293B),
@@ -341,9 +365,7 @@ class _LoginBodyState extends State<_LoginBody> {
                     ),
                   ),
 
-                  SizedBox(height: 24.h),
-                  Center(child: _buildVersionText()),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 20.h),
                 ],
               ),
             ),

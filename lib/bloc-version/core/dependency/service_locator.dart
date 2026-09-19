@@ -11,6 +11,7 @@ import '../../services/storage/secure/secure_storage_service.dart';
 import '../global/theme/theme_cubit.dart';
 import '../../features/splash/splash_di.dart';
 import '../../features/login/login_di.dart';
+import '../../features/register/register_di.dart';
 
 final sl = GetIt.instance;
 
@@ -39,4 +40,5 @@ Future<void> initServiceLocator() async {
   // 2. Feature Dependencies
   initSplashDependencies();
   initLoginDependencies();
+  initRegisterDependencies();
 }
