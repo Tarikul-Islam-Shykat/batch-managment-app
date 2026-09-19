@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
+import 'package:batch_management_app_direct/bloc-version/services/router/app_router.dart';
 import 'package:batch_management_app_direct/bloc-version/features/create_batch/data/models/create_batch_model.dart';
 import '../data/models/batch_students_model.dart';
 import 'bloc/batch_students_cubit.dart';
@@ -167,6 +168,23 @@ class _BatchStudentsBodyState extends State<_BatchStudentsBody> {
               ),
               actions: [
                 IconButton(
+                  tooltip: 'Batch History',
+                  onPressed: () {
+                    context.push(
+                      AppRouter.batchHistory,
+                      extra: {
+                        'batch_id': widget.batch.id,
+                        'batch_name': widget.batch.batchName,
+                      },
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.history_rounded,
+                    color: Color(0xFF000710),
+                  ),
+                ),
+                IconButton(
+                  tooltip: 'Refresh',
                   onPressed: () => cubit.refresh(),
                   icon: const Icon(
                     Icons.refresh_rounded,

@@ -3,10 +3,7 @@ class SuperAdminModel {
   final String? id;
   final String? title;
 
-  SuperAdminModel({
-    this.id,
-    this.title,
-  });
+  SuperAdminModel({this.id, this.title});
 
   factory SuperAdminModel.fromJson(Map<String, dynamic> json) {
     return SuperAdminModel(
@@ -25,9 +22,6 @@ class SuperAdminModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-    };
+    return {'id': id, 'title': title};
   }
 }

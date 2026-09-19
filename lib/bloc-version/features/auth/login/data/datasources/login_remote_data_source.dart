@@ -14,10 +14,7 @@ class LoginRemoteDataSource {
   }) async {
     return await _networkService.post(
       ApiEndpoints.login,
-      data: {
-        'email': email,
-        'password': password,
-      },
+      data: {'email': email, 'password': password},
     );
   }
 }

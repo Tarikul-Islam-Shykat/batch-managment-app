@@ -53,13 +53,13 @@ class SuperAdminState extends Equatable {
 
   @override
   List<Object?> get props => [
-        currentTabIndex,
-        isLoading,
-        isSaving,
-        appStatuses,
-        selectedStatus,
-        selectedStatusType,
-        errorMessage,
-        successMessage,
-      ];
+    currentTabIndex,
+    isLoading,
+    isSaving,
+    appStatuses,
+    selectedStatus,
+    selectedStatusType,
+    errorMessage,
+    successMessage,
+  ];
 }

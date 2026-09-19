@@ -20,17 +20,18 @@ class SuperAdminCubit extends Cubit<SuperAdminState> {
   }
 
   void selectStatus(AppStatusModel status) {
-    emit(state.copyWith(
-      selectedStatus: status,
-      selectedStatusType: status.appStatus,
-    ));
+    emit(
+      state.copyWith(
+        selectedStatus: status,
+        selectedStatusType: status.appStatus,
+      ),
+    );
   }
 
   void clearForm() {
-    emit(state.copyWith(
-      clearSelectedStatus: true,
-      selectedStatusType: 'active',
-    ));
+    emit(
+      state.copyWith(clearSelectedStatus: true, selectedStatusType: 'active'),
+    );
   }
 
   Future<void> fetchStatuses() async {
@@ -40,19 +41,19 @@ class SuperAdminCubit extends Cubit<SuperAdminState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          isLoading: false,
-          errorMessage: failure.message,
-        ));
+        emit(state.copyWith(isLoading: false, errorMessage: failure.message));
       },
       (statuses) {
-        emit(state.copyWith(
-          isLoading: false,
-          appStatuses: statuses,
-          selectedStatus: statuses.isNotEmpty ? statuses.first : null,
-          selectedStatusType:
-              statuses.isNotEmpty ? statuses.first.appStatus : 'active',
-        ));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            appStatuses: statuses,
+            selectedStatus: statuses.isNotEmpty ? statuses.first : null,
+            selectedStatusType: statuses.isNotEmpty
+                ? statuses.first.appStatus
+                : 'active',
+          ),
+        );
       },
     );
   }
@@ -96,8 +97,9 @@ class SuperAdminCubit extends Cubit<SuperAdminState> {
           ? maintenanceMessage.trim()
           : null,
       appUpdateLinks: updateLinks,
-      appVersionLastUpdate:
-          lastUpdate.trim().isNotEmpty ? lastUpdate.trim() : null,
+      appVersionLastUpdate: lastUpdate.trim().isNotEmpty
+          ? lastUpdate.trim()
+          : null,
       appUpdatedFixes: fixes,
     );
 
@@ -110,18 +112,17 @@ class SuperAdminCubit extends Cubit<SuperAdminState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          isSaving: false,
-          errorMessage: failure.message,
-        ));
+        emit(state.copyWith(isSaving: false, errorMessage: failure.message));
       },
       (_) {
-        emit(state.copyWith(
-          isSaving: false,
-          successMessage: isUpdating
-              ? 'App status updated successfully!'
-              : 'App status created successfully!',
-        ));
+        emit(
+          state.copyWith(
+            isSaving: false,
+            successMessage: isUpdating
+                ? 'App status updated successfully!'
+                : 'App status created successfully!',
+          ),
+        );
         fetchStatuses();
       },
     );

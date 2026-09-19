@@ -24,7 +24,5 @@ void initProfileDependencies() {
     ),
   );
 
-  sl.registerFactory<ProfileCubit>(
-    () => ProfileCubit(sl<ProfileRepository>()),
-  );
+  sl.registerFactory<ProfileCubit>(() => ProfileCubit(sl<ProfileRepository>()));
 }

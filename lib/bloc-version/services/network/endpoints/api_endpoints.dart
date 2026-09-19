@@ -27,4 +27,9 @@ class ApiEndpoints {
       'https://erp-fastapi-batch.vercel.app/api/v1/app-status';
   static const String adminAppStatus = '/admin/app-status';
   static String adminAppStatusById(String id) => '/admin/app-status/$id';
+
+  // History & Audit endpoints
+  static String batchHistory(String batchId) => '/history/batch/$batchId';
+  static String studentHistory(String studentId) =>
+      '/history/student/$studentId';
 }

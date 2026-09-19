@@ -6,9 +6,8 @@ import '../models/app_status_model.dart';
 class SuperAdminRepository {
   final SuperAdminRemoteDataSource _remoteDataSource;
 
-  SuperAdminRepository({
-    required SuperAdminRemoteDataSource remoteDataSource,
-  }) : _remoteDataSource = remoteDataSource;
+  SuperAdminRepository({required SuperAdminRemoteDataSource remoteDataSource})
+    : _remoteDataSource = remoteDataSource;
 
   Future<Either<Failure, List<AppStatusModel>>> getAppStatuses() async {
     try {

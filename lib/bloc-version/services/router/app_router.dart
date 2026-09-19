@@ -14,6 +14,7 @@ import '../../features/batch_students/presentation/batch_students_view.dart';
 import '../../features/batch_students/data/models/batch_students_model.dart';
 import '../../features/edit_student/presentation/edit_student_view.dart';
 import '../../features/super_admin/presentation/super_admin_view.dart';
+import '../../features/history/presentation/history_view.dart';
 
 class AppRouter {
   static const String splash = '/';
@@ -29,6 +30,7 @@ class AppRouter {
   static const String batchStudents = '/batch-students';
   static const String editStudent = '/edit-student';
   static const String superAdmin = '/super-admin';
+  static const String batchHistory = '/batch-history';
 
   static final GoRouter router = GoRouter(
     initialLocation: splash,
@@ -86,6 +88,18 @@ class AppRouter {
       GoRoute(
         path: superAdmin,
         builder: (context, state) => const SuperAdminView(),
+      ),
+      GoRoute(
+        path: batchHistory,
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>?;
+          return HistoryView(
+            batchId: args?['batch_id'] as String?,
+            batchName: args?['batch_name'] as String?,
+            studentId: args?['student_id'] as String?,
+            studentName: args?['student_name'] as String?,
+          );
+        },
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

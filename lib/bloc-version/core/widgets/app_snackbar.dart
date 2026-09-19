@@ -28,11 +28,7 @@ class AppSnackbar {
   }
 
   static void showError(BuildContext context, String message) {
-    _showSnackbar(
-      context: context,
-      message: message,
-      type: SnackbarType.error,
-    );
+    _showSnackbar(context: context, message: message, type: SnackbarType.error);
   }
 
   static void showWarning(BuildContext context, String message) {
@@ -44,11 +40,7 @@ class AppSnackbar {
   }
 
   static void showInfo(BuildContext context, String message) {
-    _showSnackbar(
-      context: context,
-      message: message,
-      type: SnackbarType.info,
-    );
+    _showSnackbar(context: context, message: message, type: SnackbarType.info);
   }
 
   /// Internal SnackBar Builder using ScaffoldMessenger
@@ -87,11 +79,7 @@ class AppSnackbar {
           ),
           child: Row(
             children: [
-              Icon(
-                config.icon,
-                color: Colors.white,
-                size: 26.sp,
-              ),
+              Icon(config.icon, color: Colors.white, size: 26.sp),
               SizedBox(width: 12.w),
               Expanded(
                 child: Column(

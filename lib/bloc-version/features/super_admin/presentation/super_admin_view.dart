@@ -64,10 +64,7 @@ class _SuperAdminBody extends StatelessWidget {
 
         return Scaffold(
           backgroundColor: const Color(0xFFF8FAFC),
-          body: IndexedStack(
-            index: state.currentTabIndex,
-            children: pages,
-          ),
+          body: IndexedStack(index: state.currentTabIndex, children: pages),
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -89,14 +86,18 @@ class _SuperAdminBody extends StatelessWidget {
               destinations: const [
                 NavigationDestination(
                   icon: Icon(Icons.dashboard_outlined),
-                  selectedIcon:
-                      Icon(Icons.dashboard_rounded, color: Color(0xFF0066FF)),
+                  selectedIcon: Icon(
+                    Icons.dashboard_rounded,
+                    color: Color(0xFF0066FF),
+                  ),
                   label: 'Dashboard',
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.system_update_alt_outlined),
-                  selectedIcon: Icon(Icons.system_update_alt_rounded,
-                      color: Color(0xFF0066FF)),
+                  selectedIcon: Icon(
+                    Icons.system_update_alt_rounded,
+                    color: Color(0xFF0066FF),
+                  ),
                   label: 'App Status',
                 ),
               ],
@@ -160,8 +161,7 @@ class _SuperAdminDashboardTab extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  onPressed: () =>
-                      context.read<ProfileCubit>().fetchProfile(),
+                  onPressed: () => context.read<ProfileCubit>().fetchProfile(),
                   icon: const Icon(
                     Icons.refresh_rounded,
                     color: Color(0xFF000710),
@@ -207,8 +207,9 @@ class _SuperAdminDashboardTab extends StatelessWidget {
                               vertical: 4.h,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF0066FF)
-                                  .withValues(alpha: 0.10),
+                              color: const Color(
+                                0xFF0066FF,
+                              ).withValues(alpha: 0.10),
                               borderRadius: BorderRadius.circular(999.r),
                             ),
                             child: Text(
@@ -283,8 +284,7 @@ class _SuperAdminDashboardTab extends StatelessWidget {
     required VoidCallback onTap,
     bool destructive = false,
   }) {
-    final color =
-        destructive ? Colors.redAccent : const Color(0xFF0066FF);
+    final color = destructive ? Colors.redAccent : const Color(0xFF0066FF);
 
     return Material(
       color: Colors.white,
@@ -336,10 +336,7 @@ class _SuperAdminDashboardTab extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: Colors.black38,
-              ),
+              const Icon(Icons.chevron_right_rounded, color: Colors.black38),
             ],
           ),
         ),
@@ -453,8 +450,10 @@ class _AppStatusTabState extends State<_AppStatusTab> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
-              borderSide:
-                  const BorderSide(color: Color(0xFF0066FF), width: 1.5),
+              borderSide: const BorderSide(
+                color: Color(0xFF0066FF),
+                width: 1.5,
+              ),
             ),
           ),
         ),
@@ -519,10 +518,7 @@ class _AppStatusTabState extends State<_AppStatusTab> {
               ),
             IconButton(
               onPressed: () => cubit.fetchStatuses(),
-              icon: const Icon(
-                Icons.refresh_rounded,
-                color: Color(0xFF000710),
-              ),
+              icon: const Icon(Icons.refresh_rounded, color: Color(0xFF000710)),
             ),
             SizedBox(width: 8.w),
           ],
@@ -662,8 +658,7 @@ class _AppStatusTabState extends State<_AppStatusTab> {
                             : () {
                                 cubit.saveStatus(
                                   appVersion: _versionController.text,
-                                  maintenanceMessage:
-                                      _messageController.text,
+                                  maintenanceMessage: _messageController.text,
                                   arm64Link: _arm64Controller.text,
                                   x64Link: _x64Controller.text,
                                   aabLink: _aabController.text,
@@ -686,8 +681,7 @@ class _AppStatusTabState extends State<_AppStatusTab> {
                                 height: 22.w,
                                 child: const CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  valueColor:
-                                      AlwaysStoppedAnimation<Color>(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
                                     Colors.white,
                                   ),
                                 ),
@@ -722,8 +716,9 @@ class _AppStatusTabState extends State<_AppStatusTab> {
                     padding: EdgeInsets.symmetric(vertical: 20.h),
                     child: const Center(
                       child: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Color(0xFF0066FF)),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          Color(0xFF0066FF),
+                        ),
                       ),
                     ),
                   )
@@ -784,10 +779,11 @@ class _AppStatusTabState extends State<_AppStatusTab> {
                                 vertical: 2.h,
                               ),
                               decoration: BoxDecoration(
-                                color: (isActive
-                                        ? const Color(0xFF16A34A)
-                                        : const Color(0xFFF59E0B))
-                                    .withValues(alpha: 0.12),
+                                color:
+                                    (isActive
+                                            ? const Color(0xFF16A34A)
+                                            : const Color(0xFFF59E0B))
+                                        .withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(999.r),
                               ),
                               child: Text(

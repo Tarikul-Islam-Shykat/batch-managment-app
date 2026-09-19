@@ -62,12 +62,12 @@ class AppStatusModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        appVersion,
-        appStatus,
-        appMaintenanceMessage,
-        appUpdateLinks,
-        appVersionLastUpdate,
-        appUpdatedFixes,
-      ];
+    id,
+    appVersion,
+    appStatus,
+    appMaintenanceMessage,
+    appUpdateLinks,
+    appVersionLastUpdate,
+    appUpdatedFixes,
+  ];
 }
