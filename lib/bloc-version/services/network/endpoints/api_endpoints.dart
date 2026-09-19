@@ -32,4 +32,26 @@ class ApiEndpoints {
   static String batchHistory(String batchId) => '/history/batch/$batchId';
   static String studentHistory(String studentId) =>
       '/history/student/$studentId';
+
+  // Home Dashboard endpoint
+  static String teacherDashboard({
+    String? month,
+    int? recentLimit,
+    int? lowSeatThreshold,
+  }) {
+    final params = <String, String>{};
+    if (month != null && month.trim().isNotEmpty) {
+      params['month'] = month.trim();
+    }
+    if (recentLimit != null) {
+      params['recent_limit'] = recentLimit.toString();
+    }
+    if (lowSeatThreshold != null) {
+      params['low_seat_threshold'] = lowSeatThreshold.toString();
+    }
+    if (params.isEmpty) {
+      return '/teacher-dashboard';
+    }
+    return '/teacher-dashboard?${Uri(queryParameters: params).query}';
+  }
 }

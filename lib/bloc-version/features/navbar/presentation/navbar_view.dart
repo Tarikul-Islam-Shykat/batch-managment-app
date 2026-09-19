@@ -6,6 +6,7 @@ import 'package:batch_management_app_direct/bloc-version/core/dependency/service
 import '../../batch_list/presentation/batch_list_view.dart';
 import '../../create_batch/presentation/create_batch_view.dart';
 import '../../profile/presentation/profile_view.dart';
+import '../../home/presentation/home_view.dart';
 import 'bloc/navbar_cubit.dart';
 import 'bloc/navbar_state.dart';
 
@@ -27,11 +28,7 @@ class _NavbarBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
-      const _DemoTabPage(
-        title: 'Home Dashboard',
-        subtitle: 'Home statistics & quick actions (Demo)',
-        icon: Icons.home_rounded,
-      ),
+      const HomeView(),
       const BatchListView(),
       const CreateBatchView(showBackButton: false),
       const ProfileView(),
@@ -99,70 +96,3 @@ class _NavbarBody extends StatelessWidget {
   }
 }
 
-class _DemoTabPage extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final IconData icon;
-
-  const _DemoTabPage({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 72.w,
-                height: 72.w,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF0066FF).withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, size: 36.sp, color: const Color(0xFF0066FF)),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF1E293B),
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                subtitle,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14.sp, color: Colors.black54),
-              ),
-              SizedBox(height: 16.h),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF1F5F9),
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Text(
-                  'Demo Placeholder',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF64748B),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
