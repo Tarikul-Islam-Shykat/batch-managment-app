@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'package:get/get.dart';
 
+import '../../../core/global/app_snackbar.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/service/network/endpoints/endpoints.dart';
 import '../../../core/service/network/service/api_service.dart';
@@ -22,20 +23,15 @@ class RegisterController extends GetxController {
     final confirmPassword = confirmPasswordController.text;
 
     if (name.isEmpty || email.isEmpty || password.isEmpty) {
-      Get.snackbar(
-        'registration_missing_fields'.tr,
-        'please_fill_registration_fields'.tr,
-        snackPosition: SnackPosition.BOTTOM,
+      AppSnackbar.show(
+        message: 'please_fill_registration_fields'.tr,
+        isSuccess: false,
       );
       return;
     }
 
     if (password != confirmPassword) {
-      Get.snackbar(
-        'invalid_input'.tr,
-        'password_mismatch'.tr,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: 'password_mismatch'.tr, isSuccess: false);
       return;
     }
 
@@ -53,11 +49,7 @@ class RegisterController extends GetxController {
             ? Map<String, dynamic>.from(response)
             : <String, dynamic>{};
         final otp = responseMap['otp']?.toString();
-        Get.snackbar(
-          'success'.tr,
-          'otp_sent_to_email'.tr,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        AppSnackbar.show(message: 'otp_sent_to_email'.tr, isSuccess: true);
         Get.toNamed(
           AppRoute.otpVerificationScreen,
           arguments: {
@@ -73,11 +65,7 @@ class RegisterController extends GetxController {
         );
       }
     } catch (e) {
-      Get.snackbar(
-        'registration_failed'.tr,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: e.toString(), isSuccess: false);
     } finally {
       isLoading.value = false;
     }

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/global/app_snackbar.dart';
 import '../../../../core/service/network/endpoints/endpoints.dart';
 import '../../../../core/service/network/service/api_service.dart';
 import '../../../batch/list/model/batch_list_response_model.dart';
@@ -118,21 +119,13 @@ class StudentEnrollController extends GetxController {
   Future<void> submit() async {
     final isValid = formKey.currentState?.validate() ?? false;
     if (!isValid || selectedBatch.value == null) {
-      Get.snackbar(
-        'missing_fields'.tr,
-        'fill_required_fields'.tr,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: 'fill_required_fields'.tr, isSuccess: false);
       return;
     }
 
     final discount = discountValue;
     if (discount < 0 || discount > 100) {
-      Get.snackbar(
-        'invalid_input'.tr,
-        'discount_between_0_100'.tr,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: 'discount_between_0_100'.tr, isSuccess: false);
       return;
     }
 
@@ -152,25 +145,16 @@ class StudentEnrollController extends GetxController {
       log('Student enroll payload: ${jsonEncode(payload.toJson())}');
       final response = await _api.post(Urls.students, payload.toJson());
       if (response != null) {
-        Get.snackbar(
-          'success'.tr,
-          'student_saved_successfully'.tr,
-          snackPosition: SnackPosition.BOTTOM,
+        AppSnackbar.show(
+          message: 'student_saved_successfully'.tr,
+          isSuccess: true,
         );
         Get.back();
       } else {
-        Get.snackbar(
-          'failed'.tr,
-          'student_save_failed'.tr,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        AppSnackbar.show(message: 'student_save_failed'.tr, isSuccess: false);
       }
     } catch (e) {
-      Get.snackbar(
-        'failed'.tr,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: e.toString(), isSuccess: false);
     } finally {
       isLoading.value = false;
     }

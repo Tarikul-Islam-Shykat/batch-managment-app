@@ -1,3 +1,4 @@
+import 'package:batch_management_app_direct/core/global/app_snackbar.dart';
 import 'package:dio/dio.dart';
 
 class NetworkException implements Exception {
@@ -32,13 +33,19 @@ class NetworkErrorHandler {
     if (data is String && data.trim().isNotEmpty) {
       return data;
     }
-    if (data is Map && data['message'] != null) return data['message'];
-    if (data is Map && data['detail'] != null) return data['detail'];
-    if (data is Map && data['error'] != null) return data['error'];
-    if (data is Map &&
-        data['detail'] is List &&
-        (data['detail'] as List).isNotEmpty) {
-      return (data['detail'] as List).join(', ');
+    if (data is Map) {
+      if (data['message'] != null) return data['message'].toString();
+      if (data['detail'] is List && (data['detail'] as List).isNotEmpty) {
+        final messages = (data['detail'] as List).map((item) {
+          if (item is Map && item['msg'] != null) {
+            return item['msg'].toString();
+          }
+          return item.toString();
+        }).toList();
+        return messages.join(', ');
+      }
+      if (data['detail'] != null) return data['detail'].toString();
+      if (data['error'] != null) return data['error'].toString();
     }
     if (code >= 500) return 'Server error. Try again later.';
     if (code == 401) return 'Unauthorized. Please login again.';
@@ -47,6 +54,6 @@ class NetworkErrorHandler {
   }
 
   static void show(DioException e) {
-    // AppSnackBar.error(getMessage(e));
+    AppSnackbar.show(message: getMessage(e), isSuccess: false);
   }
 }

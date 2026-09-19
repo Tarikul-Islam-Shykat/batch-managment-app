@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/global/app_snackbar.dart';
 import '../../../../core/service/network/endpoints/endpoints.dart';
 import '../../../../core/service/network/service/api_service.dart';
 import '../../../batch/list/model/batch_list_response_model.dart';
@@ -203,21 +204,13 @@ class StudentEditController extends GetxController {
   Future<void> submit() async {
     final isValid = formKey.currentState?.validate() ?? false;
     if (!isValid) {
-      Get.snackbar(
-        'missing_fields'.tr,
-        'fill_required_fields'.tr,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: 'fill_required_fields'.tr, isSuccess: false);
       return;
     }
 
     final payload = _buildPayload();
     if (payload.isEmpty) {
-      Get.snackbar(
-        'info'.tr,
-        'no_changes_to_update'.tr,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: 'no_changes_to_update'.tr, isSuccess: false);
       return;
     }
 
@@ -228,28 +221,19 @@ class StudentEditController extends GetxController {
       log('Student edit response: $response');
 
       if (response != null) {
-        Get.snackbar(
-          'success'.tr,
-          'student_updated_successfully'.tr,
-          snackPosition: SnackPosition.BOTTOM,
+        AppSnackbar.show(
+          message: 'student_updated_successfully'.tr,
+          isSuccess: true,
         );
         try {
           await Get.find<BatchStudentsController>().refreshStudents();
         } catch (_) {}
         Get.back();
       } else {
-        Get.snackbar(
-          'failed'.tr,
-          'student_update_failed'.tr,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        AppSnackbar.show(message: 'student_update_failed'.tr, isSuccess: false);
       }
     } catch (e) {
-      Get.snackbar(
-        'failed'.tr,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: e.toString(), isSuccess: false);
     } finally {
       isLoading.value = false;
     }

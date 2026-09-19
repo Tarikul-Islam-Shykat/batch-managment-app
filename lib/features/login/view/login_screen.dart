@@ -44,29 +44,29 @@ class LoginScreen extends GetView<LoginController> {
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
       body: SafeArea(
-        child: Obx(
-          () => SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: languageController.toggleLanguage,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12.w,
-                        vertical: 8.h,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: languageController.toggleLanguage,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 8.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(999.r),
+                      border: Border.all(
+                        color: AppColors.primaryColor.withValues(alpha: 0.18),
                       ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor.withValues(alpha: 0.08),
-                        borderRadius: BorderRadius.circular(999.r),
-                        border: Border.all(
-                          color: AppColors.primaryColor.withValues(alpha: 0.18),
-                        ),
-                      ),
-                      child: smallText(
+                    ),
+                    child: Obx(
+                      () => smallText(
                         text:
                             languageController
                                     .currentLocale
@@ -81,105 +81,114 @@ class LoginScreen extends GetView<LoginController> {
                     ),
                   ),
                 ),
-                verticalSpace(18),
-                Center(
-                  child: Hero(
-                    tag: SplashController.logoHeroTag,
-                    child: ResponsiveImage.asset(
-                      assetPath: IconsPath.appIcon,
-                      shape: ImageShape.roundedRectangle,
-                      width: 72.w,
-                      height: 72.w,
-                      fit: BoxFit.contain,
-                    ),
+              ),
+              verticalSpace(18),
+              Center(
+                child: Hero(
+                  tag: SplashController.logoHeroTag,
+                  child: ResponsiveImage.asset(
+                    assetPath: IconsPath.appIcon,
+                    shape: ImageShape.roundedRectangle,
+                    width: 72.w,
+                    height: 72.w,
+                    fit: BoxFit.contain,
                   ),
                 ),
-                verticalSpace(18),
-                Center(
-                  child: brandText(
-                    text: 'welcome'.tr,
-                    color: AppColors.blackColor,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0,
-                  ),
+              ),
+              verticalSpace(18),
+              Center(
+                child: brandText(
+                  text: 'welcome'.tr,
+                  color: AppColors.blackColor,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0,
                 ),
-                verticalSpace(8),
-                Center(
-                  child: normalText(
-                    text: 'login_subtitle'.tr,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w400,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.visible,
-                  ),
+              ),
+              verticalSpace(8),
+              Center(
+                child: normalText(
+                  text: 'login_subtitle'.tr,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w400,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.visible,
                 ),
-                verticalSpace(28),
-                GlobalTextField(
+              ),
+              verticalSpace(28),
+              Obx(
+                () => GlobalTextField(
                   controller: controller.emailController,
                   hintText: 'email'.tr,
                   labelText: 'email'.tr,
                   isMandatory: true,
                   keyboardType: TextInputType.emailAddress,
                   borderRadius: 10,
+                  suffixIcon: controller.isEmailValid.value
+                      ? Icon(
+                          Icons.check_circle_rounded,
+                          color: Colors.green,
+                          size: 20.sp,
+                        )
+                      : null,
                 ),
-                verticalSpace(16),
-                GlobalTextField(
-                  controller: controller.passwordController,
-                  hintText: '******',
-                  labelText: 'password'.tr,
-                  isMandatory: true,
-                  isHidden: true,
+              ),
+              verticalSpace(16),
+              GlobalTextField(
+                controller: controller.passwordController,
+                hintText: '******',
+                labelText: 'password'.tr,
+                isMandatory: true,
+                isHidden: true,
+                borderRadius: 10,
+              ),
+              verticalSpace(8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: smallText(
+                  text: 'forgot_password'.tr,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              verticalSpace(26),
+              Obx(
+                () => GlobalAppButton(
+                  text: 'login'.tr,
+                  onTap: controller.login,
+                  height: 52.h,
                   borderRadius: 10,
+                  isLoading: controller.isLoading.value,
                 ),
-                verticalSpace(8),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: smallText(
-                    text: 'forgot_password'.tr,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                verticalSpace(26),
-                Obx(
-                  () => GlobalAppButton(
-                    text: 'login'.tr,
-                    onTap: controller.login,
-                    height: 52.h,
-                    borderRadius: 10,
-                    isLoading: controller.isLoading.value,
-                  ),
-                ),
-                verticalSpace(18),
-                Center(
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      smallText(
-                        text: '${'no_account'.tr} ',
-                        color: Colors.black54,
-                        fontWeight: FontWeight.w400,
+              ),
+              verticalSpace(18),
+              Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    smallText(
+                      text: '${'no_account'.tr} ',
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    GestureDetector(
+                      onTap: () => Get.toNamed(AppRoute.registerScreen),
+                      child: smallText(
+                        text: 'register'.tr,
+                        color: AppColors.blackColor,
+                        fontWeight: FontWeight.w600,
+                        maxLines: 1,
                       ),
-                      GestureDetector(
-                        onTap: () => Get.toNamed(AppRoute.registerScreen),
-                        child: smallText(
-                          text: 'register'.tr,
-                          color: AppColors.blackColor,
-                          fontWeight: FontWeight.w600,
-                          maxLines: 1,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                verticalSpace(24),
-                Center(child: _buildVersionText()),
-                verticalSpace(12),
-              ],
-            ),
+              ),
+              verticalSpace(24),
+              Center(child: _buildVersionText()),
+              verticalSpace(12),
+            ],
           ),
         ),
       ),

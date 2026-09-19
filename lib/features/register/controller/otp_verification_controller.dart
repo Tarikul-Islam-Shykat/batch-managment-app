@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/global/app_snackbar.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/service/app_version/app_version_gate_service.dart';
 import '../../../core/service/network/endpoints/endpoints.dart';
@@ -12,6 +13,7 @@ import '../../../core/service/storage/secure/storage.dart';
 class OtpVerificationController extends GetxController {
   final otpController = TextEditingController();
   final isLoading = false.obs;
+
   final _api = ApiService.instance;
   final _storage = SecureStorageService();
 
@@ -42,6 +44,7 @@ class OtpVerificationController extends GetxController {
     initialOtp = args is Map && args['otp'] != null
         ? args['otp'].toString()
         : (signupResponse['otp']?.toString() ?? '');
+
     if (initialOtp.isNotEmpty) {
       otpController.text = initialOtp;
     }
@@ -51,11 +54,7 @@ class OtpVerificationController extends GetxController {
     final otp = otpController.text.trim();
 
     if (email.isEmpty || otp.length != 6) {
-      Get.snackbar(
-        'invalid_input'.tr,
-        'enter_valid_otp'.tr,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: 'enter_valid_otp'.tr, isSuccess: false);
       return;
     }
 
@@ -95,24 +94,22 @@ class OtpVerificationController extends GetxController {
 
           await _storage.set(SecureStorageService.token, accessToken);
           await _storage.set(SecureStorageService.role, resolvedRole);
+          AppSnackbar.show(
+            message: 'otp_verified_successfully'.tr,
+            isSuccess: true,
+          );
           Get.offAllNamed(
             resolvedRole == 'super_admin'
                 ? AppRoute.superAdminScreen
                 : AppRoute.navBarScreen,
           );
-          Get.snackbar(
-            'success'.tr,
-            'otp_verified_successfully'.tr,
-            snackPosition: SnackPosition.BOTTOM,
-          );
           return;
         }
       }
 
-      Get.snackbar(
-        'success'.tr,
-        'otp_verified_successfully'.tr,
-        snackPosition: SnackPosition.BOTTOM,
+      AppSnackbar.show(
+        message: 'otp_verified_successfully'.tr,
+        isSuccess: true,
       );
       Get.offAllNamed(
         role == 'super_admin'
@@ -120,11 +117,7 @@ class OtpVerificationController extends GetxController {
             : AppRoute.loginScreen,
       );
     } catch (e) {
-      Get.snackbar(
-        'verification_failed'.tr,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: e.toString(), isSuccess: false);
     } finally {
       isLoading.value = false;
     }
@@ -140,17 +133,9 @@ class OtpVerificationController extends GetxController {
       final response = await _api.post(Urls.requestOtp, {'email': email});
       log('Resend OTP response: $response');
 
-      Get.snackbar(
-        'success'.tr,
-        'otp_sent_to_email'.tr,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: 'otp_sent_to_email'.tr, isSuccess: true);
     } catch (e) {
-      Get.snackbar(
-        'failed'.tr,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: e.toString(), isSuccess: false);
     } finally {
       isLoading.value = false;
     }

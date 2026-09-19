@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/global/app_snackbar.dart';
+
 import '../../../core/service/network/endpoints/app_status_endpoints.dart';
 import '../../../core/service/network/service/api_service.dart';
 import '../model/app_status_model.dart';
@@ -79,8 +81,10 @@ class AppStatusController extends GetxController {
     appMaintenanceMessageController.text = status.appMaintenanceMessage ?? '';
     appAndroidArm64LinkController.text =
         status.appUpdateLinks['android_arm64'] ?? '';
-    appAndroidX64LinkController.text = status.appUpdateLinks['android_x64'] ?? '';
-    appAndroidAabLinkController.text = status.appUpdateLinks['android_aab'] ?? '';
+    appAndroidX64LinkController.text =
+        status.appUpdateLinks['android_x64'] ?? '';
+    appAndroidAabLinkController.text =
+        status.appUpdateLinks['android_aab'] ?? '';
     appVersionLastUpdateController.text = status.appVersionLastUpdate ?? '';
     appUpdatedFixesController.text = status.appUpdatedFixes.join('\n');
     selectedStatus.value = status.appStatus.isNotEmpty
@@ -130,11 +134,7 @@ class AppStatusController extends GetxController {
     );
 
     if (payload.appVersion.isEmpty) {
-      Get.snackbar(
-        'invalid_input'.tr,
-        'app_version_required'.tr,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: 'app_version_required'.tr, isSuccess: false);
       return;
     }
 
@@ -151,19 +151,16 @@ class AppStatusController extends GetxController {
           : await _api.post(AppStatusUrls.create, payload.toCreateJson());
 
       if (response != null) {
-        Get.snackbar(
-          'success'.tr,
-          isEditing ? 'app_status_updated'.tr : 'app_status_created'.tr,
-          snackPosition: SnackPosition.BOTTOM,
+        AppSnackbar.show(
+          message: isEditing
+              ? 'app_status_updated'.tr
+              : 'app_status_created'.tr,
+          isSuccess: true,
         );
         await fetchStatuses();
       }
     } catch (e) {
-      Get.snackbar(
-        'failed'.tr,
-        e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      AppSnackbar.show(message: e.toString(), isSuccess: false);
     } finally {
       isSaving.value = false;
     }

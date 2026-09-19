@@ -2,10 +2,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+// BLoC Version Imports (Ready to activate when migrating entry point)
+// import 'bloc-version/core/dependency/service_locator.dart';
+// import 'bloc-version/services/router/app_router.dart';
+
 import 'core/bindings/controller_binder.dart';
 import 'core/localization/app_translations.dart';
 import 'core/routes/app_routes.dart';
 
+// ============================================================================
+// BLOC VERSION (UNCOMMENT TO SWITCH TO BLOC APP)
+// ============================================================================
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await initServiceLocator();
+//   runApp(const BlocApp());
+// }
+//
+// class BlocApp extends StatelessWidget {
+//   const BlocApp({super.key});
+//   @override
+//   Widget build(BuildContext context) {
+//     return ScreenUtilInit(
+//       designSize: const Size(375, 812),
+//       minTextAdapt: true,
+//       splitScreenMode: true,
+//       builder: (context, child) => MaterialApp.router(
+//         title: 'Batch Book',
+//         debugShowCheckedModeBanner: false,
+//         routerConfig: AppRouter.router,
+//       ),
+//     );
+//   }
+// }
+
+// ============================================================================
+// GETX VERSION (ACTIVE)
+// ============================================================================
 void main() {
   runApp(const MyApp());
 }
