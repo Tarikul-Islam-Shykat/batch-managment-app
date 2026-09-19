@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import '../../create_batch/presentation/create_batch_view.dart';
 import '../../profile/presentation/profile_view.dart';
 import 'bloc/navbar_cubit.dart';
 import 'bloc/navbar_state.dart';
@@ -35,11 +36,7 @@ class _NavbarBody extends StatelessWidget {
         subtitle: 'Batch listing & management (Demo)',
         icon: Icons.view_list_rounded,
       ),
-      const _DemoTabPage(
-        title: 'New Batch',
-        subtitle: 'Create & schedule batch (Demo)',
-        icon: Icons.add_circle_rounded,
-      ),
+      const CreateBatchView(showBackButton: false),
       const ProfileView(),
     ];
 

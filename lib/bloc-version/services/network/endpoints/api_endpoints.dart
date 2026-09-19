@@ -14,6 +14,7 @@ class ApiEndpoints {
 
   // Batch & Student endpoints
   static const String batches = '/batches';
+  static String batchById(String batchId) => '/batches/$batchId';
   static const String students = '/students';
   static const String financeCollect = '/finance/collect';
 }
