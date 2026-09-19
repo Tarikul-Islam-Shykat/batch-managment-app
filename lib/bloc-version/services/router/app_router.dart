@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/splash/presentation/splash_view.dart';
+import '../../features/login/presentation/login_view.dart';
 
 class AppRouter {
   static const String splash = '/';
@@ -12,17 +13,7 @@ class AppRouter {
     initialLocation: splash,
     routes: [
       GoRoute(path: splash, builder: (context, state) => const SplashView()),
-      GoRoute(
-        path: login,
-        builder: (context, state) => const Scaffold(
-          body: Center(
-            child: Text(
-              'BLoC Login Screen (Next)',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ),
+      GoRoute(path: login, builder: (context, state) => const LoginView()),
       GoRoute(
         path: home,
         builder: (context, state) => const Scaffold(
