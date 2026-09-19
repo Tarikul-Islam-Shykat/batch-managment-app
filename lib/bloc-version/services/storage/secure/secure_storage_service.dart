@@ -6,10 +6,7 @@ class SecureStorageService implements ISecureStorageService {
 
   SecureStorageService([FlutterSecureStorage? storage])
     : _storage =
-          storage ??
-          const FlutterSecureStorage(
-            aOptions: AndroidOptions(),
-          );
+          storage ?? const FlutterSecureStorage(aOptions: AndroidOptions());
 
   @override
   Future<void> write(String key, String value) =>
