@@ -16,5 +16,9 @@ class ApiEndpoints {
   static const String batches = '/batches';
   static String batchById(String batchId) => '/batches/$batchId';
   static const String students = '/students';
+  static String studentsByBatch(String batchId) => '/students/batch/$batchId';
+  static String studentById(String studentId) => '/students/$studentId';
+  static String financeBatchSummary(String batchId, String month) =>
+      '/finance/batch/$batchId/summary?month=${Uri.encodeComponent(month)}';
   static const String financeCollect = '/finance/collect';
 }

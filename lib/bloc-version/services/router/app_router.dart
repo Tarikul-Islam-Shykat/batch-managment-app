@@ -10,6 +10,9 @@ import '../../features/batch_list/presentation/batch_list_view.dart';
 import '../../features/create_batch/data/models/create_batch_model.dart';
 import '../../features/create_batch/presentation/create_batch_view.dart';
 import '../../features/create_student/presentation/create_student_view.dart';
+import '../../features/batch_students/presentation/batch_students_view.dart';
+import '../../features/batch_students/data/models/batch_students_model.dart';
+import '../../features/edit_student/presentation/edit_student_view.dart';
 
 class AppRouter {
   static const String splash = '/';
@@ -22,6 +25,8 @@ class AppRouter {
   static const String createBatch = '/create-batch';
   static const String editBatch = '/edit-batch';
   static const String enrollStudent = '/enroll-student';
+  static const String batchStudents = '/batch-students';
+  static const String editStudent = '/edit-student';
 
   static final GoRouter router = GoRouter(
     initialLocation: splash,
@@ -60,6 +65,21 @@ class AppRouter {
         path: enrollStudent,
         builder: (context, state) =>
             CreateStudentView(batch: state.extra as BatchListItemModel?),
+      ),
+      GoRoute(
+        path: batchStudents,
+        builder: (context, state) =>
+            BatchStudentsView(batch: state.extra as BatchListItemModel),
+      ),
+      GoRoute(
+        path: editStudent,
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>;
+          return EditStudentView(
+            student: args['student'] as BatchStudentModel,
+            batch: args['batch'] as BatchListItemModel?,
+          );
+        },
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

@@ -288,13 +288,12 @@ class _BatchListBodyState extends State<_BatchListBody> {
                                           cubit.refreshBatches();
                                         }
                                       },
-                                      onViewDetails: () {
-                                        AppSnackbar.show(
-                                          context: context,
-                                          message:
-                                              'Batch details for "${batch.batchName}" coming next!',
-                                          isSuccess: true,
+                                      onViewDetails: () async {
+                                        await context.push(
+                                          '/batch-students',
+                                          extra: batch,
                                         );
+                                        cubit.refreshBatches();
                                       },
                                     );
                                   },
