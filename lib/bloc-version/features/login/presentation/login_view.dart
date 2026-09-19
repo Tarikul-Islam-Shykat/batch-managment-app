@@ -252,22 +252,21 @@ class _LoginBodyState extends State<_LoginBody> {
                     ),
                   ),
 
-                  SizedBox(height: 8.h),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Forgot password?',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black87,
-                        ),
-                      ),
-                    ),
-                  ),
-
+                  // SizedBox(height: 8.h),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: GestureDetector(
+                  //     onTap: () {},
+                  //     child: Text(
+                  //       'Forgot password?',
+                  //       style: TextStyle(
+                  //         fontSize: 13.sp,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Colors.black87,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(height: 26.h),
 
                   // Login Button (Always Enabled)
