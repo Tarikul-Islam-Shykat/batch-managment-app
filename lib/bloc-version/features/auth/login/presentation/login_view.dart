@@ -110,7 +110,7 @@ class _LoginBodyState extends State<_LoginBody> {
                           width: 72.w,
                           height: 72.w,
                           fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) => Icon(
+                          errorBuilder: (context, error, stackTrace) => Icon(
                             Icons.school_rounded,
                             size: 60.sp,
                             color: const Color(0xFF1E293B),
