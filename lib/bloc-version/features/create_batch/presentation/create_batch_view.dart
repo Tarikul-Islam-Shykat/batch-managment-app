@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
 import '../data/models/create_batch_model.dart';
 import 'bloc/create_batch_cubit.dart';
@@ -86,6 +87,27 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
     _feesController.dispose();
     _maxStudentsController.dispose();
     super.dispose();
+  }
+
+  String _getLocalizedDay(String day) {
+    switch (day.toLowerCase()) {
+      case 'saturday':
+        return context.tr('day_saturday');
+      case 'sunday':
+        return context.tr('day_sunday');
+      case 'monday':
+        return context.tr('day_monday');
+      case 'tuesday':
+        return context.tr('day_tuesday');
+      case 'wednesday':
+        return context.tr('day_wednesday');
+      case 'thursday':
+        return context.tr('day_thursday');
+      case 'friday':
+        return context.tr('day_friday');
+      default:
+        return day;
+    }
   }
 
   void _clearLocalControllers() {
@@ -305,8 +327,8 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
           AppSnackbar.show(
             context: context,
             message: state.isUpdated
-                ? 'Batch updated successfully!'
-                : 'Batch created successfully!',
+                ? context.tr('batch_updated_successfully')
+                : context.tr('batch_created_successfully'),
             isSuccess: true,
           );
           if (state.isUpdated) {
@@ -347,7 +369,9 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    state.isEditMode ? 'Edit Batch' : 'Create Batch',
+                    state.isEditMode
+                        ? context.tr('edit_batch_title')
+                        : context.tr('create_batch_title'),
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 18.sp,
                       color: const Color(0xFF000710),
@@ -357,8 +381,8 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                   SizedBox(height: 2.h),
                   Text(
                     state.isEditMode
-                        ? 'Update batch details & schedules'
-                        : 'Set up your batch & schedules',
+                        ? context.tr('update_batch')
+                        : context.tr('create_batch'),
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 12.sp,
                       color: Colors.black54,
@@ -395,16 +419,16 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                       children: [
                         _buildField(
                           controller: _batchNameController,
-                          labelText: 'Batch Name',
-                          hintText: 'Enter batch name',
+                          labelText: context.tr('batch_name'),
+                          hintText: context.tr('enter_batch_name'),
                           isMandatory: true,
                         ),
                         SizedBox(height: 14.h),
 
                         _buildField(
                           controller: _subjectController,
-                          labelText: 'Subject Name',
-                          hintText: 'Enter subject name',
+                          labelText: context.tr('subject_name'),
+                          hintText: context.tr('enter_subject'),
                           isMandatory: true,
                           labelTrailing: Container(
                             width: 28.w,
@@ -424,8 +448,8 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
 
                         _buildField(
                           controller: _feesController,
-                          labelText: 'Fees Per Student',
-                          hintText: 'Enter fees amount',
+                          labelText: context.tr('fees_per_student'),
+                          hintText: context.tr('enter_fees'),
                           isMandatory: true,
                           keyboardType: TextInputType.number,
                           suffixIcon: Padding(
@@ -433,7 +457,7 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                             child: Center(
                               widthFactor: 0,
                               child: Text(
-                                '/ student',
+                                '/ ${context.tr('student')}',
                                 style: GoogleFonts.spaceGrotesk(
                                   color: Colors.black87,
                                   fontSize: 13.sp,
@@ -450,8 +474,8 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                           children: [
                             Expanded(
                               child: _buildReadOnlyPickerField(
-                                labelText: 'Start Date',
-                                hintText: 'Start Date',
+                                labelText: context.tr('start_date'),
+                                hintText: context.tr('select_start_date'),
                                 valueText: state.startDate != null
                                     ? _formatDate(state.startDate!)
                                     : '',
@@ -474,8 +498,8 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                             SizedBox(width: 12.w),
                             Expanded(
                               child: _buildReadOnlyPickerField(
-                                labelText: 'End Date',
-                                hintText: 'End Date',
+                                labelText: context.tr('end_date'),
+                                hintText: context.tr('select_end_date'),
                                 valueText: state.endDate != null
                                     ? _formatDate(state.endDate!)
                                     : '',
@@ -505,8 +529,8 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
 
                         _buildField(
                           controller: _maxStudentsController,
-                          labelText: 'Max Students',
-                          hintText: 'Enter maximum student capacity',
+                          labelText: context.tr('max_students'),
+                          hintText: context.tr('enter_max_students'),
                           isMandatory: true,
                           keyboardType: TextInputType.number,
                         ),
@@ -516,7 +540,7 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                         Row(
                           children: [
                             Text(
-                              'Default Class Time',
+                              context.tr('default_class_time'),
                               style: GoogleFonts.spaceGrotesk(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600,
@@ -536,7 +560,7 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
                               child: Text(
-                                'Apply to all days',
+                                context.tr('apply_to_all_days'),
                                 style: GoogleFonts.spaceGrotesk(
                                   fontSize: 12.sp,
                                   color: const Color(0xFF0066FF),
@@ -553,8 +577,8 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                           children: [
                             Expanded(
                               child: _buildReadOnlyPickerField(
-                                labelText: 'Start Time',
-                                hintText: 'Start Time',
+                                labelText: context.tr('start_time'),
+                                hintText: context.tr('select_default_start_time'),
                                 valueText: _formatTime12h(
                                   state.defaultStartTime,
                                 ),
@@ -575,8 +599,8 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                             SizedBox(width: 12.w),
                             Expanded(
                               child: _buildReadOnlyPickerField(
-                                labelText: 'End Time',
-                                hintText: 'End Time',
+                                labelText: context.tr('end_time'),
+                                hintText: context.tr('select_default_end_time'),
                                 valueText: _formatTime12h(state.defaultEndTime),
                                 icon: Icons.access_time_rounded,
                                 onTap: () async {
@@ -597,7 +621,7 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                         SizedBox(height: 16.h),
 
                         Text(
-                          'Class Days',
+                          context.tr('class_days'),
                           style: GoogleFonts.spaceGrotesk(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
@@ -616,7 +640,7 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                               showCheckmark: true,
                               checkmarkColor: Colors.white,
                               label: Text(
-                                day,
+                                _getLocalizedDay(day),
                                 style: GoogleFonts.spaceGrotesk(
                                   fontSize: 13.sp,
                                   color: selected
@@ -728,7 +752,9 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                             minimumSize: Size.fromHeight(52.h),
                           ),
                           child: Text(
-                            state.isEditMode ? 'Cancel' : 'Reset',
+                            state.isEditMode
+                                ? context.tr('cancel')
+                                : context.tr('reset'),
                             style: GoogleFonts.spaceGrotesk(
                               color: const Color(0xFF0066FF),
                               fontSize: 15.sp,
@@ -788,8 +814,8 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                                 )
                               : Text(
                                   state.isEditMode
-                                      ? 'Update Batch'
-                                      : 'Create Batch',
+                                      ? context.tr('update_batch')
+                                      : context.tr('create_batch'),
                                   style: GoogleFonts.spaceGrotesk(
                                     fontSize: 15.sp,
                                     fontWeight: FontWeight.w700,

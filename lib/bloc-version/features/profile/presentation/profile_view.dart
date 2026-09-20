@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/language_cubit.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
 import 'package:batch_management_app_direct/bloc-version/services/router/app_router.dart';
 import '../data/models/profile_model.dart';
@@ -104,6 +106,7 @@ class _ProfileBody extends StatelessWidget {
     required String title,
     required VoidCallback onTap,
     String? subtitle,
+    Widget? trailing,
     bool destructive = false,
   }) {
     final color = destructive ? Colors.redAccent : const Color(0xFF000710);
@@ -146,6 +149,10 @@ class _ProfileBody extends StatelessWidget {
                   ],
                 ),
               ),
+              if (trailing != null) ...[
+                trailing,
+                SizedBox(width: 8.w),
+              ],
               Icon(
                 Icons.chevron_right_rounded,
                 size: 22.sp,
@@ -177,7 +184,7 @@ class _ProfileBody extends StatelessWidget {
         } else if (state is ProfileLoggedOut) {
           AppSnackbar.show(
             context: context,
-            message: 'Logged out successfully.',
+            message: context.tr('logged_out_successfully'),
             isSuccess: true,
           );
           context.go(AppRouter.login);
@@ -203,7 +210,7 @@ class _ProfileBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Profile',
+                    context.tr('profile'),
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 18.sp,
                       color: const Color(0xFF000710),
@@ -212,7 +219,7 @@ class _ProfileBody extends StatelessWidget {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    user.name.isNotEmpty ? user.name : 'Teacher',
+                    user.name.isNotEmpty ? user.name : context.tr('teacher'),
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 12.sp,
                       color: Colors.black54,
@@ -350,50 +357,91 @@ class _ProfileBody extends StatelessWidget {
                           SizedBox(height: 16.h),
 
                           _infoCard(
-                            label: 'Institution Name',
+                            label: context.tr('institution_name'),
                             value: user.institutionName.isNotEmpty
                                 ? user.institutionName
-                                : 'Not set',
+                                : context.tr('not_set'),
                             icon: Icons.school_outlined,
                           ),
                           SizedBox(height: 10.h),
                           _infoCard(
-                            label: 'Teaching Level',
+                            label: context.tr('teaching_level'),
                             value: user.teachingLevel.isNotEmpty
                                 ? user.teachingLevel
-                                : 'Not set',
+                                : context.tr('not_set'),
                             icon: Icons.cast_for_education_rounded,
                           ),
                           SizedBox(height: 10.h),
                           _infoCard(
-                            label: 'Institution Location',
+                            label: context.tr('institution_location'),
                             value: user.institutionLocation.isNotEmpty
                                 ? user.institutionLocation
-                                : 'Not set',
+                                : context.tr('not_set'),
                             icon: Icons.location_on_outlined,
                           ),
                           SizedBox(height: 10.h),
                           _infoCard(
-                            label: 'Bio',
-                            value: user.bio.isNotEmpty ? user.bio : 'Not set',
+                            label: context.tr('bio'),
+                            value: user.bio.isNotEmpty
+                                ? user.bio
+                                : context.tr('not_set'),
                             icon: Icons.notes_rounded,
                           ),
 
+                          SizedBox(height: 16.h),
+
+                          // Language Switcher Menu Tile
+                          _menuTile(
+                            icon: Icons.language_rounded,
+                            title: context.tr('language'),
+                            subtitle: context.isBangla
+                                ? 'বাংলা (Bangla)'
+                                : 'English',
+                            trailing: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 4.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(
+                                  0xFF0066FF,
+                                ).withValues(alpha: 0.08),
+                                borderRadius: BorderRadius.circular(20.r),
+                                border: Border.all(
+                                  color: const Color(
+                                    0xFF0066FF,
+                                  ).withValues(alpha: 0.20),
+                                ),
+                              ),
+                              child: Text(
+                                context.isBangla ? 'English' : 'বাংলা',
+                                style: GoogleFonts.spaceGrotesk(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF0066FF),
+                                ),
+                              ),
+                            ),
+                            onTap: () =>
+                                context.read<LanguageCubit>().toggleLanguage(),
+                          ),
+
                           if (isSuperAdmin) ...[
-                            SizedBox(height: 16.h),
+                            SizedBox(height: 12.h),
                             _menuTile(
                               icon: Icons.system_update_alt_rounded,
-                              title: 'App Status',
+                              title: context.tr('app_status_title'),
                               onTap: () => context.push(AppRouter.superAdmin),
                             ),
                           ],
 
-                          SizedBox(height: 16.h),
+                          SizedBox(height: 12.h),
 
                           // Logout Menu Tile
                           _menuTile(
                             icon: Icons.logout_rounded,
-                            title: 'Logout',
+                            title: context.tr('logout'),
+                            subtitle: context.tr('logout_subtitle'),
                             destructive: true,
                             onTap: () => context.read<ProfileCubit>().logout(),
                           ),

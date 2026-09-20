@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import '../bloc/create_batch_state.dart';
 
 class ScheduleCard extends StatelessWidget {
@@ -25,6 +26,27 @@ class ScheduleCard extends StatelessWidget {
     final minute = time.minute.toString().padLeft(2, '0');
     final period = time.period == DayPeriod.am ? 'AM' : 'PM';
     return '$hour:$minute $period';
+  }
+
+  String _getLocalizedDay(BuildContext context, String day) {
+    switch (day.toLowerCase()) {
+      case 'saturday':
+        return context.tr('day_saturday');
+      case 'sunday':
+        return context.tr('day_sunday');
+      case 'monday':
+        return context.tr('day_monday');
+      case 'tuesday':
+        return context.tr('day_tuesday');
+      case 'wednesday':
+        return context.tr('day_wednesday');
+      case 'thursday':
+        return context.tr('day_thursday');
+      case 'friday':
+        return context.tr('day_friday');
+      default:
+        return day;
+    }
   }
 
   Widget _buildTimeField({
@@ -94,7 +116,7 @@ class ScheduleCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                item.day,
+                _getLocalizedDay(context, item.day),
                 style: GoogleFonts.spaceGrotesk(
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w700,
@@ -110,7 +132,7 @@ class ScheduleCard extends StatelessWidget {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: Text(
-                  'Reset to default',
+                  context.tr('reset_to_default'),
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 12.sp,
                     color: const Color(0xFF0066FF),
@@ -125,7 +147,7 @@ class ScheduleCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _buildTimeField(
-                  label: 'Start Time',
+                  label: context.tr('start_time'),
                   value: _formatTime12h(item.startTime),
                   onTap: onPickStartTime,
                 ),
@@ -133,7 +155,7 @@ class ScheduleCard extends StatelessWidget {
               SizedBox(width: 12.w),
               Expanded(
                 child: _buildTimeField(
-                  label: 'End Time',
+                  label: context.tr('end_time'),
                   value: _formatTime12h(item.endTime),
                   onTap: onPickEndTime,
                 ),

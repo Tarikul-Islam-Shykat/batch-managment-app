@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import '../../data/models/profile_model.dart';
 
 class ProfileEditSheet extends StatefulWidget {
@@ -180,7 +181,7 @@ class _ProfileEditSheetState extends State<ProfileEditSheet> {
                 ),
                 SizedBox(height: 14.h),
                 Text(
-                  'Edit Profile',
+                  context.tr('edit_profile'),
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
@@ -201,26 +202,26 @@ class _ProfileEditSheetState extends State<ProfileEditSheet> {
                 SizedBox(height: 16.h),
                 _buildField(
                   controller: institutionNameController,
-                  labelText: 'Institution Name',
-                  hintText: 'Institution Name',
+                  labelText: context.tr('institution_name'),
+                  hintText: context.tr('institution_name'),
                 ),
                 SizedBox(height: 12.h),
                 _buildField(
                   controller: teachingLevelController,
-                  labelText: 'Teaching Level',
-                  hintText: 'Teaching Level',
+                  labelText: context.tr('teaching_level'),
+                  hintText: context.tr('teaching_level'),
                 ),
                 SizedBox(height: 12.h),
                 _buildField(
                   controller: institutionLocationController,
-                  labelText: 'Institution Location',
-                  hintText: 'Institution Location',
+                  labelText: context.tr('institution_location'),
+                  hintText: context.tr('institution_location'),
                 ),
                 SizedBox(height: 12.h),
                 _buildField(
                   controller: bioController,
-                  labelText: 'Bio',
-                  hintText: 'Bio',
+                  labelText: context.tr('bio'),
+                  hintText: context.tr('bio'),
                   maxLines: 4,
                 ),
                 SizedBox(height: 18.h),
@@ -249,7 +250,7 @@ class _ProfileEditSheetState extends State<ProfileEditSheet> {
                             ),
                           )
                         : Text(
-                            'Save Changes',
+                            context.tr('save_changes'),
                             style: GoogleFonts.spaceGrotesk(
                               fontSize: 15.sp,
                               fontWeight: FontWeight.w600,

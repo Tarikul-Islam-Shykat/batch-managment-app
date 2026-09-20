@@ -16,6 +16,7 @@ flowchart TD
 ```
 
 The system is composed of four clean components:
+
 1. **Dictionary (`app_translations.dart`)**: Holds key-value mappings for `'en_US'` and `'bn_BD'`.
 2. **Storage (`LocalStorageService`)**: Persists user selection in `SharedPreferences` under key `LocalStorageKey.language` (`'en'` or `'bn'`).
 3. **State (`LanguageCubit`)**: Holds the active `Locale` (`Locale('en', 'US')` or `Locale('bn', 'BD')`). Emits updates and writes to disk.
@@ -26,12 +27,15 @@ The system is composed of four clean components:
 ## 1. Quick Usage in Widgets
 
 Import the extension:
+
 ```dart
 import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 ```
 
 ### Basic Text Translation
+
 You can translate text using either syntax:
+
 ```dart
 // Option A (Recommended)
 Text(context.tr('welcome'))
@@ -41,6 +45,7 @@ Text('welcome'.tr(context))
 ```
 
 ### Checking Current Language
+
 ```dart
 if (context.isBangla) {
   // Logic specifically for Bangla
@@ -56,6 +61,7 @@ final currentLocale = context.currentLocale; // Locale('bn', 'BD') or Locale('en
 Since `tr(...)` is an extension on `BuildContext`, it works everywhere a `BuildContext` is available:
 
 ### Dialogs:
+
 ```dart
 showDialog(
   context: context,
@@ -67,6 +73,7 @@ showDialog(
 ```
 
 ### Bottom Sheets:
+
 ```dart
 showModalBottomSheet(
   context: context,
@@ -75,6 +82,7 @@ showModalBottomSheet(
 ```
 
 ### Snackbars:
+
 ```dart
 AppSnackbar.show(
   context: context,
@@ -98,6 +106,7 @@ context.read<LanguageCubit>().setLanguage(const Locale('bn', 'BD'));
 ```
 
 ### Example: Switcher Button UI
+
 ```dart
 BlocBuilder<LanguageCubit, Locale>(
   builder: (context, locale) {
@@ -132,6 +141,7 @@ static const Map<String, Map<String, String>> keys = {
 ---
 
 ## 5. Storage & Persistence Details
+
 - **Storage Engine**: `SharedPreferences` via `ILocalStorageService`.
 - **Key Name**: `LocalStorageKey.language` (`'language'`).
 - **Persistence Behavior**:
