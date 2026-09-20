@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
 import '../../batch_list/presentation/batch_list_view.dart';
 import '../../create_batch/presentation/create_batch_view.dart';
@@ -60,32 +61,32 @@ class _NavbarBody extends StatelessWidget {
               elevation: 0,
               height: 65.h,
               labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-              destinations: const [
+              destinations: [
                 NavigationDestination(
-                  icon: Icon(Icons.home_outlined),
-                  selectedIcon: Icon(Icons.home, color: Color(0xFF0066FF)),
-                  label: 'Home',
+                  icon: const Icon(Icons.home_outlined),
+                  selectedIcon: const Icon(Icons.home, color: Color(0xFF0066FF)),
+                  label: context.tr('home'),
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.view_list_outlined),
-                  selectedIcon: Icon(Icons.view_list, color: Color(0xFF0066FF)),
-                  label: 'Batches',
+                  icon: const Icon(Icons.view_list_outlined),
+                  selectedIcon: const Icon(Icons.view_list, color: Color(0xFF0066FF)),
+                  label: context.tr('batches'),
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.add_circle_outline),
-                  selectedIcon: Icon(
+                  icon: const Icon(Icons.add_circle_outline),
+                  selectedIcon: const Icon(
                     Icons.add_circle,
                     color: Color(0xFF0066FF),
                   ),
-                  label: 'New Batch',
+                  label: context.tr('new_batch'),
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.person_outline_rounded),
-                  selectedIcon: Icon(
+                  icon: const Icon(Icons.person_outline_rounded),
+                  selectedIcon: const Icon(
                     Icons.person_rounded,
                     color: Color(0xFF0066FF),
                   ),
-                  label: 'Profile',
+                  label: context.tr('profile'),
                 ),
               ],
             ),

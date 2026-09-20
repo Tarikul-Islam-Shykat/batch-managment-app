@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
 import 'package:batch_management_app_direct/bloc-version/features/profile/presentation/bloc/profile_cubit.dart';
 import '../data/models/home_dashboard_model.dart';
@@ -71,7 +72,7 @@ class _HomeBody extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Dashboard',
+                    context.tr('dashboard'),
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
@@ -95,7 +96,7 @@ class _HomeBody extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  tooltip: 'Refresh',
+                  tooltip: context.tr('refresh'),
                   onPressed: () => cubit.refresh(),
                   icon: const Icon(
                     Icons.refresh_rounded,
@@ -125,10 +126,10 @@ class _HomeBody extends StatelessWidget {
                       children: [
                         SizedBox(height: 80.h),
                         HomeEmptyState(
-                          title: 'No Dashboard Data',
+                          title: context.tr('no_dashboard_data'),
                           subtitle:
                               state.errorMessage ??
-                              'Could not load analytics for the selected month.',
+                              context.tr('could_not_load_analytics'),
                           onRetry: () => cubit.refresh(),
                         ),
                       ],
@@ -148,11 +149,11 @@ class _HomeBody extends StatelessWidget {
 
                       // 1. Batch Overview
                       ExpandableSectionCard(
-                        title: 'Batch Overview',
+                        title: context.tr('batch_overview'),
                         child: MetricGrid(
                           items: [
                             DashboardMetric(
-                              label: 'Total Batches',
+                              label: context.tr('total_batches'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.batchOverview,
                                 const ['total_batches', 'total'],
@@ -161,7 +162,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFF2F80ED),
                             ),
                             DashboardMetric(
-                              label: 'Current Batches',
+                              label: context.tr('current_batches'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.batchOverview,
                                 const ['current_batches', 'current'],
@@ -170,7 +171,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFF11A36A),
                             ),
                             DashboardMetric(
-                              label: 'Upcoming Batches',
+                              label: context.tr('upcoming_batches'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.batchOverview,
                                 const ['upcoming_batches', 'upcoming'],
@@ -179,7 +180,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFFF28C28),
                             ),
                             DashboardMetric(
-                              label: 'Ended Batches',
+                              label: context.tr('ended_batches'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.batchOverview,
                                 const ['ended_batches', 'ended'],
@@ -194,11 +195,11 @@ class _HomeBody extends StatelessWidget {
 
                       // 2. Student Overview
                       ExpandableSectionCard(
-                        title: 'Student Overview',
+                        title: context.tr('student_overview'),
                         child: MetricGrid(
                           items: [
                             DashboardMetric(
-                              label: 'Total Students',
+                              label: context.tr('total_students'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.studentOverview,
                                 const ['total_students', 'total'],
@@ -207,7 +208,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFF2F80ED),
                             ),
                             DashboardMetric(
-                              label: 'Active Students',
+                              label: context.tr('active_students'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.studentOverview,
                                 const ['active_students', 'active'],
@@ -216,7 +217,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFF11A36A),
                             ),
                             DashboardMetric(
-                              label: 'Pending Students',
+                              label: context.tr('pending_students'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.studentOverview,
                                 const ['pending_students', 'pending'],
@@ -225,7 +226,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFFF28C28),
                             ),
                             DashboardMetric(
-                              label: 'New This Month',
+                              label: context.tr('new_this_month'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.studentOverview,
                                 const ['new_this_month', 'new_students'],
@@ -240,11 +241,11 @@ class _HomeBody extends StatelessWidget {
 
                       // 3. Capacity Overview
                       ExpandableSectionCard(
-                        title: 'Capacity Overview',
+                        title: context.tr('capacity_overview'),
                         child: MetricGrid(
                           items: [
                             DashboardMetric(
-                              label: 'Total Seats',
+                              label: context.tr('total_seats'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.capacityOverview,
                                 const ['total_seats', 'seats', 'capacity'],
@@ -253,7 +254,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFF2F80ED),
                             ),
                             DashboardMetric(
-                              label: 'Filled Seats',
+                              label: context.tr('filled_seats'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.capacityOverview,
                                 const ['filled_seats', 'used_seats'],
@@ -262,7 +263,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFF11A36A),
                             ),
                             DashboardMetric(
-                              label: 'Empty Seats',
+                              label: context.tr('empty_seats'),
                               value: HomeDashboardModel.intValue(
                                 dashboard.capacityOverview,
                                 const ['empty_seats', 'remaining_seats'],
@@ -271,7 +272,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFFF28C28),
                             ),
                             DashboardMetric(
-                              label: 'Fill Rate',
+                              label: context.tr('fill_rate'),
                               value: HomeDashboardModel.formatPercent(
                                 HomeDashboardModel.doubleValue(
                                   dashboard.capacityOverview,
@@ -288,11 +289,11 @@ class _HomeBody extends StatelessWidget {
 
                       // 4. Finance Overview
                       ExpandableSectionCard(
-                        title: 'Finance Overview',
+                        title: context.tr('finance_overview'),
                         child: MetricGrid(
                           items: [
                             DashboardMetric(
-                              label: 'Expected Amount',
+                              label: context.tr('expected_amount'),
                               value: HomeDashboardModel.formatNumber(
                                 HomeDashboardModel.doubleValue(
                                   dashboard.financeOverview,
@@ -306,7 +307,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFF2F80ED),
                             ),
                             DashboardMetric(
-                              label: 'Collected Amount',
+                              label: context.tr('collected_amount'),
                               value: HomeDashboardModel.formatNumber(
                                 HomeDashboardModel.doubleValue(
                                   dashboard.financeOverview,
@@ -320,7 +321,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFF11A36A),
                             ),
                             DashboardMetric(
-                              label: 'Due Amount',
+                              label: context.tr('due_amount'),
                               value: HomeDashboardModel.formatNumber(
                                 HomeDashboardModel.doubleValue(
                                   dashboard.financeOverview,
@@ -331,7 +332,7 @@ class _HomeBody extends StatelessWidget {
                               color: const Color(0xFFEB5757),
                             ),
                             DashboardMetric(
-                              label: 'Collection Rate',
+                              label: context.tr('collection_rate'),
                               value: HomeDashboardModel.formatPercent(
                                 HomeDashboardModel.doubleValue(
                                   dashboard.financeOverview,
@@ -349,7 +350,7 @@ class _HomeBody extends StatelessWidget {
                       if (dashboard.batchSummaries.isNotEmpty) ...[
                         SizedBox(height: 14.h),
                         ExpandableSectionCard(
-                          title: 'Batch Summaries',
+                          title: context.tr('batch_summaries'),
                           child: SizedBox(
                             height: 195.h,
                             child: ListView.separated(
@@ -357,7 +358,7 @@ class _HomeBody extends StatelessWidget {
                               physics: const BouncingScrollPhysics(),
                               itemCount: dashboard.batchSummaries.length,
                               separatorBuilder: (context, index) =>
-                                  SizedBox(width: 12.w),
+                                   SizedBox(width: 12.w),
                               itemBuilder: (context, index) {
                                 final item = dashboard.batchSummaries[index];
                                 return BatchSummaryCard(
@@ -408,7 +409,7 @@ class _HomeBody extends StatelessWidget {
                       if (dashboard.recentActivities.isNotEmpty) ...[
                         SizedBox(height: 14.h),
                         ExpandableSectionCard(
-                          title: 'Recent Activities',
+                          title: context.tr('recent_activities'),
                           child: Column(
                             children: dashboard.recentActivities.map((item) {
                               return Padding(
@@ -439,7 +440,7 @@ class _HomeBody extends StatelessWidget {
                       if (dashboard.alerts.isNotEmpty) ...[
                         SizedBox(height: 14.h),
                         ExpandableSectionCard(
-                          title: 'Alerts',
+                          title: context.tr('alerts'),
                           child: Column(
                             children: dashboard.alerts.map((item) {
                               return Padding(

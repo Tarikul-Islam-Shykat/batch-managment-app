@@ -1,3 +1,4 @@
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -104,7 +105,7 @@ class BatchSummaryCard extends StatelessWidget {
           ),
           SizedBox(height: 6.h),
           Text(
-            '$paidStudents Paid • $totalStudents Total',
+            '$paidStudents ${context.tr('paid')} • $totalStudents ${context.tr('total')}',
             style: GoogleFonts.spaceGrotesk(
               color: Colors.black54,
               fontSize: 11.sp,

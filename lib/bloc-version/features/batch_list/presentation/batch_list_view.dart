@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
 import 'bloc/batch_list_cubit.dart';
 import 'bloc/batch_list_state.dart';
@@ -83,7 +84,7 @@ class _BatchListBodyState extends State<_BatchListBody> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Batches',
+                    context.tr('batches'),
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 18.sp,
                       color: const Color(0xFF000710),
@@ -92,7 +93,7 @@ class _BatchListBodyState extends State<_BatchListBody> {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    'Manage your batches & schedules',
+                    context.tr('manage_batches_schedules'),
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 12.sp,
                       color: Colors.black54,
@@ -171,7 +172,7 @@ class _BatchListBodyState extends State<_BatchListBody> {
                               ),
                               child: Center(
                                 child: Text(
-                                  cubit.statusShortLabel(status),
+                                  context.tr(status),
                                   style: GoogleFonts.spaceGrotesk(
                                     fontSize: 13.sp,
                                     color: isSelected
@@ -220,7 +221,7 @@ class _BatchListBodyState extends State<_BatchListBody> {
                                           ),
                                           SizedBox(height: 12.h),
                                           Text(
-                                            'No batches found',
+                                            context.tr('no_batches_found'),
                                             style: GoogleFonts.spaceGrotesk(
                                               fontSize: 15.sp,
                                               color: Colors.black54,
@@ -267,8 +268,8 @@ class _BatchListBodyState extends State<_BatchListBody> {
                                     final batch = state.batches[index];
                                     return BatchCard(
                                       batch: batch,
-                                      statusLabel: cubit.statusLabel(
-                                        state.selectedStatus,
+                                      statusLabel: context.tr(
+                                        '${state.selectedStatus}_batches',
                                       ),
                                       onEdit: () async {
                                         final updated = await context.push(

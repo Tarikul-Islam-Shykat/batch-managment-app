@@ -1,3 +1,4 @@
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,7 +75,7 @@ class HomeEmptyState extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 12.h),
               ),
               child: Text(
-                'Retry',
+                context.tr('retry'),
                 style: GoogleFonts.spaceGrotesk(
                   fontWeight: FontWeight.w700,
                   fontSize: 14.sp,

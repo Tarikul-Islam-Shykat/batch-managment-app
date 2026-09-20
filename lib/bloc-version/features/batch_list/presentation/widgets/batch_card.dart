@@ -1,3 +1,4 @@
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/features/create_batch/data/models/create_batch_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,14 +100,17 @@ class BatchCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 4.h),
-                    _labelValueRow('Subject', batch.subject),
+                    _labelValueRow(context.tr('subject'), batch.subject),
                     SizedBox(height: 6.h),
                     _labelValueRow(
-                      'Fees',
+                      context.tr('fees'),
                       '৳ ${batch.fees.toStringAsFixed(0)}',
                     ),
                     SizedBox(height: 4.h),
-                    _labelValueRow('Max Students', '${batch.maxStudents}'),
+                    _labelValueRow(
+                      context.tr('max_students'),
+                      '${batch.maxStudents}',
+                    ),
                   ],
                 ),
               ),
@@ -150,7 +154,7 @@ class BatchCard extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Add Student',
+                    context.tr('add_student'),
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
@@ -172,7 +176,7 @@ class BatchCard extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'View Details',
+                    context.tr('view_details'),
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,

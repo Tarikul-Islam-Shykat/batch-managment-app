@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/services/router/app_router.dart';
 import 'package:batch_management_app_direct/bloc-version/features/navbar/presentation/bloc/navbar_cubit.dart';
 import '../../data/models/home_dashboard_model.dart';
@@ -44,7 +45,7 @@ class HeroCard extends StatelessWidget {
                 ),
                 SizedBox(height: 14.h),
                 Text(
-                  'Select Month',
+                  context.tr('select_month'),
                   style: GoogleFonts.spaceGrotesk(
                     color: const Color(0xFF000710),
                     fontSize: 18.sp,
@@ -163,7 +164,7 @@ class HeroCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Overview',
+                      context.tr('overview'),
                       style: GoogleFonts.spaceGrotesk(
                         color: Colors.white.withValues(alpha: 0.85),
                         fontSize: 13.sp,
@@ -172,7 +173,7 @@ class HeroCard extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      'Teaching Analytics',
+                      context.tr('teaching_analytics'),
                       style: GoogleFonts.spaceGrotesk(
                         color: Colors.white,
                         fontSize: 20.sp,
@@ -222,7 +223,7 @@ class HeroCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Selected Month',
+                          context.tr('selected_month'),
                           style: GoogleFonts.spaceGrotesk(
                             color: Colors.black54,
                             fontSize: 11.sp,
@@ -233,7 +234,7 @@ class HeroCard extends StatelessWidget {
                         Text(
                           state.selectedMonth.isNotEmpty
                               ? state.selectedMonth
-                              : 'Current Month',
+                              : context.tr('current_month'),
                           style: GoogleFonts.spaceGrotesk(
                             color: const Color(0xFF000710),
                             fontSize: 15.sp,
@@ -258,14 +259,14 @@ class HeroCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _MiniStatChip(
-                  label: 'Total Batches',
+                  label: context.tr('total_batches'),
                   value: totalBatches.toString(),
                 ),
               ),
               SizedBox(width: 10.w),
               Expanded(
                 child: _MiniStatChip(
-                  label: 'Total Students',
+                  label: context.tr('total_students'),
                   value: totalStudents.toString(),
                 ),
               ),
@@ -296,7 +297,7 @@ class HeroCard extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'View Batches',
+                    context.tr('view_batches'),
                     style: GoogleFonts.spaceGrotesk(
                       fontWeight: FontWeight.w700,
                       fontSize: 13.sp,
@@ -320,7 +321,7 @@ class HeroCard extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'New Batch',
+                    context.tr('new_batch'),
                     style: GoogleFonts.spaceGrotesk(
                       fontWeight: FontWeight.w700,
                       fontSize: 13.sp,
