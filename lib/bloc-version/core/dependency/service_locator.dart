@@ -9,6 +9,7 @@ import '../../services/storage/local/local_storage_service.dart';
 import '../../services/storage/secure/secure_storage_interface.dart';
 import '../../services/storage/secure/secure_storage_service.dart';
 import '../global/theme/theme_cubit.dart';
+import '../localization/language_cubit.dart';
 import '../../features/auth/splash/splash_di.dart';
 import '../../features/auth/login/login_di.dart';
 import '../../features/auth/register/register_di.dart';
@@ -36,6 +37,10 @@ Future<void> initServiceLocator() async {
 
   sl.registerLazySingleton<ThemeCubit>(
     () => ThemeCubit(sl<ILocalStorageService>()),
+  );
+
+  sl.registerLazySingleton<LanguageCubit>(
+    () => LanguageCubit(sl<ILocalStorageService>()),
   );
 
   sl.registerLazySingleton<NetworkConfig>(

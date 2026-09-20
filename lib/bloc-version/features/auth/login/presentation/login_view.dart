@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/language_cubit.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
 import 'package:batch_management_app_direct/bloc-version/services/router/app_router.dart';
 import 'bloc/login_cubit.dart';
@@ -41,7 +43,7 @@ class _LoginBodyState extends State<_LoginBody> {
     super.dispose();
   }
 
-  Widget _buildVersionText() {
+  Widget _buildVersionText(BuildContext context) {
     return FutureBuilder<PackageInfo>(
       future: PackageInfo.fromPlatform(),
       builder: (context, snapshot) {
@@ -51,7 +53,7 @@ class _LoginBodyState extends State<_LoginBody> {
         }
 
         return Text(
-          'App Version v$version',
+          '${context.tr('app_version')} v$version',
           style: TextStyle(
             fontSize: 12.sp,
             color: Colors.black38,
@@ -82,7 +84,7 @@ class _LoginBodyState extends State<_LoginBody> {
         } else if (state is LoginSuccess) {
           AppSnackbar.show(
             context: context,
-            message: 'Login successful.',
+            message: context.tr('login_successful'),
             isSuccess: true,
           );
           context.go(AppRouter.navbar);
@@ -99,7 +101,59 @@ class _LoginBodyState extends State<_LoginBody> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 28.h),
+                  SizedBox(height: 12.h),
+
+                  // Language Switcher (Bangla <-> English)
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: BlocBuilder<LanguageCubit, Locale>(
+                      builder: (context, locale) {
+                        final isBangla = locale.languageCode == 'bn';
+                        return GestureDetector(
+                          onTap: () =>
+                              context.read<LanguageCubit>().toggleLanguage(),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 14.w,
+                              vertical: 7.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(
+                                0xFF2563EB,
+                              ).withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(999.r),
+                              border: Border.all(
+                                color: const Color(
+                                  0xFF2563EB,
+                                ).withValues(alpha: 0.18),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.language_rounded,
+                                  size: 16.sp,
+                                  color: const Color(0xFF2563EB),
+                                ),
+                                SizedBox(width: 6.w),
+                                Text(
+                                  isBangla ? 'English' : 'বাংলা',
+                                  style: TextStyle(
+                                    fontSize: 13.sp,
+                                    color: const Color(0xFF2563EB),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  SizedBox(height: 16.h),
                   Center(
                     child: Hero(
                       tag: 'splash-logo-hero',
@@ -122,7 +176,7 @@ class _LoginBodyState extends State<_LoginBody> {
                   SizedBox(height: 18.h),
                   Center(
                     child: Text(
-                      'Welcome! 👋',
+                      context.tr('welcome'),
                       style: TextStyle(
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w700,
@@ -133,7 +187,7 @@ class _LoginBodyState extends State<_LoginBody> {
                   SizedBox(height: 8.h),
                   Center(
                     child: Text(
-                      'Log in to manage your batch and students.',
+                      context.tr('login_subtitle'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14.sp,
@@ -148,7 +202,7 @@ class _LoginBodyState extends State<_LoginBody> {
                   Row(
                     children: [
                       Text(
-                        'Email',
+                        context.tr('email'),
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
@@ -174,7 +228,7 @@ class _LoginBodyState extends State<_LoginBody> {
                       context.read<LoginCubit>().onEmailChanged(val);
                     },
                     decoration: InputDecoration(
-                      hintText: 'Email',
+                      hintText: context.tr('email'),
                       filled: true,
                       fillColor: const Color(0xFFF2F2F2),
                       contentPadding: EdgeInsets.symmetric(
@@ -201,7 +255,7 @@ class _LoginBodyState extends State<_LoginBody> {
                   Row(
                     children: [
                       Text(
-                        'Password',
+                        context.tr('password'),
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
@@ -302,7 +356,7 @@ class _LoginBodyState extends State<_LoginBody> {
                               ),
                             )
                           : Text(
-                              'Log In',
+                              context.tr('login'),
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
@@ -319,7 +373,7 @@ class _LoginBodyState extends State<_LoginBody> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
-                          "Don't have an account? ",
+                          "${context.tr('no_account')} ",
                           style: TextStyle(
                             fontSize: 13.sp,
                             color: Colors.black54,
@@ -328,7 +382,7 @@ class _LoginBodyState extends State<_LoginBody> {
                         GestureDetector(
                           onTap: () => context.push(AppRouter.register),
                           child: Text(
-                            'Register',
+                            context.tr('register'),
                             style: TextStyle(
                               fontSize: 13.sp,
                               color: const Color(0xFF1E293B),
@@ -341,7 +395,7 @@ class _LoginBodyState extends State<_LoginBody> {
                   ),
 
                   SizedBox(height: 24.h),
-                  Center(child: _buildVersionText()),
+                  Center(child: _buildVersionText(context)),
                   SizedBox(height: 16.h),
                 ],
               ),
