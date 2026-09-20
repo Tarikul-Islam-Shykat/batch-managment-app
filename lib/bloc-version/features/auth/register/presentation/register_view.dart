@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
 import 'package:batch_management_app_direct/bloc-version/services/router/app_router.dart';
 import 'bloc/register_cubit.dart';
@@ -89,7 +90,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
         } else if (state is RegisterSuccess) {
           AppSnackbar.show(
             context: context,
-            message: 'A 6-digit OTP has been sent to your email.',
+            message: context.tr('otp_sent_to_email'),
             isSuccess: true,
           );
           context.push(
@@ -123,7 +124,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
               },
             ),
             title: Text(
-              'Create Account',
+              context.tr('create_account'),
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w700,
@@ -138,7 +139,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Create your account',
+                    context.tr('registration_title'),
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.w700,
@@ -147,7 +148,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    'Fill in your details and we will send a 6-digit OTP to your email.',
+                    context.tr('registration_subtitle'),
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: Colors.black54,
@@ -157,12 +158,12 @@ class _RegisterBodyState extends State<_RegisterBody> {
                   SizedBox(height: 28.h),
 
                   // Name Field
-                  _buildFieldLabel('Name'),
+                  _buildFieldLabel(context.tr('name')),
                   SizedBox(height: 6.h),
                   TextFormField(
                     controller: _nameController,
                     decoration: InputDecoration(
-                      hintText: 'Enter your name',
+                      hintText: context.tr('enter_name'),
                       filled: true,
                       fillColor: const Color(0xFFF2F2F2),
                       contentPadding: EdgeInsets.symmetric(
@@ -179,7 +180,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                   SizedBox(height: 16.h),
 
                   // Email Field
-                  _buildFieldLabel('Email'),
+                  _buildFieldLabel(context.tr('email')),
                   SizedBox(height: 6.h),
                   TextFormField(
                     controller: _emailController,
@@ -188,7 +189,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                       context.read<RegisterCubit>().onEmailChanged(val);
                     },
                     decoration: InputDecoration(
-                      hintText: 'Email',
+                      hintText: context.tr('email'),
                       filled: true,
                       fillColor: const Color(0xFFF2F2F2),
                       contentPadding: EdgeInsets.symmetric(
@@ -212,7 +213,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                   SizedBox(height: 16.h),
 
                   // Password Field
-                  _buildFieldLabel('Password'),
+                  _buildFieldLabel(context.tr('password')),
                   SizedBox(height: 6.h),
                   TextFormField(
                     controller: _passwordController,
@@ -249,7 +250,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                   SizedBox(height: 16.h),
 
                   // Confirm Password Field
-                  _buildFieldLabel('Confirm Password'),
+                  _buildFieldLabel(context.tr('confirm_password')),
                   SizedBox(height: 6.h),
                   TextFormField(
                     controller: _confirmPasswordController,
@@ -321,7 +322,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                               ),
                             )
                           : Text(
-                              'Sign Up',
+                              context.tr('sign_up'),
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
@@ -338,7 +339,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
-                          'Already have an account? ',
+                          "${context.tr('already_have_account')} ",
                           style: TextStyle(
                             fontSize: 13.sp,
                             color: Colors.black54,
@@ -353,7 +354,7 @@ class _RegisterBodyState extends State<_RegisterBody> {
                             }
                           },
                           child: Text(
-                            'Log In',
+                            context.tr('login'),
                             style: TextStyle(
                               fontSize: 13.sp,
                               color: const Color(0xFF1E293B),

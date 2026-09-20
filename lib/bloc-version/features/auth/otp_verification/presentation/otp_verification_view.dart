@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/core/widgets/app_snackbar.dart';
 import 'package:batch_management_app_direct/bloc-version/services/router/app_router.dart';
 import 'bloc/otp_verification_cubit.dart';
@@ -95,7 +96,7 @@ class _OtpVerificationBodyState extends State<_OtpVerificationBody> {
         } else if (state is OtpVerificationSuccess) {
           AppSnackbar.show(
             context: context,
-            message: 'OTP verified successfully! Please log in.',
+            message: context.tr('otp_verified_successfully'),
             isSuccess: true,
           );
           context.go(AppRouter.login);
@@ -121,7 +122,7 @@ class _OtpVerificationBodyState extends State<_OtpVerificationBody> {
               },
             ),
             title: Text(
-              'OTP Verification',
+              context.tr('otp_verification_title'),
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w700,
@@ -137,8 +138,8 @@ class _OtpVerificationBodyState extends State<_OtpVerificationBody> {
                 children: [
                   Text(
                     name.isEmpty
-                        ? 'Check your email for OTP'
-                        : '$name, check your email',
+                        ? context.tr('check_email_for_otp')
+                        : '$name, ${context.tr('check_email_for_otp')}',
                     style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.w700,
@@ -147,9 +148,7 @@ class _OtpVerificationBodyState extends State<_OtpVerificationBody> {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    email.isEmpty
-                        ? 'A 6-digit verification OTP has been sent to your email.'
-                        : 'A 6-digit verification OTP has been sent to $email',
+                    context.tr('otp_sent_to_email'),
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: Colors.black54,
@@ -161,7 +160,7 @@ class _OtpVerificationBodyState extends State<_OtpVerificationBody> {
                   Row(
                     children: [
                       Text(
-                        'OTP Code',
+                        context.tr('otp_code'),
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: const Color(0xFF1E293B),
@@ -278,7 +277,7 @@ class _OtpVerificationBodyState extends State<_OtpVerificationBody> {
                               ),
                             )
                           : Text(
-                              'Resend OTP',
+                              context.tr('resend_otp'),
                               style: TextStyle(
                                 color: const Color(0xFF0066FF),
                                 fontWeight: FontWeight.w700,
@@ -325,7 +324,7 @@ class _OtpVerificationBodyState extends State<_OtpVerificationBody> {
                               ),
                             )
                           : Text(
-                              'Verify OTP',
+                              context.tr('verify_otp'),
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
@@ -344,7 +343,7 @@ class _OtpVerificationBodyState extends State<_OtpVerificationBody> {
                         context.go(AppRouter.login);
                       },
                       child: Text(
-                        'Back to Login',
+                        context.tr('back_to_login'),
                         style: TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.w600,

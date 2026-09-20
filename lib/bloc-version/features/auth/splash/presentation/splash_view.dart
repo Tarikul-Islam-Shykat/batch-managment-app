@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:batch_management_app_direct/bloc-version/core/dependency/service_locator.dart';
+import 'package:batch_management_app_direct/bloc-version/core/localization/localization_extension.dart';
 import 'package:batch_management_app_direct/bloc-version/services/router/app_router.dart';
 import 'bloc/splash_cubit.dart';
 import 'bloc/splash_state.dart';
@@ -24,7 +25,7 @@ class SplashView extends StatelessWidget {
 class _SplashBody extends StatelessWidget {
   const _SplashBody();
 
-  Widget _buildVersionText() {
+  Widget _buildVersionText(BuildContext context) {
     return FutureBuilder<PackageInfo>(
       future: PackageInfo.fromPlatform(),
       builder: (context, snapshot) {
@@ -34,7 +35,7 @@ class _SplashBody extends StatelessWidget {
         }
 
         return Text(
-          'App Version v$version',
+          '${context.tr('app_version')} v$version',
           style: TextStyle(
             fontSize: 12.sp,
             color: Colors.black38,
@@ -86,7 +87,7 @@ class _SplashBody extends StatelessWidget {
                       ),
                       SizedBox(height: 14.h),
                       Text(
-                        'BATCH BOOK',
+                        context.tr('app_brand'),
                         style: TextStyle(
                           fontSize: 16.sp,
                           color: const Color(0xFF8A8A8A),
@@ -96,7 +97,7 @@ class _SplashBody extends StatelessWidget {
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        'ব্যাচবুক',
+                        context.tr('app_name_bn'),
                         style: TextStyle(
                           fontSize: 24.sp,
                           color: const Color(0xFF1E293B),
@@ -112,7 +113,7 @@ class _SplashBody extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    _buildVersionText(),
+                    _buildVersionText(context),
                     SizedBox(height: 10.h),
                     SizedBox(
                       width: 24.w,
