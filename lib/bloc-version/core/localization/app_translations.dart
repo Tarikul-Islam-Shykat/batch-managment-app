@@ -78,7 +78,8 @@ class AppTranslations {
       'teaching_analytics': 'Teaching Analytics',
       'selected_month': 'Selected Month',
       'current_month': 'Current Month',
-      'could_not_load_analytics': 'Could not load analytics for the selected month.',
+      'could_not_load_analytics':
+          'Could not load analytics for the selected month.',
       'refresh': 'Refresh',
       'retry': 'Retry',
       'total': 'Total',
@@ -378,7 +379,8 @@ class AppTranslations {
       'teaching_analytics': 'টিচিং অ্যানালিটিক্স',
       'selected_month': 'নির্বাচিত মাস',
       'current_month': 'চলতি মাস',
-      'could_not_load_analytics': 'নির্বাচিত মাসের অ্যানালিটিক্স লোড করা যায়নি।',
+      'could_not_load_analytics':
+          'নির্বাচিত মাসের অ্যানালিটিক্স লোড করা যায়নি।',
       'refresh': 'রিফ্রেশ',
       'retry': 'পুনরায় চেষ্টা করুন',
       'total': 'মোট',

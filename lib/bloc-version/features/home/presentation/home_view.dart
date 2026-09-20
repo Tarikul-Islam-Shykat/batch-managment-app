@@ -358,7 +358,7 @@ class _HomeBody extends StatelessWidget {
                               physics: const BouncingScrollPhysics(),
                               itemCount: dashboard.batchSummaries.length,
                               separatorBuilder: (context, index) =>
-                                   SizedBox(width: 12.w),
+                                  SizedBox(width: 12.w),
                               itemBuilder: (context, index) {
                                 final item = dashboard.batchSummaries[index];
                                 return BatchSummaryCard(

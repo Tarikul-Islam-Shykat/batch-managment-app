@@ -64,12 +64,18 @@ class _NavbarBody extends StatelessWidget {
               destinations: [
                 NavigationDestination(
                   icon: const Icon(Icons.home_outlined),
-                  selectedIcon: const Icon(Icons.home, color: Color(0xFF0066FF)),
+                  selectedIcon: const Icon(
+                    Icons.home,
+                    color: Color(0xFF0066FF),
+                  ),
                   label: context.tr('home'),
                 ),
                 NavigationDestination(
                   icon: const Icon(Icons.view_list_outlined),
-                  selectedIcon: const Icon(Icons.view_list, color: Color(0xFF0066FF)),
+                  selectedIcon: const Icon(
+                    Icons.view_list,
+                    color: Color(0xFF0066FF),
+                  ),
                   label: context.tr('batches'),
                 ),
                 NavigationDestination(
