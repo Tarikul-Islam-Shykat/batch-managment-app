@@ -189,12 +189,16 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
       children: [
         Row(
           children: [
-            Text(
-              labelText,
-              style: GoogleFonts.spaceGrotesk(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF000710),
+            Flexible(
+              child: Text(
+                labelText,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.spaceGrotesk(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF000710),
+                ),
               ),
             ),
             if (isMandatory) ...[
@@ -255,12 +259,16 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
       children: [
         Row(
           children: [
-            Text(
-              labelText,
-              style: GoogleFonts.spaceGrotesk(
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF000710),
+            Flexible(
+              child: Text(
+                labelText,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.spaceGrotesk(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF000710),
+                ),
               ),
             ),
             if (isMandatory) ...[
@@ -287,18 +295,22 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  valueText.isNotEmpty ? valueText : hintText,
-                  style: GoogleFonts.spaceGrotesk(
-                    fontSize: 14.sp,
-                    color: valueText.isNotEmpty
-                        ? const Color(0xFF000710)
-                        : const Color(0xFF898989),
+                Expanded(
+                  child: Text(
+                    valueText.isNotEmpty ? valueText : hintText,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.spaceGrotesk(
+                      fontSize: 13.sp,
+                      color: valueText.isNotEmpty
+                          ? const Color(0xFF000710)
+                          : const Color(0xFF898989),
+                    ),
                   ),
                 ),
-                Icon(icon, size: 20.sp, color: Colors.black54),
+                SizedBox(width: 6.w),
+                Icon(icon, size: 18.sp, color: Colors.black54),
               ],
             ),
           ),
@@ -539,15 +551,19 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                         // Default Class Time Header
                         Row(
                           children: [
-                            Text(
-                              context.tr('default_class_time'),
-                              style: GoogleFonts.spaceGrotesk(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF000710),
+                            Expanded(
+                              child: Text(
+                                context.tr('default_class_time'),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.spaceGrotesk(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF000710),
+                                ),
                               ),
                             ),
-                            const Spacer(),
+                            SizedBox(width: 8.w),
                             TextButton(
                               onPressed: () {
                                 context
@@ -578,7 +594,9 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                             Expanded(
                               child: _buildReadOnlyPickerField(
                                 labelText: context.tr('start_time'),
-                                hintText: context.tr('select_default_start_time'),
+                                hintText: context.tr(
+                                  'select_default_start_time',
+                                ),
                                 valueText: _formatTime12h(
                                   state.defaultStartTime,
                                 ),
@@ -730,8 +748,18 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                 ),
 
                 // Bottom Actions
-                Padding(
-                  padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 16.h),
+                Container(
+                  padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 16.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.06),
+                        blurRadius: 10,
+                        offset: const Offset(0, -3),
+                      ),
+                    ],
+                  ),
                   child: Row(
                     children: [
                       Expanded(
@@ -749,7 +777,7 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.r),
                             ),
-                            minimumSize: Size.fromHeight(52.h),
+                            minimumSize: Size.fromHeight(50.h),
                           ),
                           child: Text(
                             state.isEditMode
@@ -772,7 +800,7 @@ class _CreateBatchBodyState extends State<_CreateBatchBody> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.r),
                             ),
-                            minimumSize: Size.fromHeight(52.h),
+                            minimumSize: Size.fromHeight(50.h),
                             elevation: 0,
                           ),
                           onPressed: isLoading

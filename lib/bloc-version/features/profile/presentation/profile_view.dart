@@ -149,10 +149,7 @@ class _ProfileBody extends StatelessWidget {
                   ],
                 ),
               ),
-              if (trailing != null) ...[
-                trailing,
-                SizedBox(width: 8.w),
-              ],
+              if (trailing != null) ...[trailing, SizedBox(width: 8.w)],
               Icon(
                 Icons.chevron_right_rounded,
                 size: 22.sp,

@@ -59,6 +59,8 @@ class ScheduleCard extends StatelessWidget {
       children: [
         Text(
           label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 13.sp,
             fontWeight: FontWeight.w600,
@@ -76,19 +78,23 @@ class ScheduleCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  value,
-                  style: GoogleFonts.spaceGrotesk(
-                    fontSize: 14.sp,
-                    color: const Color(0xFF000710),
-                    fontWeight: FontWeight.w500,
+                Expanded(
+                  child: Text(
+                    value,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.spaceGrotesk(
+                      fontSize: 14.sp,
+                      color: const Color(0xFF000710),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
+                SizedBox(width: 6.w),
                 Icon(
                   Icons.access_time_rounded,
-                  size: 20.sp,
+                  size: 18.sp,
                   color: Colors.black54,
                 ),
               ],
